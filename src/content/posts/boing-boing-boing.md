@@ -2,7 +2,7 @@
 title: "Boing, Boing, Boing"
 subtitle: "The Day My Database Learned Physics and I recreated the famous Amiga Boing Ball inside SQL Server."
 date: 2026-09-07T15:17:32.901Z
-cover: "https://cdn-images-1.medium.com/max/1400/1*CIBGf4sJ9B7c7T1Liq5Yrw.gif"
+cover: "/images/medium/1_CIBGf4sJ9B7c7T1Liq5Yrw.gif"
 tags: ["SQL Server", "Retro Computing"]
 mediumUrl: "https://medium.com/@trevor.dwyer/boing-boing-boing-f7ba95007e3f"
 repo: "https://github.com/sqlartist/BoingBallSQL"
@@ -11,7 +11,7 @@ era: "1980s"
 draft: false
 ---
 
-![This is the Boing ball Running Inside SQL Server](https://cdn-images-1.medium.com/max/1400/1*CIBGf4sJ9B7c7T1Liq5Yrw.gif)
+![This is the Boing ball Running Inside SQL Server](/images/medium/1_CIBGf4sJ9B7c7T1Liq5Yrw.gif)
 *This is the Boing ball Running Inside SQL Server*
 
 I’ve spent the last few months putting things inside SQL Server that have no business being there. Doom renders E1M1 from a database. Elite generates its galaxy, flies its ships and docks at a Coriolis station in T-SQL. Daley Thompson’s Decathlon runs on a Z80 emulator I wrote in stored procedures, loading from a real Microdrive image.
@@ -68,7 +68,7 @@ I sat looking at that for a while. It’s the most SQL-shaped thing I’ve built
 
 ## Then: Two balls
 
-![When I got this working I thought to myself “I have achieved everything I set out to achieve in this world I can finally retire”](https://cdn-images-1.medium.com/max/1400/1*KIQy3q4EO9OgDTnDnHstRQ.gif)
+![When I got this working I thought to myself “I have achieved everything I set out to achieve in this world I can finally retire”](/images/medium/1_KIQy3q4EO9OgDTnDnHstRQ.gif)
 *When I got this working I thought to myself “I have achieved everything I set out to achieve in this world I can finally retire”*
 
 This is where it got interesting, I wanted to take it further and have two balls but colliding. Collision between objects has been the biggest problem I have encountered whilst developing in the 3D world. If you walk through an object it does not have collision. If you bump into an object then you have had to program collision. This may be obvious to some people but I had never heard of it before attempting to develop a scene of my own.

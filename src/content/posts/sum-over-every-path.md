@@ -2,7 +2,7 @@
 title: "Sum Over Every Path"
 subtitle: "A spelling corrector in pure T-SQL, and what Feynman’s postulate had to do with it"
 date: 2026-09-01T22:25:26.461Z
-cover: "https://cdn-images-1.medium.com/max/1400/1*tx4x9QpjKSMu4fLXE74Dog.jpeg"
+cover: "/images/medium/1_tx4x9QpjKSMu4fLXE74Dog.jpeg"
 tags: ["SQL Server", "AI & Data Science"]
 mediumUrl: "https://medium.com/@trevor.dwyer/sum-over-every-path-b4d21610efb4"
 repo: "https://github.com/sqlartist/feynman-sql"
@@ -52,7 +52,7 @@ Each token position gets several **candidate readings**: the word as written, pl
 
 That gives a lattice. Position one might read `Firewalz` or `firewalls`; position two `oftehn` or `often`. A path through it picks one candidate per position, which makes it a complete reading of the sentence.
 
-![Trust me, this is the most basic of text processing you can do…](https://cdn-images-1.medium.com/max/1400/1*tx4x9QpjKSMu4fLXE74Dog.jpeg)
+![Trust me, this is the most basic of text processing you can do…](/images/medium/1_tx4x9QpjKSMu4fLXE74Dog.jpeg)
 *Trust me, this is the most basic of text processing you can do…*
 
 Each node carries a cost for being read that way:
@@ -177,7 +177,7 @@ Remember when I started the article I said Feynman's work inspired me to write t
 
 What I actually built is a Boltzmann-weighted sum over paths, which is a softmax over path costs, which is — to say it plainly although its actually not any plainer — the forward algorithm over a linear-chain conditional random field. An Hidden Markov Mode (HMM) decoder in a physicist’s coat. That’s is work that has been used in NLP for many years and once again I am thwarted by those pesky scientists and their meddling ways of thinking of everything possible many years ago.
 
-![You can’t teach a monkey new tricks](https://cdn-images-1.medium.com/max/1400/1*Yi5ov3M5aSd6QPAqw2l1XA.jpeg)
+![You can’t teach a monkey new tricks](/images/medium/1_Yi5ov3M5aSd6QPAqw2l1XA.jpeg)
 *You can’t teach a monkey new tricks*
 
 So in all honesty my claim is weak: Feynman’s postulate is where the *design template* came from. Include everything, cost everything, let the sum decide. The maths I ended up with is more thermal, not quantum. The inspiration was real; the isomorphism isn’t. Considering I self taught this stuff I think I’m doing as well as those kids with iPhones.
@@ -328,11 +328,11 @@ Two constants control the correction behaviour, and they’re coupled. `@Correct
 
 F1 by cell, rows `@CorrectionWeight`, columns `@OovPenalty`:
 
-![](https://cdn-images-1.medium.com/max/1400/1*0C8im4DDpYXKEnDodV3AVw.png)
+![](/images/medium/1_0C8im4DDpYXKEnDodV3AVw.png)
 
 **The control variable is O − W.** Line the cells up by the difference rather than the values and the recall side is almost perfectly determined:
 
-![THE CONTROL VARIABLE & WEIGHTS](https://cdn-images-1.medium.com/max/1400/1*x4uviu4MOoqb3ceHGOuyOw.png)
+![THE CONTROL VARIABLE & WEIGHTS](/images/medium/1_x4uviu4MOoqb3ceHGOuyOw.png)
 *THE CONTROL VARIABLE & WEIGHTS*
 
 Identical along each diagonal. Which makes sense: O − W is the margin by which correcting a token is better leaving it alone, so it decides whether a one-edit fix fires at all. Below +0.5 it doesn’t, and recall falls off a cliff — 2 misses at zero margin, 12 at −1.0, 25 at −1.5.
@@ -404,7 +404,7 @@ The next step isn’t more tuning. It’s real firewall log lines, with real err
 
 ## 12\. Why bother
 
-![Sometimes, just sometimes I wish I never started these things.](https://cdn-images-1.medium.com/max/1400/1*HgcMCD0Vd9RMGZLHs6XmtA.png)
+![Sometimes, just sometimes I wish I never started these things.](/images/medium/1_HgcMCD0Vd9RMGZLHs6XmtA.png)
 *Sometimes, just sometimes I wish I never started these things.*
 
 None of this belongs in a database. You could write it in fifty lines of Python with a library better than mine.

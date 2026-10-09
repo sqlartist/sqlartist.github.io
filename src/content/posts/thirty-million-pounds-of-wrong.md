@@ -2,7 +2,7 @@
 title: "Thirty Million Pounds of Wrong"
 subtitle: "How a warehouse with the plan upside down taught me everything I know about data and why I’m rebuilding an AS/400 inside SQL Server thirty years later"
 date: 2026-09-15T12:36:04.070Z
-cover: "https://cdn-images-1.medium.com/max/1400/1*H8u5J3oKUGsI8xn2PZEs9w.jpeg"
+cover: "/images/medium/1_H8u5J3oKUGsI8xn2PZEs9w.jpeg"
 tags: ["SQL Server", "Retro Computing", "Life"]
 mediumUrl: "https://medium.com/@trevor.dwyer/thirty-million-pounds-of-wrong-f7e212603138"
 era: "1990s"
@@ -11,7 +11,7 @@ draft: false
 
 The warehouse moved, and the planners got the plan upside down.
 
-![One can dream can’t they…](https://cdn-images-1.medium.com/max/1400/1*H8u5J3oKUGsI8xn2PZEs9w.jpeg)
+![One can dream can’t they…](/images/medium/1_H8u5J3oKUGsI8xn2PZEs9w.jpeg)
 *One can dream can’t they…*
 
 That’s the whole story. Everything after it is consequences. Three million computer parts went into a new building back to front — the heavy, awkward stuff upstairs in bins that were never sized for it, and the small, light, valuable components downstairs by the doors. Easy to find. Easy to walk off with.
@@ -94,19 +94,19 @@ I can’t drive. I have never learnt to drive. I did not, at any point in this p
 
 It sat on my driveway for two years. I started it once.
 
-![Not my actual car, but this was it. Company colours.](https://cdn-images-1.medium.com/max/1400/1*AB0wyDarTK9BhB8bx8l0MA.jpeg)
+![Not my actual car, but this was it. Company colours.](/images/medium/1_AB0wyDarTK9BhB8bx8l0MA.jpeg)
 *Not my actual car, but this was it. Company colours.*
 
 ## April 1999
 
 In April 1999 Bill Gates launched a Microsoft initiative called Shift, aimed at a UK IT skills shortage — 600,000 internet-related jobs to fill by 2002. The BBC covered it, and I was one of the case studies.
 
-![BBC News Online screenshot, “UK shifting into IT skills”, 28 April 1999](https://cdn-images-1.medium.com/max/1400/1*s7yO2zjs7ZbA23EmtfgAsg.png)
+![BBC News Online screenshot, “UK shifting into IT skills”, 28 April 1999](/images/medium/1_s7yO2zjs7ZbA23EmtfgAsg.png)
 *BBC News Online screenshot, “UK shifting into IT skills”, 28 April 1999*
 
 > Trevor Dwyer was a warehouse storeman who transferred to Inventory Control and learned about databases. Four years later, he is one of the most experienced database designers in the country and has been commissioned to write three books on the technology.
 
-![the printed case-study list](https://cdn-images-1.medium.com/max/1400/1*ze56MEjsQQIqQ-yqBLO-yQ.png)
+![the printed case-study list](/images/medium/1_ze56MEjsQQIqQ-yqBLO-yQ.png)
 *the printed case-study list*
 
 Around the same time I got a phone call from Redmond telling me I’d been given the MVP award. They’d been watching my contributions online and noticed I’d gone from asking a few questions to answering a great many.
@@ -124,7 +124,7 @@ Stephen replied to it:
 
 Fair, honestly.
 
-![Printed from Lotus Notes in 1999. I’ve still got it.](https://cdn-images-1.medium.com/max/1400/1*kw-G0ycCOFF8vPHP1uhfHw.png)
+![Printed from Lotus Notes in 1999. I’ve still got it.](/images/medium/1_kw-G0ycCOFF8vPHP1uhfHw.png)
 *Printed from Lotus Notes in 1999. I’ve still got it.*
 
 Philip Hulme, who’d founded the company with Peter Ogden, took an interest after that. He’d bought a majority stake in Marcos in 1991 — the sports car outfit — apparently after remarking to Chris Marsh how nice it must be to make cars for a living. Which tells you something about him. At one point I found myself sat on a grass bank at Silverstone next to him, watching his team go round.
@@ -149,7 +149,7 @@ Here’s the thing that stopped me.
 
 Screens and files are defined in DDS, and DDS is column-positional. Not “mostly fixed format” — the meaning of a character is decided entirely by where it sits.
 
-![One DDS statement. The meaning of a character is decided by where it sits.](https://cdn-images-1.medium.com/max/1400/1*XUGKd395X6Y72tTYSAHlPg.png)
+![One DDS statement. The meaning of a character is decided by where it sits.](/images/medium/1_XUGKd395X6Y72tTYSAHlPg.png)
 *One DDS statement. The meaning of a character is decided by where it sits.*
 
 So the DDS parser is six \`SUBSTRING\` calls. There’s no tokeniser, no grammar, no error recovery. I’ve spent an embarrassing share of my career writing parsers. This one took an afternoon.
@@ -166,7 +166,7 @@ And subfiles — the scrolling record lists that make a green screen feel li
 
 The same thing happened with record-level access. \`CHAIN\`, \`SETLL\`, \`READE\` aren’t a rival access method I had to bolt onto a relational engine — they’re an index-positioning API. A keyed physical file is an index. When \`SETLL\` runs it isn’t faking one, it’s driving the real one.
 
-![The INQ100 screen](https://cdn-images-1.medium.com/max/1400/1*C96ynUmGSP4nHYz_4dx7LQ.png)
+![The INQ100 screen](/images/medium/1_C96ynUmGSP4nHYz_4dx7LQ.png)
 *The INQ100 screen*
 
 ## The same bug, thirty years later
@@ -209,7 +209,7 @@ An inventory enquiry. Part number, bin location, quantity.
 
 Every field correct. Every one of them wrong.
 
-![The second AS/400 Screen.](https://cdn-images-1.medium.com/max/1400/1*X2HxsdQqya4inaBVvPcB1Q.png)
+![The second AS/400 Screen.](/images/medium/1_X2HxsdQqya4inaBVvPcB1Q.png)
 *The second AS/400 Screen.*
 
 If you enjoyed this story please give it as many Claps as you think worthy.

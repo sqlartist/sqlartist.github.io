@@ -2,7 +2,7 @@
 title: "I Built a Language Model Entirely Inside SQL Server"
 subtitle: "No Python, no CLR, no web services — just tables, joins and a training loop in Transact-SQL, trained on the SQL you find on the internet."
 date: 2026-08-09T16:34:10.855Z
-cover: "https://cdn-images-1.medium.com/max/1400/1*6WnalunLgl3qoPX3fQ6vAg.jpeg"
+cover: "/images/medium/1_6WnalunLgl3qoPX3fQ6vAg.jpeg"
 tags: ["SQL Server", "AI & Data Science"]
 mediumUrl: "https://medium.com/@trevor.dwyer/i-built-a-language-model-entirely-inside-sql-server-d65fda1751e1"
 era: "Today"
@@ -19,7 +19,7 @@ Then I stopped for 27 years, until recently. I started hearing about LLMs and ho
 
 Which finally leads me onto why I am writing an article on using SQL to create, process, analyse and report on how an LLM works internally and you can see how the data moves between its networks and its final output. An interesting point is how many of my SQL friends around the world constantly amaze me with code that shouldn’t be written in SQL for whatever reason and they just nail it, sometimes even out performing the native language. Not bad for a language that is the same age as me.
 
-![The Joy Of Writing Code](https://cdn-images-1.medium.com/max/1400/1*6WnalunLgl3qoPX3fQ6vAg.jpeg)
+![The Joy Of Writing Code](/images/medium/1_6WnalunLgl3qoPX3fQ6vAg.jpeg)
 *The Joy Of Writing Code*
 
 Everyone knows a language model is matrix multiplication wearing a hat. Fewer people notice that matrix multiplication is just \`GROUP BY\` over a join, which means your database server has been quietly capable of this all along. So I built one: weights in tables, forward pass as a query, back propagation as a sequence of \`UPDATE\` statements. I trained it on a curated corpus of 122 idiomatic SQL queries, so the thing generates SQL.
@@ -284,7 +284,7 @@ Worth internalising, because the error count tells you nothing. One bad \`DECLAR
 
 It does. 122 published SQL queries, 60 epochs, roughly two billion row operations:
 
-![Model Training Performance](https://cdn-images-1.medium.com/max/1400/1*BEX-wypUkkr-IL-a8dDaNw.png)
+![Model Training Performance](/images/medium/1_BEX-wypUkkr-IL-a8dDaNw.png)
 *Model Training Performance*
 
 Perplexity of 2.9 over a 213-token vocabulary means that at each step it’s effectively choosing between about three candidates instead of 213. Prompt it and it produces recognisable SQL — \`SELECT\`, then a column list, then \`FROM\`, then a plausible table name.
@@ -294,7 +294,7 @@ EXEC dbo.usp_Generate @Prompt = N'SELECT', @Temperature = 0.8, @Samples = 5;
 EXEC dbo.usp_Generate @Prompt = N'SELECT * FROM', @Greedy = 1;
 ```
 
-![Result of usp_Generate procedure](https://cdn-images-1.medium.com/max/1400/1*qpg32MXJf6WAW5nhRYZgPA.png)
+![Result of usp_Generate procedure](/images/medium/1_qpg32MXJf6WAW5nhRYZgPA.png)
 *Result of usp\_Generate procedure*
 
 **Two Things SQL Does Better Than Python**
@@ -373,15 +373,15 @@ FROM    dbo.fn_Score(N'SELECT customer_id, COUNT(*) FROM orders GROUP BY custome
 ORDER BY position;
 ```
 
-![](https://cdn-images-1.medium.com/max/1400/1*m94l6NnIL4YPATC1McgZGQ.png)
+![](/images/medium/1_m94l6NnIL4YPATC1McgZGQ.png)
 
 The interesting part is the shape: `FROM` after a column list will be near-certain, the table name after `FROM` much less so.
 
 There’s a third benefit that isn’t about queries at all. Nothing is hidden in a binary blob. The trained model is rows, so it can be backed up, diffed, code-reviewed, version-controlled, and shipped by \`INSERT\`. Cosine similarity between token embeddings is a \`GROUP BY\` — and run it, and you’ll find table names cluster with table names and aggregates cluster with aggregates. Nobody told it those categories exist.
 
-![](https://cdn-images-1.medium.com/max/1400/1*H9_9ENhXU_TzwmA9ikGIwQ.png)
+![](/images/medium/1_H9_9ENhXU_TzwmA9ikGIwQ.png)
 
-![sum does return count and avg](https://cdn-images-1.medium.com/max/1400/1*sPE8m15zKRgCozbRK7YAjg.png)
+![sum does return count and avg](/images/medium/1_sPE8m15zKRgCozbRK7YAjg.png)
 *sum does return count and avg*
 
 **Constrained Decoding**
@@ -404,7 +404,7 @@ ORDER BY p DESC;
 GO
 ```
 
-![](https://cdn-images-1.medium.com/max/1400/1*BdlMAL58xhWkYryCQJp6Qg.png)
+![](/images/medium/1_BdlMAL58xhWkYryCQJp6Qg.png)
 
 ```sql
 /*==============================================================================

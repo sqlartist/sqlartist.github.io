@@ -2,19 +2,19 @@
 title: "Vellum Lasts 500 Years. My 8,000 DVDs Didn’t."
 subtitle: "I built a 3D Navigator in SQL Server to allow a virtual walk around your data."
 date: 2026-08-19T11:52:04.734Z
-cover: "https://cdn-images-1.medium.com/max/1400/1*WHozgig7fxMm8nDVE-i7zQ.jpeg"
+cover: "/images/medium/1_WHozgig7fxMm8nDVE-i7zQ.jpeg"
 tags: ["SQL Server", "Life"]
 mediumUrl: "https://medium.com/@trevor.dwyer/vellum-lasts-500-years-my-8-000-dvds-didnt-7100ad3ac5a3"
 era: "2000s"
 draft: false
 ---
 
-![Vellum and Acts of Parliament](https://cdn-images-1.medium.com/max/1400/1*WHozgig7fxMm8nDVE-i7zQ.jpeg)
+![Vellum and Acts of Parliament](/images/medium/1_WHozgig7fxMm8nDVE-i7zQ.jpeg)
 *[Vellum and Acts of Parliament](https://www.patricialovett.com/vellum-and-acts-of-parliament/)*
 
 *\*I have around 80 terabytes accumulated over thirty years. I have managed to index roughly a fifth of it. Keeping it all was the easy part.\**
 
-![A corridor rendered from a filesystem](https://cdn-images-1.medium.com/max/1400/1*sdyIzAp7FarHJIJF918laA.jpeg)
+![A corridor rendered from a filesystem](/images/medium/1_sdyIzAp7FarHJIJF918laA.jpeg)
 *A corridor rendered from a filesystem*
 
 Ask someone for a cassette player because you need to read an important document you stored on one, and watch their face.
@@ -79,7 +79,7 @@ So the two got welded together. The cube feeds a compiler that turns projects in
 
 The mapping is deliberately literal, and every surface is a fact:
 
-![What each colour and object represents](https://cdn-images-1.medium.com/max/1400/1*VXj0GfTY7MxxTPh8RQxyVw.jpeg)
+![What each colour and object represents](/images/medium/1_VXj0GfTY7MxxTPh8RQxyVw.jpeg)
 *What each colour and object represents*
 
 ```
@@ -99,7 +99,7 @@ The result for my corpus: **\*\*4,546 rooms in 70 districts\*\***, 75,595 wall s
 
 Districts are the part that turns it from a visualisation into a place. Group by semantic facet and you get a vehicle quarter with several hundred rooms in it, a cyberpunk quarter, a large dark region of things nothing has opened in two years. You don’t query for those. You walk round a corner and there they are.
 
-![Crossing into a different district](https://cdn-images-1.medium.com/max/1400/1*slyLcFtkfJFgsysm6TW_sg.png)
+![Crossing into a different district](/images/medium/1_slyLcFtkfJFgsysm6TW_sg.png)
 *Crossing into a different district*
 
 **\## It’s also a text adventure**
@@ -123,7 +123,7 @@ And you can talk to it. What you type compiles into a predicate, and the matchin
 
 Those beacons are the thing that makes fifteen terabytes tractable. You ask a question, and the answer becomes a direction you can walk in.
 
-![The automap](https://cdn-images-1.medium.com/max/1400/1*_dkJYHNjwuJ10vIWcUtzsg.jpeg)
+![The automap](/images/medium/1__dkJYHNjwuJ10vIWcUtzsg.jpeg)
 *The automap*
 
 **\## What it told me that a query wouldn’t have**

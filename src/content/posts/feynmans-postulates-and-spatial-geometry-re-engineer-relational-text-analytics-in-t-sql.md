@@ -2,7 +2,7 @@
 title: "Feynman’s Postulates and Relational Text Analytics in T-SQL"
 subtitle: "Within the last few days Richard Feynman’s 80 year old quantum postulate has now been validated. It has been directly measured in an experiment for the first time."
 date: 2026-08-27T16:46:17.623Z
-cover: "https://cdn-images-1.medium.com/max/1400/1*h4bE13gYeQ109oP86xSLKw.jpeg"
+cover: "/images/medium/1_h4bE13gYeQ109oP86xSLKw.jpeg"
 tags: ["SQL Server", "AI & Data Science"]
 mediumUrl: "https://medium.com/@trevor.dwyer/feynmans-postulates-and-spatial-geometry-re-engineer-relational-text-analytics-in-t-sql-3a87c9c48dfd"
 era: "Today"
@@ -17,12 +17,12 @@ A bit of history, if you read any book or watch any documentary about a person r
 
 So affected by his life’s work on the Manhattan Project, Safe Cracking, Bongo playing, Lap Dancing and it mirroring my own life I got a tattoo with one of his famous (he won the Nobel prize for these) Feynman diagrams.
 
-![Yes, an actual Tattoo in tribute to Feynman Diagrams](https://cdn-images-1.medium.com/max/1400/1*h4bE13gYeQ109oP86xSLKw.jpeg)
+![Yes, an actual Tattoo in tribute to Feynman Diagrams](/images/medium/1_h4bE13gYeQ109oP86xSLKw.jpeg)
 *Yes, an actual Tattoo in tribute to Feynman Diagrams*
 
 I am also making a model of his famous Feynman Van.
 
-![The Feynman Van](https://cdn-images-1.medium.com/max/1400/1*Uwn1bEaZqZk4bGrW8HVVHg.jpeg)
+![The Feynman Van](/images/medium/1_Uwn1bEaZqZk4bGrW8HVVHg.jpeg)
 *The Feynman Van*
 
 So, regardless of the scale of the end result I think he would be happy people use his ideas in unexpected ways. From a theory he made 80 years ago that has been validated by \*proper\* scientists has now been used to process some text in a SQL Database.
@@ -194,10 +194,10 @@ When you run this script inside SQL Server Management Studio (SSMS), look down a
 
 If you use your own text data you may encounter a problem which renders the Spatial view as completely blank. This can be resolved by multiplying everything by 100 which gives the Spatial Browser enough data to work with to allow it to display.
 
-![The Spatial Query output](https://cdn-images-1.medium.com/max/1400/1*piqbPRBDNo-yIPTOrZaXCg.png)
+![The Spatial Query output](/images/medium/1_piqbPRBDNo-yIPTOrZaXCg.png)
 *The Spatial Query output*
 
-![The Spatial Browser tab in SSMS has sadly been neglected but it does work](https://cdn-images-1.medium.com/max/1400/1*otwzjHYUk1_GdqJx5I053A.png)
+![The Spatial Browser tab in SSMS has sadly been neglected but it does work](/images/medium/1_otwzjHYUk1_GdqJx5I053A.png)
 *The Spatial Browser tab in SSMS has sadly been neglected but it does work*
 
 -   **The Wave Function Collapse (The Shaded Polygon):** The `STConvexHull()` function generates a shaded polygon area around the network infrastructure points. This polygon marks out the exact contextual territory of the data systems data.
@@ -356,7 +356,7 @@ GO
 SET STATISTICS IO OFF
 ```
 
-![The output for the Quantum Search Query](https://cdn-images-1.medium.com/max/1400/1*92wDKrhyD4EDsfYx3yjjVw.png)
+![The output for the Quantum Search Query](/images/medium/1_92wDKrhyD4EDsfYx3yjjVw.png)
 *The output for the Quantum Search Query*
 
 I want to scale this method to a huge amount of data but I also wish I wasn’t doing quantum calculations on a non quantum computer so if anyone at NVIDIA or Microsoft is feeling generous… :)

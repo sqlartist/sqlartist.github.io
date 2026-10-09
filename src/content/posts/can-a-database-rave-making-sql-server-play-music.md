@@ -2,7 +2,7 @@
 title: "Can a Database Rave? Making SQL Server Play Music"
 subtitle: "I’ve made SQL Server draw, play games and pretend to be other computers. This time I wanted to hear it."
 date: 2026-09-27T22:56:33.431Z
-cover: "https://cdn-images-1.medium.com/max/1400/1*wSnrAY9B6yeN5O34l6QLHg.jpeg"
+cover: "/images/medium/1_wSnrAY9B6yeN5O34l6QLHg.jpeg"
 tags: ["SQL Server"]
 mediumUrl: "https://medium.com/@trevor.dwyer/can-a-database-rave-making-sql-server-play-music-d3c2fcf89d16"
 repo: "https://github.com/sqlartist/SQL-SYNTH"
@@ -12,7 +12,7 @@ era: "Today"
 draft: false
 ---
 
-![DROP THE BASE(TABLE) — I was so pleased with myself for coming up with this pun. Puns are definitely one level above a dad joke though.](https://cdn-images-1.medium.com/max/1400/1*wSnrAY9B6yeN5O34l6QLHg.jpeg)
+![DROP THE BASE(TABLE) — I was so pleased with myself for coming up with this pun. Puns are definitely one level above a dad joke though.](/images/medium/1_wSnrAY9B6yeN5O34l6QLHg.jpeg)
 *DROP THE BASE(TABLE) — I was so pleased with myself for coming up with this pun. Puns are definitely one level above a dad joke though.*
 
 I’ve spent the last few months doing daft things with SQL Server. Doom runs in it. The Amiga Boing ball bounces in it. Elite flew in it. I’ve had it pretending to be other hardware altogether. Every one of those was about pictures, or logic, or both.
@@ -49,7 +49,7 @@ So I went the route of all those struggling artists out there and start with cre
 
 I have realised that over the course of me writing these articles I have used terms that anyone born later than 2000 would not have a clue what I meant. For that I do not apologise. A record means a Vinyl record, but its also just means a track stored as an .mp3 or as as .wav file. Forget it — here is a graphic.
 
-![I regard myself as young until I look around and notice no one knows what I talking about half of the time.](https://cdn-images-1.medium.com/max/1400/1*dV_WiORkT5D7JzivSFjQNQ.jpeg)
+![I regard myself as young until I look around and notice no one knows what I talking about half of the time.](/images/medium/1_dV_WiORkT5D7JzivSFjQNQ.jpeg)
 *I regard myself as young until I look around and notice no one knows what I talking about half of the time.*
 
 ---
@@ -81,7 +81,7 @@ The hi-hat is my favourite line in the whole project. Real synths make hi-hats b
 
 The acid bassline does things the same way. Instead of a filter sweep, it’s a \`SUM\` over up to 40 harmonics, with the high ones fading as each note goes on. That’s the squelch you know from the 90s, done as an aggregate.
 
-![The nine sound shapes in rung one](https://cdn-images-1.medium.com/max/1400/1*pYmAnqi-ZAAIe5eIYkZSFA.png)
+![The nine sound shapes in rung one](/images/medium/1_pYmAnqi-ZAAIe5eIYkZSFA.png)
 *The nine sound shapes in rung one*
 
 The shape of every sound in the synth. The top row is the classic oscillators, one formula each. Then there’s noise, and the three drums built from sines, noise and a fade. The acid bass is shown twice: sharp and buzzy as the note starts, then rounded off 0.3 s later as the high harmonics fade.
@@ -112,7 +112,7 @@ SET @Pcm = CONVERT(varbinary(max), @hex, 2);
 
 Each sample is byte-swapped, turned into four hex characters and stitched together in sample order, and then the whole string is converted back into binary. Stick a 44-byte RIFF header on the front, also built in T-SQL, and you’ve got a WAV file. It’s the most roundabout way of writing bytes I’ve ever used, and it’s quick.
 
-![A spectrogram of the first tune SQL Server synthesised](https://cdn-images-1.medium.com/max/1400/1*DaPMxdOKpTCcimUKwW9ByA.png)
+![A spectrogram of the first tune SQL Server synthesised](/images/medium/1_DaPMxdOKpTCcimUKwW9ByA.png)
 *A spectrogram of the first tune SQL Server synthesised*
 
 ”Set-Based Breakbeat”: the first thing SQL Server ever played for me. You can see the drums come in, then the acid bass, the stabs, the break with its noise riser, and the drop.
@@ -198,14 +198,14 @@ GROUP BY g.Lag;
 
 And it confidently told me my 141.7 BPM test track was 94.5 BPM.
 
-![Plain auto-correlation picks two-thirds of the tempo; the harmonic score gets it right](https://cdn-images-1.medium.com/max/1400/1*J5TCH_17GKdt4vttp697dA.png)
+![Plain auto-correlation picks two-thirds of the tempo; the harmonic score gets it right](/images/medium/1_J5TCH_17GKdt4vttp697dA.png)
 *Plain auto-correlation picks two-thirds of the tempo; the harmonic score gets it right*
 
 Breakbeats are sneaky. The kick drum in a typical break lands every one-and-a-half beats, so “every 1.5 beats” lines up more hits than “every beat” does. Hence two-thirds of the real tempo. The fix is to ask a better question: does this tempo also line up at two beats and at a whole bar? A true beat does; a phantom one doesn’t. Score each candidate as \`R(L) + R(2L)/2 + R(4L)/4\`, and 141.7 wins clearly.
 
 Then a final brute-force pass tries 101 tempos just either side of the winner, at every possible starting offset, against every beat in the track. On paper that sounds expensive. In SQL it’s just another join. It pins the tempo to about a hundredth of a percent and tells you where the first beat falls.
 
-![Loading a track: 135.000 BPM detected, first beat at 0.000 s, 50 slices. Then a bar-by-bar loudness map, drawn with `REPLICATE(‘#’, …)`, to choose a section, and a kit built from 48 slices.](https://cdn-images-1.medium.com/max/1400/1*DBgmc7t6HwqoG2IBOCBzzg.png)
+![Loading a track: 135.000 BPM detected, first beat at 0.000 s, 50 slices. Then a bar-by-bar loudness map, drawn with `REPLICATE(‘#’, …)`, to choose a section, and a kit built from 48 slices.](/images/medium/1_DBgmc7t6HwqoG2IBOCBzzg.png)
 *Loading a track: 135.000 BPM detected, first beat at 0.000 s, 50 slices. Then a bar-by-bar loudness map, drawn with \`REPLICATE(‘#’, …)\`, to choose a section, and a kit built from 48 slices.*
 
 The kit comes with a few patterns straight away, so you can hear what it’ll do:
@@ -245,10 +245,10 @@ SQL Server was making music the whole time. It was going to my headphones, sitti
 
 Once it played, I wanted to “see” it play. So the Python window became a dashboard. The tracker scrolls with the current row lit up. There’s a 20-band graphic equaliser with falling bars and peak-hold markers, and left and right level meters that show the Amiga’s hard left-right-right-left panning. Next to it sits a panel of live SQL Server statistics.
 
-![The dashboard playing the sampler kit, mid-stutter](https://cdn-images-1.medium.com/max/1400/1*R8SLcFzmTDTzZNiFuw24Ow.png)
+![The dashboard playing the sampler kit, mid-stutter](/images/medium/1_R8SLcFzmTDTzZNiFuw24Ow.png)
 *The dashboard playing the sampler kit, mid-stutter*
 
-![The dashboard playing the demo module](https://cdn-images-1.medium.com/max/1400/1*frdSH1i7AfmDAEeE2-oeuQ.png)
+![The dashboard playing the demo module](/images/medium/1_frdSH1i7AfmDAEeE2-oeuQ.png)
 *The dashboard playing the demo module*
 
 My favourite detail on that panel is that it doesn’t need VIEW SERVER STATE. A session can always read its own row in \`sys.dm\_exec\_sessions\`. So after each chunk, the renderer asks SQL Server how much CPU and how many reads it has just spent making the last two seconds of music.

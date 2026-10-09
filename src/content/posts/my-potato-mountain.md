@@ -2,14 +2,14 @@
 title: "My Potato Mountain"
 subtitle: "Rebuilding the Wagon Queen Family Truckster jump, one engine at a time."
 date: 2026-09-13T00:03:58.225Z
-cover: "https://cdn-images-1.medium.com/max/1400/1*pSNOu8uqKT84meUuyEQ8fQ.png"
+cover: "/images/medium/1_pSNOu8uqKT84meUuyEQ8fQ.png"
 tags: ["Life"]
 mediumUrl: "https://medium.com/@trevor.dwyer/my-potato-mountain-9a61d2b98eb3"
 era: "1980s"
 draft: false
 ---
 
-![My final version of the Truckster, with the whole family aboard.](https://cdn-images-1.medium.com/max/1400/1*pSNOu8uqKT84meUuyEQ8fQ.png)
+![My final version of the Truckster, with the whole family aboard.](/images/medium/1_pSNOu8uqKT84meUuyEQ8fQ.png)
 *My final version of the Truckster, with the whole family aboard.*
 
 There’s a scene in Close Encounters of the Third Kind where Richard Dreyfuss builds a mountain out of mashed potato because he can’t stop thinking about it. This is my potato mountain. Except mine is a station wagon, and mine is real.
@@ -20,17 +20,17 @@ Worth saying up front, because it comes back later: I’ve never learnt to drive
 
 I’ve been obsessed with this car for years. I started in the physical world — 3D printing, painting, building the Truckster at every size I could manage. That rabbit hole ended with eight 3D printers in the house and Trucksters ranging from matchbox-sized models to a two-metre-wide diorama.
 
-![The first decent diorama.](https://cdn-images-1.medium.com/max/1400/1*fBOeXtk_ZeceRm-DXQVZ8A.png)
+![The first decent diorama.](/images/medium/1_fBOeXtk_ZeceRm-DXQVZ8A.png)
 *The first decent diorama.*
 
 ## From plastic to pixels
 
 After some success in the physical world I thought, why not build the scene in 3D? Unreal, maybe. Or Unity. Or Blender. It started as an idea for a single 2D render. Then it became an animation. Then a game. Then a full scene. That’s how these things go.
 
-![Autodesk 3ds Max render.](https://cdn-images-1.medium.com/max/1400/1*2VsrAfi5urgjrWYHKUs2-w.png)
+![Autodesk 3ds Max render.](/images/medium/1_2VsrAfi5urgjrWYHKUs2-w.png)
 *Autodesk 3ds Max render.*
 
-![Another 3ds Max render. I found this tool so hard to learn. The tyFlow module is enormously powerful and I never got on top of it.](https://cdn-images-1.medium.com/max/1400/1*19vRzRIn4Y9u5_M4uVC15g.png)
+![Another 3ds Max render. I found this tool so hard to learn. The tyFlow module is enormously powerful and I never got on top of it.](/images/medium/1_19vRzRIn4Y9u5_M4uVC15g.png)
 *Another 3ds Max render. I found this tool so hard to learn. The tyFlow module is enormously powerful and I never got on top of it.*
 
 ## Why I’m in a hurry
@@ -57,21 +57,21 @@ That isn’t artistry. It’s normalisation. But it means that when I break the 
 
 3ds Max was the first stop, and the first wall. tyFlow can do everything I needed and I couldn’t get my head into it. I’m not a fundamentals-first learner — I have an urgency to finish what I’ve started, so I try every possible angle at once and hope the best one falls out of the end. Feynman’s path integral as a working method. It doesn’t suit a tool that wants to be learned properly, so I moved on.
 
-![An early Blender animation.](https://cdn-images-1.medium.com/max/1400/1*ShIbvmVua-ro00P73Mjqbw.png)
+![An early Blender animation.](/images/medium/1_ShIbvmVua-ro00P73Mjqbw.png)
 *An early Blender animation.*
 
-![The same animation just after the car leaves the ramp — and an early version of the car.](https://cdn-images-1.medium.com/max/1400/1*vfNTyM2su12vMgguy4FSEA.png)
+![The same animation just after the car leaves the ramp — and an early version of the car.](/images/medium/1_vfNTyM2su12vMgguy4FSEA.png)
 *The same animation just after the car leaves the ramp — and an early version of the car.*
 
 Twinmotion was the opposite problem. It was the fastest route to something that looked good, and the weather and sunlight modules are genuinely excellent. But custom vehicle animation was too random. I could get a nice result; I couldn’t get the same result twice. Repeatability matters more to me than speed, so Twinmotion became a place I visit for stills rather than the place I build.
 
-![A Twinmotion render. I tried hard to make this one work.](https://cdn-images-1.medium.com/max/1400/1*NEBJaXC2LASRKb9IGfybrw.png)
+![A Twinmotion render. I tried hard to make this one work.](/images/medium/1_NEBJaXC2LASRKb9IGfybrw.png)
 *A Twinmotion render. I tried hard to make this one work.*
 
-![Twinmotion render — it does look nice, though.](https://cdn-images-1.medium.com/max/1400/1*ssakJ1gD9PD7T7V2R1vEdg.png)
+![Twinmotion render — it does look nice, though.](/images/medium/1_ssakJ1gD9PD7T7V2R1vEdg.png)
 *Twinmotion render — it does look nice, though.*
 
-![Twinmotion again. The weather and sunlight modules are very good.](https://cdn-images-1.medium.com/max/1400/1*2onnlNnQh6UGiG5VaB_gYA.png)
+![Twinmotion again. The weather and sunlight modules are very good.](/images/medium/1_2onnlNnQh6UGiG5VaB_gYA.png)
 *Twinmotion again. The weather and sunlight modules are very good.*
 
 BeamNG.drive was the detour I regret least and enjoyed least. The plan was sensible: use an existing LTD wagon as a physics donor and swap in my visual mesh, so I’d get real soft-body crash damage for free. What I got instead was “Loaded nil parts from 0 jbeam files”, over and over. I eliminated encoding, file paths, conflicting mod zips, flexbody mesh references and directory placement, one at a time, and never got it loading. In the end I drew a line: the crash work happens in Unreal and Blender, and nowhere else.
@@ -92,7 +92,7 @@ Camera work and raw render time have been the other two hurdles. Both are solvab
 
 The Wagon Queen Family Truckster is a fictional station wagon built for the 1983 film, based on a 1979 Ford LTD Country Squire and modified into something deliberately hideous. Eight headlights in two inverted clusters. Wood panelling over most of the available surface. A grille mostly covered by bodywork. A separate oil-cooler grille with no oil cooler behind it. Crown hubcaps. A fuel filler flap in the front passenger wing, which is the joke that keeps giving — in the film Clark rips the rear number plate off looking for it. And an airbag made from a household bin liner.
 
-![Fictional Wagon Queen Family Truckster advertisement — a fan-made parody graphic featuring a replica built by Gary Schneider, using dialogue attributed to John Hughes.](https://cdn-images-1.medium.com/max/1400/1*KDxA0Qw0SqqaEgVHpQT3eg.png)
+![Fictional Wagon Queen Family Truckster advertisement — a fan-made parody graphic featuring a replica built by Gary Schneider, using dialogue attributed to John Hughes.](/images/medium/1_KDxA0Qw0SqqaEgVHpQT3eg.png)
 *Fictional Wagon Queen Family Truckster advertisement — a fan-made parody graphic featuring a replica built by Gary Schneider, using dialogue attributed to John Hughes.*
 
 Three things I found while researching it that I hadn’t known, and that are worth knowing if you’re building one yourself.
@@ -127,10 +127,10 @@ Which didn’t stop me trying. I spent months tracking down the real locations, 
 
 If I ever went back to the USA — which is now unlikely — I’d be Clark Griswold and I’d seek this exact spot out. Given I can’t drive, it would be a very expensive taxi ride.
 
-![The spot itself.](https://cdn-images-1.medium.com/max/1400/1*W16ZXN1ZGwU6xvEnNFutvg.png)
+![The spot itself.](/images/medium/1_W16ZXN1ZGwU6xvEnNFutvg.png)
 *The spot itself.*
 
-![A Blender still. I like the scale on this one — it’s about the level of quality I’m aiming for.](https://cdn-images-1.medium.com/max/1400/1*CeC4m2_rHta9psAS9aVZZw.png)
+![A Blender still. I like the scale on this one — it’s about the level of quality I’m aiming for.](/images/medium/1_CeC4m2_rHta9psAS9aVZZw.png)
 *A Blender still. I like the scale on this one — it’s about the level of quality I’m aiming for.*
 
 ## Where it is now

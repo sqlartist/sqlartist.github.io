@@ -2,7 +2,7 @@
 title: "Running Doom Inside SQL Server"
 subtitle: "Not a raycaster. Not a tribute. Actual Doom — real WAD, real BSP, real E1M1 — rendered by a relational database."
 date: 2026-08-13T15:47:46.659Z
-cover: "https://cdn-images-1.medium.com/max/1400/1*eVSN5jLFSrWpRL7FtV8hIw.png"
+cover: "/images/medium/1_eVSN5jLFSrWpRL7FtV8hIw.png"
 tags: ["SQL Server", "Retro Computing"]
 mediumUrl: "https://medium.com/@trevor.dwyer/running-doom-inside-sql-server-e8afaf408894"
 repo: "https://github.com/sqlartist/DoomSQL"
@@ -20,7 +20,7 @@ I also remembering teaching my mum to play Doom and then later Quake. She was al
 
 Onto the article.
 
-![](https://cdn-images-1.medium.com/max/1400/1*eVSN5jLFSrWpRL7FtV8hIw.png)
+![](/images/medium/1_eVSN5jLFSrWpRL7FtV8hIw.png)
 
 > ***The money shot: E1M1 starting room, full status bar, pistol drawn, running in SQL Server***
 
@@ -111,7 +111,7 @@ SELECT 'you are here',
 FROM dbo.player p WHERE p.id = 1;
 ```
 
-![](https://cdn-images-1.medium.com/max/1400/1*kOsIqlO6_X58dXkLgCoGHA.png)
+![](/images/medium/1_kOsIqlO6_X58dXkLgCoGHA.png)
 
 > ***SSMS spatial results tab showing the E1M1 floorplan, the moment the schema was proved correct***
 
@@ -131,11 +131,11 @@ Which is where I got my first real lesson, because that test was **worthless**. 
 
 The test that actually settled it was a property that had to be true regardless of my code: *every point must land in a region whose walls all face it*. Under my convention, 0 out of 400 random points satisfied that. Under the other, 204 out of 400 (the rest fall outside the map). One line changed, and the room appeared.
 
-![](https://cdn-images-1.medium.com/max/1400/1*dppFvwtcmqoK-02CKMYKVg.png)
+![](/images/medium/1_dppFvwtcmqoK-02CKMYKVg.png)
 
 > ***four views with the BSP side test inverted. Every wall sits below the horizon and the sky floods the top of every frame.***
 
-![](https://cdn-images-1.medium.com/max/1400/1*yLcoZkPVTwhPzS6PNNQEng.png)
+![](/images/medium/1_yLcoZkPVTwhPzS6PNNQEng.png)
 
 *(This one is reproduced rather than recovered — flipping the comparison back and re-rendering gives the identical failure, which is a small reassurance that the diagnosis was right. Note that the sky was written much later than this bug; at the time the top of the screen was simply black.)*
 
@@ -168,11 +168,11 @@ Two surfaces met at an exact integer boundary and both claimed the same row. It 
 
 That’s a small thing that I keep thinking about. **The constraint turned an invisible bug into a hard error.** It’s the ordinary argument for database constraints, arriving from a very strange direction.
 
-![](https://cdn-images-1.medium.com/max/1400/1*ILK2Bh_3LB1E5-w1DY-_1Q.png)
+![](/images/medium/1_ILK2Bh_3LB1E5-w1DY-_1Q.png)
 
 > ***walls, floors, ceilings, a doorway with the room beyond visible through it, and distance shading falling off toward the back. No sprites, no sky, no weapon — this is the renderer with nothing but geometry and textures.***
 
-![](https://cdn-images-1.medium.com/max/1400/1*NlrE-QCBNGD88ejSM8LbEg.png)
+![](/images/medium/1_NlrE-QCBNGD88ejSM8LbEg.png)
 
 > ***shows four angles from the same spot.***
 
@@ -186,15 +186,15 @@ Once walls worked, the rest came in stages, each one mostly a matter of noticing
 -   **Weapons.** Doom’s `info.c` is a giant static array of animation states — sprite, frame, duration, pointer to the next one. It is a table pretending to be C. Made it an actual table and advancing the animation became one `UPDATE` joined to it. Pulling the trigger doesn't fire; it starts the animation, and the shot happens when the animation reaches the state marked `fire`, which is why the muzzle flash lines up with the bang.
 -   **The status bar.** An afternoon. Same picture format, same storage. The only new idea was right-aligned numbers, which set-based means: take the decimal string, join a numbers table over its characters, place character *i* at `right_edge - (length - i) × digit_width`.
 
-![](https://cdn-images-1.medium.com/max/1400/1*awrTyvNOnM9OvsWo-9I69g.png)
+![](/images/medium/1_awrTyvNOnM9OvsWo-9I69g.png)
 
 > ***a demon with its lower half cut off by the ledge in front of it. Measured rather than eyeballed: 2,469 of the sprite's 4,347 pixels survive the occlusion test, so 43% of it is correctly hidden by geometry that is nearer than it is.***
 
-![](https://cdn-images-1.medium.com/max/1400/1*Ymqq8VFwz7iWgQ2fC2lRJA.png)
+![](/images/medium/1_Ymqq8VFwz7iWgQ2fC2lRJA.png)
 
 > ***the same viewpoint with the door shut (left) and open (right), the second room and one of its occupants visible through the opening.***
 
-![](https://cdn-images-1.medium.com/max/1400/1*OnEEevJGb-rLkrUorQyUtQ.png)
+![](/images/medium/1_OnEEevJGb-rLkrUorQyUtQ.png)
 
 > ***Here is the open frame on its own, larger.***
 
@@ -236,7 +236,7 @@ Third, and most usefully: **doors broke the cache and taught me something**. I�
 
 So: spatial types earned their place as a **development and debugging tool**, and stayed out of the game loop. That’s a slightly un-glamorous answer, but I think it’s the honest one, and the reasoning generalises — the exotic feature is often the right tool for looking at your data and the wrong tool for the inner loop.
 
-![](https://cdn-images-1.medium.com/max/1400/1*pr7EMGYzGamQUCc9jNQrkw.png)
+![](/images/medium/1_pr7EMGYzGamQUCc9jNQrkw.png)
 
 > ***the v\_map\_plan spatial view in SSMS, showing the E1M1 floorplan***
 
