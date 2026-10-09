@@ -2,14 +2,14 @@
 title: "Twenty Years Later, I Built the Headache Machine Again"
 subtitle: "The Deep Brain Stimulator that fixed my Cluster Headaches and is being used for Parkinsons’ and Tourettes"
 date: 2026-10-01T19:20:53.349Z
-cover: "https://cdn-images-1.medium.com/max/1400/1*UYWS9j6VtYFrnnbiVTxi6g.jpeg"
+cover: "/images/medium/1_UYWS9j6VtYFrnnbiVTxi6g.jpeg"
 tags: ["Life", "Health"]
 mediumUrl: "https://medium.com/@trevor.dwyer/twenty-years-later-i-built-the-headache-machine-again-5ea82b33a2c3"
 era: "2000s"
 draft: false
 ---
 
-![Using an archive of Brain Implant data to predict correct placement of electrodes](https://cdn-images-1.medium.com/max/1400/1*UYWS9j6VtYFrnnbiVTxi6g.jpeg)
+![Using an archive of Brain Implant data to predict correct placement of electrodes](/images/medium/1_UYWS9j6VtYFrnnbiVTxi6g.jpeg)
 *Using an archive of Brain Implant data to predict correct placement of electrodes*
 
 When your only tool is a database
@@ -75,7 +75,7 @@ I’m not going anywhere near real patient records for a hobby project. So I wro
 
 In the simulation, yes. Modestly. To test it, I hid each past patient in turn and re-planned them from everybody else. Then I compared the suggestion with the standard textbook target.
 
-![Results of the simulation](https://cdn-images-1.medium.com/max/1400/1*t3to9lwF_5pbQL-9upHiKQ.png)
+![Results of the simulation](/images/medium/1_t3to9lwF_5pbQL-9upHiKQ.png)
 *Results of the simulation*
 
 Half a millimetre doesn’t sound like much. In this part of the brain it’s the difference between “that helped” and “why can I taste rainbows?”
@@ -114,7 +114,7 @@ An X-ray is a flat projection and barely shows brain soft tissue, so deep target
 
 Each historical implant is hidden in turn and re-planned from everyone else. Because the data is simulated, every patient’s true optimal point is known, so both the suggestion and the plain atlas target can be scored against it.
 
-![](https://cdn-images-1.medium.com/max/1400/1*t3to9lwF_5pbQL-9upHiKQ.png)
+![](/images/medium/1_t3to9lwF_5pbQL-9upHiKQ.png)
 
 Suggested points sit a little closer to side-effect structures than the atlas target does (for example, CH side-effect score 0.9 → 1.4 out of 10). The “Side-effect caution” slider sets that trade-off.
 
@@ -733,11 +733,11 @@ GO
 
 I then generated some test data
 
-![](https://cdn-images-1.medium.com/max/1400/1*ounSzQKaKUiJogvNOqeBtA.png)
+![](/images/medium/1_ounSzQKaKUiJogvNOqeBtA.png)
 
 and load some images.
 
-![](https://cdn-images-1.medium.com/max/1400/1*Vffgrmb7yAR3gRcT5B-CGA.png)
+![](/images/medium/1_Vffgrmb7yAR3gRcT5B-CGA.png)
 
 The to run the app:
 
@@ -763,13 +763,13 @@ EXEC nt.usp_SuggestPlacement @ScanId = 1761, @TargetId = 1, @Hemisphere = 'R', @
 EXEC nt.usp_EvaluateLOO @TargetId = 2, @K = 40;   -- set-based; ~40M row evaluations, allow a minute
 ```
 
-![Neurotarget 3D](https://cdn-images-1.medium.com/max/1400/1*WJzzCy6Hs-sgnMmmxCwFIw.png)
+![Neurotarget 3D](/images/medium/1_WJzzCy6Hs-sgnMmmxCwFIw.png)
 *Neurotarget 3D*
 
-![Neurotarget — Plan](https://cdn-images-1.medium.com/max/1400/1*B00n_NdZHx4rT-wxD0Mk4g.png)
+![Neurotarget — Plan](/images/medium/1_B00n_NdZHx4rT-wxD0Mk4g.png)
 *Neurotarget — Plan*
 
-![Neurotarget — Validation](https://cdn-images-1.medium.com/max/1400/1*nnYejlxsuQLVVEO_53iI6w.png)
+![Neurotarget — Validation](/images/medium/1_nnYejlxsuQLVVEO_53iI6w.png)
 *Neurotarget — Validation*
 
 ## App tabs

@@ -2,14 +2,14 @@
 title: "The Six Billion Dollar Man"
 subtitle: "or rather because of National Health Service (NHS) in the UK, I could be called “The Cost of a Few Prescriptions Man” but it’s not quite as pithy."
 date: 2026-09-05T22:29:19.278Z
-cover: "https://cdn-images-1.medium.com/max/1400/1*569bjZcokFrQOhr8nR-4jA.png"
+cover: "/images/medium/1_569bjZcokFrQOhr8nR-4jA.png"
 tags: ["Life", "Health"]
 mediumUrl: "https://medium.com/@trevor.dwyer/the-six-billion-dollar-man-8ed53378971d"
 era: "Today"
 draft: false
 ---
 
-![](https://cdn-images-1.medium.com/max/1400/1*569bjZcokFrQOhr8nR-4jA.png)
+![](/images/medium/1_569bjZcokFrQOhr8nR-4jA.png)
 
 *WARNING: There are some images in this article which some people may find disturbing. They are all real and you really can’t see anything and because I don’t know Markup very well, I can’t hide them.*
 
@@ -35,7 +35,7 @@ Forgive the slight silliness of this piece but it’s all horrific for me and my
 
 Before you read the story below, log your initial instinct. Your vote will be tallied against our global community data at the conclusion of the file.
 
-![](https://cdn-images-1.medium.com/max/1400/1*BImRw5bGVCZdkec-qayUjQ.png)
+![](/images/medium/1_BImRw5bGVCZdkec-qayUjQ.png)
 
 Due to my Chronic Cluster Headaches mentioned in the story “The Cloud Has No Mercy” [The Cloud Has No Mercy](https://medium.com/@trevor.dwyer/the-cloud-has-no-mercy-f52518b55bb0?sharedUserId=trevor.dwyer), I was told after many years of devastating pain that I would require an operation and a device called a Deep Brain Stimulator installed as they had tried everything else open to them.
 
@@ -59,12 +59,12 @@ They numb the top of my head with Lidocaine and get the hand drill out, yes just
 
 Now there was no pain because the Lidocaine had numbed the skin, and of course there are no nerves in the brain. So that scene in the Hannibal Lecter film where he cooks little bits of the characters brain whilst he is still alive is completely possible.
 
-![I trusted the Science…](https://cdn-images-1.medium.com/max/1400/1*DZvqYwVmtUrEdAfRPVsltQ.jpeg)
+![I trusted the Science…](/images/medium/1_DZvqYwVmtUrEdAfRPVsltQ.jpeg)
 *I trusted the Science…*
 
 They then have a little discussion and tell me to brace myself. Well, I cannot move anyway so was a bit unsure what was going to happen next. I thought they would gently weave the electrodes they were implanting around the bits of my brain eventually reaching the centre and the Hypothalamus (Walnut sized mass in the centre of the brain, it controls the Body clock and Pain). Oh no, they were going to shoot it straight through the brain a reach the mass with millimetre precision.
 
-![These are the images that you can’t see anything.](https://cdn-images-1.medium.com/max/1400/1*OMHsBqgRJ8r-Lalc8_lvZQ.jpeg)
+![These are the images that you can’t see anything.](/images/medium/1_OMHsBqgRJ8r-Lalc8_lvZQ.jpeg)
 *These are the images that you can’t see anything.*
 
 Long story short, it went well, I answered all the questions asked of me (to check they had not disturbed any part of the brain that controlled anything important) having in their words “just destroyed millions of brain cells, but don’t worry you have plenty more”.
@@ -75,7 +75,7 @@ All this pain and surgery just because someone picked me up as a kid by my neck 
 
 Still, every cloud, what happened next would not have happened if it weren’t for the Deep Brain Stimulator.
 
-![Two set of Electrodes for Redundancy](https://cdn-images-1.medium.com/max/1400/1*FAdKjD_T8sN5aqJ65_XWGQ.jpeg)
+![Two set of Electrodes for Redundancy](/images/medium/1_FAdKjD_T8sN5aqJ65_XWGQ.jpeg)
 *Two set of Electrodes for Redundancy*
 
 ## The Study for DARPA
@@ -86,7 +86,7 @@ I don’t really know why I said yes, but I did have some tough questions for th
 
 I asked — is it a paid study? They said no it wasn’t paid but they would cover expenses. So, I said OK. *(I would not do well in an interrogation )*
 
-![Arrival Day at some University in Southern England](https://cdn-images-1.medium.com/max/1400/1*QfEeF5eVbnGuIxxoSFIT2A.jpeg)
+![Arrival Day at some University in Southern England](/images/medium/1_QfEeF5eVbnGuIxxoSFIT2A.jpeg)
 *Arrival Day at some University in Southern England*
 
 Then came the day, I arrived as you can see and they booked me in as Patient Number 001. I said is this meant to be anonymous? And they said yes which is why we have used Patient Number 001. I said how many others in the program. They said just me, they couldn’t find anyone else up to that point who qualified, and they might not even get their PhD because of that reason.
@@ -97,10 +97,10 @@ Then they told me what the study was meant to be for. Its part of a “Super Sol
 
 They would monitor me closely over the course of two nights when I was sleeping and then awake and one of those nights, they would alter the brain implant signal and use settings not allowed via my patient programmer and not even accessible to the doctor programmer device. They would administer a series of tests during the night and when I woke up.
 
-![As hard as I tried I still couldn’t get Radio 1](https://cdn-images-1.medium.com/max/1400/1*7XXXpTGfTWmCZ2aZ0FmeSQ.jpeg)
+![As hard as I tried I still couldn’t get Radio 1](/images/medium/1_7XXXpTGfTWmCZ2aZ0FmeSQ.jpeg)
 *As hard as I tried I still couldn’t get Radio 1*
 
-![All ready for the first night…](https://cdn-images-1.medium.com/max/1400/1*izE2jM5J6H8MfbdFa_iQXw.jpeg)
+![All ready for the first night…](/images/medium/1_izE2jM5J6H8MfbdFa_iQXw.jpeg)
 *All ready for the first night…*
 
 So, this was what I looked like each evening before I fell asleep (With 20 PhD students all watching me through one way glass) Also the kept interrupting me because the electrodes kept falling off during the night.  
@@ -144,7 +144,7 @@ It will have to be soon as it’s starting to lose its charge, trouble is I doub
 2\. I was in the Wonder Women movie (The first one) **FALSE  
 ***I didn’t appear in the Wonder Women movie, but my friend Eugene Brave Rock did. He stayed with me when he was filming it.*
 
-![Gene Brave Rock & Gal Gadot (Filmed in Leavesden)](https://cdn-images-1.medium.com/max/1400/1*nvJYjRI0ZPWsYv8IVH3Rzw.jpeg)
+![Gene Brave Rock & Gal Gadot (Filmed in Leavesden)](/images/medium/1_nvJYjRI0ZPWsYv8IVH3Rzw.jpeg)
 *Gene Brave Rock & Gal Gadot (Filmed in Leavesden)*
 
 3\. I once got mistaken for Tom Hardy **TRUE  

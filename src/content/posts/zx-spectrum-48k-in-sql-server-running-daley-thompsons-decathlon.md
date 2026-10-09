@@ -2,7 +2,7 @@
 title: "ZX Spectrum in SQL & Daley Thompson’s Decathlon"
 subtitle: "The Database is the Machine. Memory is a Table. The CPU is a Stored Procedure. The Display is a Join."
 date: 2026-09-18T21:54:56.310Z
-cover: "https://cdn-images-1.medium.com/max/1400/1*g39pc0gqZsAk6VhUZOdtog.jpeg"
+cover: "/images/medium/1_g39pc0gqZsAk6VhUZOdtog.jpeg"
 tags: ["SQL Server", "Retro Computing"]
 mediumUrl: "https://medium.com/@trevor.dwyer/zx-spectrum-48k-in-sql-server-running-daley-thompsons-decathlon-e5abfd1f3c3d"
 repo: "https://github.com/sqlartist/ZXSpectrumSQL"
@@ -12,12 +12,12 @@ era: "1980s"
 draft: false
 ---
 
-![I was not going to be writing the dis-assembler myself.](https://cdn-images-1.medium.com/max/1400/1*g39pc0gqZsAk6VhUZOdtog.jpeg)
+![I was not going to be writing the dis-assembler myself.](/images/medium/1_g39pc0gqZsAk6VhUZOdtog.jpeg)
 *I was not going to be writing the dis-assembler myself.*
 
 A 48k Sinclair ZX Spectrum running inside SQL Server 2025. Then loading “Daley Thompson’s Decathlon” (Ocean, 1984) from its Original Micro-drive cartridge.
 
-![It took a huge effort to get to this point](https://cdn-images-1.medium.com/max/1400/1*bp6Ngz7nADmSrScULoWMnA.gif)
+![It took a huge effort to get to this point](/images/medium/1_bp6Ngz7nADmSrScULoWMnA.gif)
 *It took a huge effort to get to this point*
 
 This was a computer I did not own, having established in other articles I had a Commodore 16, so once again I only saw this a few times but it was the closest you could get to Konami’s Track & Field, a classic Joystick Waggler and always in the local Youth Centre or Chip shop.
@@ -28,7 +28,7 @@ One of the absolute best games ever made, it must have earned so much money for 
 
 I didn’t have a joystick…
 
-![Sinclair 48k ZX Spectrum computer (1982) —Photo: Bill Bertram](https://cdn-images-1.medium.com/max/1400/1*ZvOIL0FlBvFrfgwm_HFS_Q.jpeg)
+![Sinclair 48k ZX Spectrum computer (1982) —Photo: Bill Bertram](/images/medium/1_ZvOIL0FlBvFrfgwm_HFS_Q.jpeg)
 *Sinclair 48k ZX Spectrum computer (1982) —Photo: Bill Bertram*
 
 I started this idea wanting to emulate this game based on the Commodore 64, I very quickly changed my mind and decided to emulate the hardware for the ZX Spectrum to be run inside Microsoft SQL Server 2025. This would then allow me to load up the Copy Protection-less version of the game stored on a micro-drive.
@@ -85,7 +85,7 @@ somebody probably did a 6502 in PL/SQL in 2009 and never told anyone.
 
 ## Why the Spectrum matters, and why it’s a good target
 
-![](https://cdn-images-1.medium.com/max/1400/1*D4lBAmr2foYPK7DiZ75E7Q.jpeg)
+![](/images/medium/1_D4lBAmr2foYPK7DiZ75E7Q.jpeg)
 
 Clive Sinclair built the world’s first slimline pocket calculator in 1972,  
 then spent the early eighties making computers cheap enough that ordinary families bought them. The ZX80 was the UK’s first mass-market home computer under £100. The ZX Spectrum followed in 1982–48K of RAM, a Z80 running at 3.5MHz, and those rubber keys.
@@ -258,7 +258,7 @@ It can catch the structural mistakes that only surface when SQL Server parses 7,
 
 150 frames of ROM execution, and then I rendered the bottom of the screen as text, straight out of the database:
 
-![Finally The Boot loader](https://cdn-images-1.medium.com/max/1400/1*02lxdu6hvfnNfacpNgYnng.png)
+![Finally The Boot loader](/images/medium/1_02lxdu6hvfnNfacpNgYnng.png)
 *Finally The Boot loader*
 
 None of that was re-implemented. Sinclair’s own ROM, running its own memory test — which takes 640,000 instructions and eighty-two frames, something I’d completely forgotten about the Spectrum boot — and then its own character routines, setting individual bits in a table.

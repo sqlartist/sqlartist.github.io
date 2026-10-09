@@ -2,14 +2,14 @@
 title: "SQL Server 2025, an RTX 5090, and the slow death of “Will the hon. Gentleman give way?”"
 subtitle: "Two Graphics Cards and 1.7 Million Speeches to Prove a Negative"
 date: 2026-10-08T13:52:27.755Z
-cover: "https://cdn-images-1.medium.com/max/1400/1*q3O8bPHn_LoOiOrU0BWLiA.jpeg"
+cover: "/images/medium/1_q3O8bPHn_LoOiOrU0BWLiA.jpeg"
 tags: ["SQL Server", "AI & Data Science"]
 mediumUrl: "https://medium.com/@trevor.dwyer/two-graphics-cards-and-1-7-million-speeches-to-prove-a-negative-fbde793efbd5"
 era: "Today"
 draft: false
 ---
 
-![Why do I do this to myself?](https://cdn-images-1.medium.com/max/1400/1*q3O8bPHn_LoOiOrU0BWLiA.jpeg)
+![Why do I do this to myself?](/images/medium/1_q3O8bPHn_LoOiOrU0BWLiA.jpeg)
 *Why do I do this to myself?*
 
 ### The question
@@ -1072,7 +1072,7 @@ The graphics cards are still worth more than I paid for them. Thirty years of ha
 
 That is a fair trade. And nobody on the News at Ten would have had the faintest idea what I was talking about, which Brian, in fairness, worked out on his first afternoon.
 
-![Brian — My sounding board](https://cdn-images-1.medium.com/max/1400/1*kEiyAaam9iF0qsU1612NLA.jpeg)
+![Brian — My sounding board](/images/medium/1_kEiyAaam9iF0qsU1612NLA.jpeg)
 *Brian — My sounding board*
 
 If you enjoyed what must have been an ordeal but hopefully you got this far please give it as many claps as you would if you were in the House of Commons.

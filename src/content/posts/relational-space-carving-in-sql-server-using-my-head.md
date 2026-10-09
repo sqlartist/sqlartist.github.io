@@ -2,7 +2,7 @@
 title: "Relational Space Carving in SQL Server using My Head"
 subtitle: "When you have spent 30 years designing relational databases and enforcing strict transactional integrity, there is something deeply satisfying about completely abusing the SQL engine to do exactly what it was never designed for."
 date: 2026-08-23T14:28:14.480Z
-cover: "https://cdn-images-1.medium.com/max/1400/1*_7DfiQ7IQ00fgAEi0-NkUg.png"
+cover: "/images/medium/1__7DfiQ7IQ00fgAEi0-NkUg.png"
 tags: ["SQL Server", "AI & Data Science"]
 mediumUrl: "https://medium.com/@trevor.dwyer/relational-space-carving-in-sql-server-using-my-head-9367cba73f13"
 era: "Today"
@@ -19,12 +19,12 @@ Here is the complete documentation of how you can turn SQL Server into a crude 3
 
 Before calculating Z-depth, the database needed to prove it could accurately shred a binary file and map spatial coordinates. We loaded an uncompressed 24-bit/32-bit BMP into memory using OPENROWSET, shredded the binary string using an inline Tally Table to avoid WHILE loops, and mapped the RGB luminance values to an ASCII gradient.
 
-![A 2D rendering of my Head, Obviously Front View](https://cdn-images-1.medium.com/max/1400/1*_7DfiQ7IQ00fgAEi0-NkUg.png)
+![A 2D rendering of my Head, Obviously Front View](/images/medium/1__7DfiQ7IQ00fgAEi0-NkUg.png)
 *A 2D rendering of my Head, Obviously Front View*
 
 By inverting the gradient and compensating for the byte-stride of a 32-bit image, the database successfully rendered a 2D heightmap directly in the SSMS query results window.
 
-![The inverted 2D ASCII render perfectly* mapped in SSMS text results exported to Notepad](https://cdn-images-1.medium.com/max/1400/1*MoBxkuosKh-jnX8RrD-XZg.png)
+![The inverted 2D ASCII render perfectly* mapped in SSMS text results exported to Notepad](/images/medium/1_MoBxkuosKh-jnX8RrD-XZg.png)
 *The inverted 2D ASCII render perfectly\* mapped in SSMS text results exported to Notepad*
 
 When I say perfectly rendered my head, I mean I nearly lost it and abandoned the entire project at this point. The first time I ran it I got a very lopsided view of my neck. When I realised I had to zoom out quite a bit I did sort of see my head.   
@@ -34,7 +34,7 @@ Eventually I realised I was looking at a 32-bit image; a 24-bit image looks at R
 
 I then did the same and rendered this image which is the input into the next section.
 
-![The Four Renders (Front, Left. Right and Back)](https://cdn-images-1.medium.com/max/1400/1*2y4iXj-swl1LO5c2rLfC_Q.png)
+![The Four Renders (Front, Left. Right and Back)](/images/medium/1_2y4iXj-swl1LO5c2rLfC_Q.png)
 *The Four Renders (Front, Left. Right and Back)*
 
 I would smile more but if you ever want to animate your head it is important to maintain a “no expression” look, also I have a huge scar on the back of my actual head and because it is really tough taking a picture of the back of your head this is a stunt rear head
@@ -49,7 +49,7 @@ The core engine is a strict INNER JOIN on the Y (height) axis. If a voxel is sol
 
 Early tests using a massive @Skip = 8 downsampling variable resulted in severe mathematical artifacts, including the “Cartesian explosion” when the background threshold was too high, and heavy horizontal terracing when the gaps between the evaluated rows were too wide.
 
-![The Cartesian explosion showing Moiré interference patterns](https://cdn-images-1.medium.com/max/1400/1*eqJp5KiAgWTGGqTKkU6s3g.png)
+![The Cartesian explosion showing Moiré interference patterns](/images/medium/1_eqJp5KiAgWTGGqTKkU6s3g.png)
 *The Cartesian explosion showing Moiré interference patterns*
 
 To eliminate the stepping artifacts, we dropped the downsampling to a 1:1 pixel resolution (@Skip = 1).
@@ -69,7 +69,7 @@ To convert this raw data into a manifold mesh, we bypass manual topology and use
 
 When this is executed on the 1:1 high-resolution SQL export, the severe terracing disappears, resulting in an incredibly dense, solid silhouette.
 
-![The high-resolution 1:1 mesh output from the Geometry Nodes.](https://cdn-images-1.medium.com/max/1400/1*r8Q_FG_5NfffgCK1zCs-QQ.png)
+![The high-resolution 1:1 mesh output from the Geometry Nodes.](/images/medium/1_r8Q_FG_5NfffgCK1zCs-QQ.png)
 *The high-resolution 1:1 mesh output from the Geometry Nodes.*
 
 You can almost see the head now turned, so using both the front view and the side view. The Moiré interference patterns were still showing and this is because when doing the combining of the views, SQL is using a pure join and if it does not match perfectly then the point cancels itself out. What I needed was a fuzzy join which looked for points near the actual point.
@@ -84,7 +84,7 @@ The final step is knocking down the micro-grid “waffle” texture left behind 
 
 By applying the Geometry Nodes modifier and passing the mesh through a Decimate modifier (to reduce the polygon count) followed by a Smooth modifier (to average the vertex laplacians), the head becomes perfectly clean.
 
-![](https://cdn-images-1.medium.com/max/1400/1*Kp01OSTBt3HEtaFildoZUg.png)
+![](/images/medium/1_Kp01OSTBt3HEtaFildoZUg.png)
 
 It is now a watertight, production ready .stl or .obj, ready to be sent across to the eight 3D printers and brought into the physical world. I already have the eyes to put into the head but that’s another article.  
    
@@ -92,7 +92,7 @@ It is now a watertight, production ready .stl or .obj, ready to be sent across
 
 Next time I put my robot eyes into the 3d printed head and begin the cloning process ;)
 
-![I am sort of joking…](https://cdn-images-1.medium.com/max/1400/1*EB5Ca7faD9HxtSXu5SItxw.png)
+![I am sort of joking…](/images/medium/1_EB5Ca7faD9HxtSXu5SItxw.png)
 *I am sort of joking…*
 
 Hope you enjoyed the failure and the article. For some unknown reason it would not let me paste the code into the article so screenshots for now. Code when I have it up on github.

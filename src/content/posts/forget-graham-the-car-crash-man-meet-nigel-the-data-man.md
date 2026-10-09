@@ -2,24 +2,24 @@
 title: "Forget Graham, the Car Crash Man, Meet Nigel, the Data Man"
 subtitle: "A speculative anatomy of life with the world’s knowledge under the skin"
 date: 2026-09-21T17:25:26.729Z
-cover: "https://cdn-images-1.medium.com/max/1400/1*a1nimEFmpAKLj_IGOtNQhQ.png"
+cover: "/images/medium/1_a1nimEFmpAKLj_IGOtNQhQ.png"
 tags: ["Life", "Health"]
 mediumUrl: "https://medium.com/@trevor.dwyer/forget-graham-the-car-crash-man-meet-nigel-the-data-man-2e02db12966e"
 era: "Today"
 draft: false
 ---
 
-![I should have gone with Unlimnited Trevor’s but even I thought that was too much](https://cdn-images-1.medium.com/max/1400/1*a1nimEFmpAKLj_IGOtNQhQ.png)
+![I should have gone with Unlimnited Trevor’s but even I thought that was too much](/images/medium/1_a1nimEFmpAKLj_IGOtNQhQ.png)
 *I should have gone with Unlimnited Trevor’s but even I thought that was too much*
 
 Graham is difficult to forget. Created for Australia’s Transport Accident Commission by artist Patricia Piccinini, working with trauma surgeon Christian Kenfield and road safety engineer David Logan, he imagines a human body better equipped to withstand a car crash. His enlarged skull, absent neck and cushioned chest make our physical vulnerability visible. Each strange feature has a purpose. [\[1\]](https://melbourne.sciencegallery.com/perfection-exhibits/graham)
 
-![This is Graham, a fantastic research project which can be found at www.meetgraham.com.au](https://cdn-images-1.medium.com/max/1400/1*Dtc1nA8XmsbsbbLudOugAA.png)
+![This is Graham, a fantastic research project which can be found at www.meetgraham.com.au](/images/medium/1_Dtc1nA8XmsbsbbLudOugAA.png)
 *This is Graham, a fantastic research project which can be found at www.meetgraham.com.au*
 
 I would like to introduce someone with a different set of problems. Meet Nigel, the Data Man.
 
-![No one will know its actually me, its not like I put myself into every single story.](https://cdn-images-1.medium.com/max/1400/1*TwBXgh9kctGRaGcLy6FtWQ.png)
+![No one will know its actually me, its not like I put myself into every single story.](/images/medium/1_TwBXgh9kctGRaGcLy6FtWQ.png)
 *No one will know its actually me, its not like I put myself into every single story.*
 
 Nigel lives at a point in the future when the excitement about artificial intelligence has subsided. It has become ordinary infrastructure. People still complain about it, naturally, but mostly because an update has arrived at an inconvenient moment.
@@ -38,7 +38,7 @@ At first glance, he looks reassuringly ordinary. Then you notice the service sea
 
 Start with the small capsule beneath his breastbone. Inside it sits the public archive, separate from his private records. The resemblance to Douglas Adams’s The Hitchhiker’s Guide to the Galaxy is deliberate: a portable guide to an impossibly large world, available whenever its owner needs an explanation. Nigel has simply dispensed with the inconvenience of carrying the book.
 
-![The Beginning…](https://cdn-images-1.medium.com/max/1400/1*rxuSsZ82vxcfO9AoZSXk2Q.png)
+![The Beginning…](/images/medium/1_rxuSsZ82vxcfO9AoZSXk2Q.png)
 *The Beginning…*
 
 There is real science behind the attraction of very small storage. In 2017, the DNA Fountain researchers reported successful retrieval at a density of 215 petabytes per gram of DNA, using an experiment that stored about 2.14 megabytes. The distinction matters. They demonstrated remarkable density in the storage material; they did not build a device containing 215 petabytes, a fast reader and a computer in one gram. [\[2\]](https://classpages.cselabs.umn.edu/Spring-2020/csci5980/papers/DNA-Storage/DNA%20Efficient%20Storage%20Architecture.pdf)
@@ -55,13 +55,13 @@ His archive and his AI would have distinct jobs. A model’s learned parameters 
 
 This brings us to his eyes. Nigel’s visual display can show where an answer came from, when the source was updated and whether other sources disagree. He can inspect the evidence before acting. He has access to humanity’s accumulated mistakes as well as its discoveries; enormous capacity has not relieved him of the need for judgement.
 
-![](https://cdn-images-1.medium.com/max/1400/1*-NgX1VJAzyI7VORqml1Z-w.png)
+![](/images/medium/1_-NgX1VJAzyI7VORqml1Z-w.png)
 
 His system also needs to say “I don’t know”. Installing the internet in a person should not mean installing the internet’s confidence.
 
 Follow his arm down to the wrist. Beneath a protective flap is a high-speed optical interface. When Nigel rests his hand on a compatible surface, it can deliver updates and, with his permission, exchange selected files. Ordinary contact with another person does not grant access. A handshake remains a handshake.
 
-![](https://cdn-images-1.medium.com/max/1400/1*jAtE2RGqSw5e5R-yCosqfQ.png)
+![](/images/medium/1_jAtE2RGqSw5e5R-yCosqfQ.png)
 
 The port is there because storage capacity and transfer speed solve different problems. To illustrate the scale, imagine a daily update of one petabyte. At one terabyte per second, transferring it would take 16 minutes and 40 seconds. At one gigabit per second, the same transfer would take about 93 days. These calculations use decimal units and ignore overheads; the update size is an illustration, not an estimate of the internet’s daily growth.
 
@@ -71,19 +71,19 @@ Even Nigel cannot finish Tuesday’s update if Monday’s takes three months. Hi
 
 The shallow folds around his ribs and upper back are the cooling system. Reading a huge archive and running powerful models require energy, and the heat must go somewhere. Nigel has an external charging connection and a strict limit on how warm his internal components may become. For difficult work, he might still sit at a powered desk that supplies extra cooling. The coin has not abolished the rest of the computer.
 
-![](https://cdn-images-1.medium.com/max/1400/1*Dhegs-SqeSL9tA9LBCDL2Q.png)
+![](/images/medium/1_Dhegs-SqeSL9tA9LBCDL2Q.png)
 
 Move up to the seam above his ear. This is where the idea becomes more unsettling: Nigel has swappable brains.
 
 Initially, these would be replaceable computing modules. He might fit one suited to mathematical work, another to language, or replace a failed processor without disturbing his private archive. The design would need to preserve his personal settings and keep unfamiliar modules away from information they had no reason to access.
 
-![](https://cdn-images-1.medium.com/max/1400/1*Rd0MOGtVR6YuHoug9wl0iQ.png)
+![](/images/medium/1_Rd0MOGtVR6YuHoug9wl0iQ.png)
 
 Swapping a biological brain, or transferring the person living in it, is a much greater leap. Calling both operations an upgrade conceals the difficult part. A new processor does not establish that Nigel’s memories, character or conscious experience can be moved with it.
 
 For that possibility, look at the protected compartment near the base of his skull: the emergency backup. In our imagined future, it preserves recoverable records of Nigel’s mental life. An encrypted copy is also held somewhere physically separate. A backup stored only inside Nigel would have an obvious weakness if something happened to Nigel.
 
-![](https://cdn-images-1.medium.com/max/1400/1*CpkDwq23gJHU2eoW-_8VLA.png)
+![](/images/medium/1_CpkDwq23gJHU2eoW-_8VLA.png)
 
 We can already preserve someone’s writing, photographs, recorded voice and recollections. Brain mapping is also an active field of research. A complete wiring diagram of an adult female fruit-fly brain was published in 2024, containing 139,255 neurons and more than 50 million chemical synapses. The work has moved beyond the earlier milestones of worms and fly larvae. [\[5\]](https://www.nature.com/articles/s41586-024-07558-y)
 
@@ -95,13 +95,13 @@ Even a less ambitious personal archive would deserve careful design. What happen
 
 Now return to his skin. An engineered pigment layer shows storage use, synchronisation and faults through adjustable colours and patterns, independently of his natural complexion. As space runs low, amber bands deepen across his forearms. A small display gives the exact figures. For once, “you look a bit overloaded” is a useful diagnosis.
 
-![](https://cdn-images-1.medium.com/max/1400/1*t6FJI2VQkaCxqEyaM6wcTA.png)
+![](/images/medium/1_t6FJI2VQkaCxqEyaM6wcTA.png)
 
 The display can be hidden. A person should not have to announce a technical problem to everyone in the supermarket. The more disturbing version of the display appears when Nigel misses a payment.
 
 Imagine his wrist showing: “Your personal archive will be deleted in 72 hours. Please update your payment method.”
 
-![](https://cdn-images-1.medium.com/max/1400/1*3srHP1_ojZudJUUXKy-e1g.png)
+![](/images/medium/1_3srHP1_ojZudJUUXKy-e1g.png)
 
 This is a deliberately bleak commercial possibility. The core device might have been issued to everyone, while additional capacity, maintenance or recovery services became subscriptions. A supplier could still impose an expiry condition on locally stored data. It would not need a permanent connection if the restriction had been installed in advance.
 
@@ -111,7 +111,7 @@ I would give Nigel permanent control of his personal records, with usable export
 
 There is one more control on his chest: a physical privacy switch. Nigel chooses what may leave the device. He can share a piece of public knowledge without sharing his reason for looking it up, and send a file without handing over his entire history. Emergency access would be limited to information he had chosen in advance, rather than treating illness as permission to inspect everything.
 
-![](https://cdn-images-1.medium.com/max/1400/1*xl7ku2WY0A7arN1C3-Ib1g.png)
+![](/images/medium/1_xl7ku2WY0A7arN1C3-Ib1g.png)
 
 He would also need some ability to let experiences fade. A permanent archive of every conversation could burden the person carrying it and intrude on everyone they met. Nigel’s improved memory must leave room for other people’s consent, and for his own decision that some moments do not need to become records.
 
@@ -129,40 +129,40 @@ Perhaps Nigel’s most valuable feature is the small switch on his chest. He pre
 
 These are imagined features, not a medical or engineering specification. Having said that the most often asked question about my own brain implant is “How do you charge it?”
 
-![](https://cdn-images-1.medium.com/max/1400/1*rxuSsZ82vxcfO9AoZSXk2Q.png)
+![](/images/medium/1_rxuSsZ82vxcfO9AoZSXk2Q.png)
 
 Breastbone / The knowledge capsule / A 50p-sized home for the public archive, search index and local models. Nigel carries the library; he still has to judge the answers.
 
-![](https://cdn-images-1.medium.com/max/1400/1*-NgX1VJAzyI7VORqml1Z-w.png)
+![](/images/medium/1_-NgX1VJAzyI7VORqml1Z-w.png)
 
 Eyes / The evidence display / See the source, its date and any disagreement before acting. Unlimited storage does not make every answer true.
 
-![](https://cdn-images-1.medium.com/max/1400/1*jAtE2RGqSw5e5R-yCosqfQ.png)
+![](/images/medium/1_jAtE2RGqSw5e5R-yCosqfQ.png)
 
 Wrist /The high-speed interface / Receive updates or share selected files through a protected optical port. Every exchange needs permission. Handshakes remain social.
 
-![Its a good job no one realises that I’m at actually Nigel](https://cdn-images-1.medium.com/max/1400/1*Dhegs-SqeSL9tA9LBCDL2Q.png)
+![Its a good job no one realises that I’m at actually Nigel](/images/medium/1_Dhegs-SqeSL9tA9LBCDL2Q.png)
 *Its a good job no one realises that I’m at actually Nigel*
 
 Ribs and upper back / Power and cooling / Extra cooling surfaces manage the heat of computation. Heavy work may require a powered desk. Thinking has an energy bill.
 
-![](https://cdn-images-1.medium.com/max/1400/1*Rd0MOGtVR6YuHoug9wl0iQ.png)
+![](/images/medium/1_Rd0MOGtVR6YuHoug9wl0iQ.png)
 
 Above the ear / Swappable brains / Replace specialist computing modules while protecting the private archive. Transferring a biological mind remains a much larger, unresolved idea.
 
-![](https://cdn-images-1.medium.com/max/1400/1*CpkDwq23gJHU2eoW-_8VLA.png)
+![](/images/medium/1_CpkDwq23gJHU2eoW-_8VLA.png)
 
 Base of the skull / The emergency backup / Preserve recoverable personal records, with another copy stored elsewhere. A restored archive would not by itself prove that the person survived.
 
-![](https://cdn-images-1.medium.com/max/1400/1*t6FJI2VQkaCxqEyaM6wcTA.png)
+![](/images/medium/1_t6FJI2VQkaCxqEyaM6wcTA.png)
 
 Forearms / The capacity display / An adjustable pigment layer shows storage use and system health. Colours are paired with patterns and readable numbers. Nigel can hide the display.
 
-![](https://cdn-images-1.medium.com/max/1400/1*3srHP1_ojZudJUUXKy-e1g.png)
+![](/images/medium/1_3srHP1_ojZudJUUXKy-e1g.png)
 
 Inner wrist / The payment countdown / A fictional warning counts down to deletion after a missed bill. This deliberately bad design asks who really owns Nigel’s memories.
 
-![](https://cdn-images-1.medium.com/max/1400/1*xl7ku2WY0A7arN1C3-Ib1g.png)
+![](/images/medium/1_xl7ku2WY0A7arN1C3-Ib1g.png)
 
 Chest / The privacy switch / Nigel controls what leaves his device and can close the connection. Access to public knowledge does not require access to his private life.
 
@@ -202,7 +202,7 @@ Technical support recommended restoring from backup.
 
 Unfortunately, technical support was also Nigel.
 
-![Feels a bit like Rimmerworld](https://cdn-images-1.medium.com/max/1400/1*a1nimEFmpAKLj_IGOtNQhQ.png)
+![Feels a bit like Rimmerworld](/images/medium/1_a1nimEFmpAKLj_IGOtNQhQ.png)
 *Feels a bit like Rimmerworld*
 
 If you enjoyed a little bit of Nigel naked then please give it a thunderous round of Claps, if not and you want the real thing, I’m afraid it will require hitting the Clap button as well.

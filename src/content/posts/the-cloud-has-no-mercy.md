@@ -2,14 +2,14 @@
 title: "The Cloud Has No Mercy"
 subtitle: "Why we traded 56k dial-up frustration for automated digital hostage situations."
 date: 2026-08-30T12:00:37.779Z
-cover: "https://cdn-images-1.medium.com/max/1400/1*8zM8AcHKh4jDh7IGToYYaw.png"
+cover: "/images/medium/1_8zM8AcHKh4jDh7IGToYYaw.png"
 tags: ["Life"]
 mediumUrl: "https://medium.com/@trevor.dwyer/the-cloud-has-no-mercy-f52518b55bb0"
 era: "1990s"
 draft: false
 ---
 
-![Figure 1: Trading the agony of a 56k dial-up interruption for the looming dread of the infinite, faceless server farm.](https://cdn-images-1.medium.com/max/1400/1*8zM8AcHKh4jDh7IGToYYaw.png)
+![Figure 1: Trading the agony of a 56k dial-up interruption for the looming dread of the infinite, faceless server farm.](/images/medium/1_8zM8AcHKh4jDh7IGToYYaw.png)
 *Figure 1: Trading the agony of a 56k dial-up interruption for the looming dread of the infinite, faceless server farm.*
 
 I was considering what it must be like for today’s generation of users, navigating technology while quite rightly taking it for granted. If you asked half of them how a file magically appeared on the screen of the device they are holding, they’d shrug and say, “Well, Jason sent it — duh!” The other half are actively plotting world domination from a handed-down iPhone.
@@ -38,7 +38,7 @@ I was the only pupil in the entire school to ever at that time be placed on Work
 
 “The Century Computer Programming Course for the ZX81 and Spectrum”
 
-![Figure 2: A 570 page amazing book if I had a ZX81, which I didn’t](https://cdn-images-1.medium.com/max/1400/1*SStJS_SbEM4CltxRDdUoMg.jpeg)
+![Figure 2: A 570 page amazing book if I had a ZX81, which I didn’t](/images/medium/1_SStJS_SbEM4CltxRDdUoMg.jpeg)
 *Figure 2: A 570 page amazing book if I had a ZX81, which I didn’t*
 
 which was very handy for someone that had a Commodore 16 and no clue there were different versions of BASIC. I was using it as a riser for an overheating laptop until last year.
@@ -53,7 +53,7 @@ But just as a piece of ancient vellum will comfortably outlast a carefully curat
 
 Some genius came up with the idea of limitless, instantly accessible compute, and it is glorious — right up until the moment it threatens to literally bankrupt you. They don’t even have the decency to invoice you upfront; you pay the bill after the algorithms have had their fun.
 
-![Figure 3: Nimbus was the computer used at my school in 1986. It had a 10MB Winchester Hard Drive. I had to include a picture of that beast at the end of the article.](https://cdn-images-1.medium.com/max/1400/1*GClE8oPrJ-a_72qpAPSNKg.png)
+![Figure 3: Nimbus was the computer used at my school in 1986. It had a 10MB Winchester Hard Drive. I had to include a picture of that beast at the end of the article.](/images/medium/1_GClE8oPrJ-a_72qpAPSNKg.png)
 *Figure 3: Nimbus was the computer used at my school in 1986. It had a 10MB Winchester Hard Drive. I had to include a picture of that beast at the end of the article.*
 
 Between various Max subscriptions and managed cloud services, we have entered an era of unprecedented ruthlessness. If the money isn’t in that account the exact millisecond they check, they cut you off. They make unveiled threats to wipe your entire online history so quickly it makes your head spin. I mean, there should be a Nobel Prize for customer service this aggressively efficient. Even when you die, your loved ones don’t get processed with that kind of cold, calculated precision.
@@ -68,7 +68,7 @@ Or Fought in a War,
 
 Or had an AOL subscription
 
-![Figure 4: The 1986 RM Nimbus Winchester 10MB Hard Drive. A glorious, heavy beast that safely held less data than a single modern smartphone app notification.](https://cdn-images-1.medium.com/max/1400/1*XIca-sgiMcAZoYoMfotHLQ.png)
+![Figure 4: The 1986 RM Nimbus Winchester 10MB Hard Drive. A glorious, heavy beast that safely held less data than a single modern smartphone app notification.](/images/medium/1_XIca-sgiMcAZoYoMfotHLQ.png)
 *Figure 4: The 1986 RM Nimbus Winchester 10MB Hard Drive. A glorious, heavy beast that safely held less data than a single modern smartphone app notification.*
 
 If this was interesting, a few claps help other people find it. Follow me for more on Data.

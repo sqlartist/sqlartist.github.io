@@ -2,7 +2,7 @@
 title: "Running Elite in SQL Server"
 subtitle: "“An infinite void wrapped around a core of data entry.”"
 date: 2026-09-04T10:53:51.896Z
-cover: "https://cdn-images-1.medium.com/max/1400/1*ZnMQQP43WGkKNas39r9X4w.png"
+cover: "/images/medium/1_ZnMQQP43WGkKNas39r9X4w.png"
 tags: ["SQL Server", "Retro Computing"]
 mediumUrl: "https://medium.com/@trevor.dwyer/elite-in-sql-server-e7833eae6268"
 repo: "https://github.com/sqlartist/EliteSQL"
@@ -13,7 +13,7 @@ draft: false
 
 ---
 
-![](https://cdn-images-1.medium.com/max/1400/1*ZnMQQP43WGkKNas39r9X4w.png)
+![](/images/medium/1_ZnMQQP43WGkKNas39r9X4w.png)
 
 I got Doom running inside SQL Server. E1M1 renders out of a stored procedure and you fly around it with a PowerShell client. It runs at 0.7 frames per second, which is exactly as playable as it sounds.
 
@@ -48,7 +48,7 @@ The disc version scatters its roster across sixteen per-galaxy source files, so 
 
 Two blueprints threw an exception at the parser and turned out to be genuine 1984 engineering rather than a bug. The Thargon has no edge list of its own — it borrows the cargo canister’s. The splinter borrows the escape pod’s. Somebody was 24 bytes over budget and went looking for a ship with the same number of vertices.
 
-![The full ship roster, rendered from the extracted blueprint data](https://cdn-images-1.medium.com/max/1400/1*DGA_bZs2t-4n4748IlVFwQ.png)
+![The full ship roster, rendered from the extracted blueprint data](/images/medium/1_DGA_bZs2t-4n4748IlVFwQ.png)
 *The full ship roster, rendered from the extracted blueprint data*
 
 \*Every blueprint, straight out of the parser. Coriolis with its docking slot, the Dodo, the Thargoid, and a cargo canister that is quietly doing double duty.\*
@@ -69,7 +69,7 @@ Backface culling needs a point on each face, but the blueprints only store the v
 
 Before running any of it against SQL Server I wrote the same pipeline in Python, stage for stage, and rendered a turntable. That turned out to be the single best decision in the project.
 
-![Cobra Mk III turntable, verifying backface culling](https://cdn-images-1.medium.com/max/1400/1*ZWu0h9RdZDtKgR0JAx6RYg.png)
+![Cobra Mk III turntable, verifying backface culling](/images/medium/1_ZWu0h9RdZDtKgR0JAx6RYg.png)
 *Cobra Mk III turntable, verifying backface culling*
 
 \*The Cobra through 360 degrees. Edge count swings from 34 nose-away to 17 nose-on, and the engine exhausts on the rear face appear and vanish exactly when they should. A flat edge count would have meant broken culling.\*
@@ -123,7 +123,7 @@ The fix is a \`LOOP JOIN\` hint. At a few hundred rows, nested loops against the
 
 **Final numbers for a real Elite frame — twelve ships, which is all the original ever put on screen:**
 
-![](https://cdn-images-1.medium.com/max/1400/1*DH7eLx5f0inZWshhKEmcwA.png)
+![](/images/medium/1_DH7eLx5f0inZWshhKEmcwA.png)
 
 Four hundred times faster. Not because I’m cleverer than I was last time— because vector graphics are a join and rasterisation isn’t.
 
@@ -251,7 +251,7 @@ Every time I skipped this step I lost hours. Every time I did it I lost minutes.
 
 The client is Python and tkinter — standard library, no display dependencies at all. All the game logic stays in the database; the client is a screen and a keyboard.
 
-![The Elite cockpit, rendered from SQL Server](https://cdn-images-1.medium.com/max/1400/1*bQ6w86u5_pWSiW2B1sUvzw.png)
+![The Elite cockpit, rendered from SQL Server](/images/medium/1_bQ6w86u5_pWSiW2B1sUvzw.png)
 *The Elite cockpit, rendered from SQL Server*
 
 *Vector view, instrument bars, and Elite’s ellipse scanner with the vertical stalks. The scanner is just a different projection of the same \`elite.Universe\` rows the 3D view uses.*

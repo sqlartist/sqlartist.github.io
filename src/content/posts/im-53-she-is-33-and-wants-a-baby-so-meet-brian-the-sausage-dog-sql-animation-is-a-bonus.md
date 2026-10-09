@@ -2,7 +2,7 @@
 title: "I’m 53, She is 33 And Wants A Baby, So, Meet Brian The Sausage Dog. (SQL Animation is a bonus)"
 subtitle: "This has it all, including the ransom note. SQL is fun, Have fun or the dog gets it.."
 date: 2026-10-03T22:52:50.956Z
-cover: "https://cdn-images-1.medium.com/max/1400/1*JcMZZ-vg1k-Fekek3kmdRQ.gif"
+cover: "/images/medium/1_JcMZZ-vg1k-Fekek3kmdRQ.gif"
 tags: ["SQL Server", "Life"]
 mediumUrl: "https://medium.com/@trevor.dwyer/im-53-she-is-33-and-wants-a-baby-so-meet-brian-the-sausage-dog-sql-animation-is-a-bonus-e0324508f90f"
 era: "Today"
@@ -11,7 +11,7 @@ draft: false
 
 I struggle where to start with this one but I think I can make it readable, enjoyable and a template for anyone else with a younger partner and of course some never seen before SQL techniques.
 
-![Brian, the Dachshund, Created using SQL Server Spatial](https://cdn-images-1.medium.com/max/1400/1*JcMZZ-vg1k-Fekek3kmdRQ.gif)
+![Brian, the Dachshund, Created using SQL Server Spatial](/images/medium/1_JcMZZ-vg1k-Fekek3kmdRQ.gif)
 *Brian, the Dachshund, Created using SQL Server Spatial*
 
 I wont beat around the bush, she wants a baby (33), I’m 53 and a dead man walking, so we compromised. We got a dachshund and named him Brian.
@@ -24,7 +24,7 @@ Rule 1 — he doesn’t come into my office
 
 Rule 2 — he doesn’t sleep on the bed or even go near the bed
 
-![Just look at his eyes — he knows what he is up to. Yes this is my side of the bed.](https://cdn-images-1.medium.com/max/1400/1*EdtBrUk5h6fTYpQyZsoVbw.jpeg)
+![Just look at his eyes — he knows what he is up to. Yes this is my side of the bed.](/images/medium/1_EdtBrUk5h6fTYpQyZsoVbw.jpeg)
 *Just look at his eyes — he knows what he is up to. Yes this is my side of the bed.*
 
 Rule 3 — he has to be trained properly
@@ -507,5 +507,5 @@ Hope you enjoyed this little detour from the heavy on the SQL stories to look at
 
 If you enjoyed please Clap as its this single metric that makes me lie awake all night wondering if the whole world will have seen my writing, and thinking if everyone clapped multiple times I could be rich beyond my wildest dreams and then I check and see 0 claps. Maybe a different tactic is in order….
 
-![Right Brian is being held hostage….](https://cdn-images-1.medium.com/max/1400/1*m7TTx28mugahXnyxhRLmqQ.jpeg)
+![Right Brian is being held hostage….](/images/medium/1_m7TTx28mugahXnyxhRLmqQ.jpeg)
 *Right Brian is being held hostage….*
