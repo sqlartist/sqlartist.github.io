@@ -1,0 +1,40 @@
+---
+import Base from '../layouts/Base.astro';
+import PostCard from '../components/PostCard.astro';
+import Avatar from '../components/Avatar.astro';
+import profile from '../data/profile.json';
+import { getPosts, tagSlug, url } from '../lib';
+
+const posts = await getPosts();
+const [latest, ...rest] = posts;
+const tags = [...new Set(posts.flatMap((p) => p.data.tags))].sort();
+---
+<Base>
+  <section class="hero">
+    <div class="wrap">
+      <p class="eyebrow">The writing of {profile.name}</p>
+      <h1>{profile.tagline}</h1>
+      <a class="hero-author" href={url('/about/')}>
+        <Avatar size={40} />
+        <span><strong>{profile.name}</strong><br /><span class="muted">@{profile.alias}</span></span>
+      </a>
+    </div>
+  </section>
+  <div class="wrap home">
+    <div class="feed">
+      {latest && <PostCard post={latest} featured />}
+      {rest.map((post) => <PostCard post={post} />)}
+    </div>
+    <aside class="side">
+      <h3>Topics</h3>
+      <div class="tags">
+        {tags.map((t) => <a class="tag" href={url(`/tags/${tagSlug(t)}/`)}>{t}</a>)}
+      </div>
+      <h3>Follow</h3>
+      <ul class="links">
+        {profile.links.map((l) => <li><a href={l.url}>{l.label}</a></li>)}
+        <li><a href={url('/rss.xml')}>RSS feed</a></li>
+      </ul>
+    </aside>
+  </div>
+</Base>

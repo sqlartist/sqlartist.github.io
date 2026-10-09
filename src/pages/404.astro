@@ -1,0 +1,11 @@
+---
+import Base from '../layouts/Base.astro';
+import { url } from '../lib';
+---
+<Base title="Not found">
+  <div class="wrap page-head">
+    <p class="eyebrow">404</p>
+    <h1>That page has wandered off.</h1>
+    <p><a class="btn" href={url('/')}>Back to the stories</a></p>
+  </div>
+</Base>

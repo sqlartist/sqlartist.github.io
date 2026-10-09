@@ -1,0 +1,91 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import { getPosts, formatDate, url } from '../lib';
+
+const posts = await getPosts();
+const byId = new Map(posts.map((p) => [p.id, p]));
+const glossary = await getCollection('glossary');
+
+// Every glossary entry with a real year becomes a point on the line.
+const events = glossary
+  .map((g) => {
+    const y = g.data.year.trim();
+    const year = Number((y.match(/\d{4}/) || [])[0]);
+    // "1980s" is a decade, not a year; show it as written.
+    return { g, year, label: (y.match(/\d{4}s/) || [String(year)])[0] };
+  })
+  .filter((e) => e.year)
+  .map((e) => ({ ...e, stories: e.g.data.posts.map((id) => byId.get(id)).filter(Boolean) }))
+  .sort((a, b) => a.year - b.year || Number(a.label.endsWith('s')) - Number(b.label.endsWith('s')) || a.g.data.term.localeCompare(b.g.data.term));
+
+const before = events.filter((e) => e.year < 1980);
+const main = events.filter((e) => e.year >= 1980);
+const decades = [...new Set(main.map((e) => Math.floor(e.year / 10) * 10))];
+const first = posts.at(-1), latest = posts[0];
+---
+<Base title="Timeline" description="From the ZX Spectrum to SQL Server 2025: the machines, games and moments my stories are about, in order.">
+  <section class="hc-head wrap">
+    <p class="eyebrow">Timeline</p>
+    <h1>From the 1980s to now</h1>
+    <p class="lede">
+      The machines, games and moments my stories keep coming back to, in the order they happened, with the stories
+      I've written about each one. It starts with a rubber-keyed computer and ends with a database doing things it was
+      never built for.
+    </p>
+  </section>
+
+  <div class="wrap tl">
+    {before.length > 0 && (
+      <details class="tl-before">
+        <summary>Before my time: {before.map((e) => e.g.data.term).join(', ')}</summary>
+        <ul>
+          {before.map((e) => (
+            <li><span class="tl-year">{e.label}</span> <a href={url(`/glossary/#${e.g.id}`)}>{e.g.data.term}</a>: {e.g.data.what}</li>
+          ))}
+        </ul>
+      </details>
+    )}
+
+    <ol class="tl-line">
+      {decades.map((d) => (
+        <>
+          <li class="tl-decade"><span>{d}s</span></li>
+          {main.filter((e) => Math.floor(e.year / 10) * 10 === d).map((e) => (
+            <li class="tl-item" id={`t-${e.g.id}`}>
+              <span class="tl-year">{e.label}</span>
+              <div class="tl-card">
+                <p class="tl-cat">{e.g.data.category}</p>
+                <h2><a href={url(`/glossary/#${e.g.id}`)}>{e.g.data.term}</a></h2>
+                <p class="tl-what">{e.g.data.what}</p>
+                {e.stories.length > 0 && (
+                  <ul class="tl-stories">
+                    {e.stories.map((p) => (
+                      <li><a href={url(`/posts/${p.id}/`)}>{p.data.title}</a> <span class="muted">· {formatDate(p.data.date)}</span></li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            </li>
+          ))}
+        </>
+      ))}
+      <li class="tl-decade tl-now"><span>Now</span></li>
+      <li class="tl-item tl-today">
+        <span class="tl-year">{first?.data.date.getFullYear()}–{latest?.data.date.getFullYear()}</span>
+        <div class="tl-card">
+          <p class="tl-cat">Writing</p>
+          <h2>Forty-odd years later, I rebuild them in SQL Server</h2>
+          <p class="tl-what">
+            {posts.length} stories so far, from {formatDate(first!.data.date)} to {formatDate(latest!.data.date)}. The newest:
+          </p>
+          <ul class="tl-stories">
+            {posts.slice(0, 5).map((p) => (
+              <li><a href={url(`/posts/${p.id}/`)}>{p.data.title}</a> <span class="muted">· {formatDate(p.data.date)}</span></li>
+            ))}
+          </ul>
+        </div>
+      </li>
+    </ol>
+  </div>
+</Base>

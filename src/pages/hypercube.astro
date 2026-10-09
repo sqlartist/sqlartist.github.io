@@ -1,0 +1,283 @@
+---
+import Base from '../layouts/Base.astro';
+import { getPosts, readingTime, url } from '../lib';
+
+const posts = await getPosts();
+const data = posts.map((p) => ({
+  title: p.data.title,
+  href: url(`/posts/${p.id}/`),
+  date: p.data.date.toISOString().slice(0, 10),
+  time: p.data.date.valueOf(),
+  topic: p.data.tags[0] ?? 'Other',
+  minutes: parseInt(readingTime(p.body), 10),
+  era: p.data.era,
+}));
+---
+<Base title="Hypercube" description="Every story on this blog placed inside a rotating four-dimensional hypercube. Pivot it, slice it, drill into it.">
+  <section class="hc-head wrap">
+    <p class="eyebrow">Experiment</p>
+    <h1>The Hypercube</h1>
+    <p class="lede">
+      Every story on this site, placed inside a four-dimensional cube. Each axis is a dimension of the data: when it
+      was published, what it's about, how long it is and which decade it looks back to. A screen only has two
+      dimensions, so the cube is projected down, the same way a cube's shadow is a square. As it turns through the
+      fourth dimension, stories drift towards you and away.
+    </p>
+    <p class="muted hc-how">
+      Drag to turn it. Swap the dimensions on each axis to pivot. Use the slice to keep one layer of the fourth
+      dimension. Click a dot to read the story. It's the same idea as my Blender add-on that turns a filesystem into an
+      OLAP cube, with one more dimension.
+    </p>
+  </section>
+
+  <section class="hc wrap">
+    <div class="hc-stage">
+      <canvas id="hc-canvas" aria-label="Rotating hypercube of stories. The list beside it has the same stories as links."></canvas>
+      <div id="hc-tip" class="hc-tip" hidden></div>
+      <div class="hc-overlay">
+        <button type="button" id="hc-play" class="hc-btn" aria-pressed="true">Pause</button>
+        <div class="hc-planes" role="group" aria-label="Plane of 4D rotation">
+          <button type="button" class="hc-btn" data-plane="xw" aria-pressed="true">XW</button>
+          <button type="button" class="hc-btn" data-plane="yw" aria-pressed="false">YW</button>
+          <button type="button" class="hc-btn" data-plane="zw" aria-pressed="true">ZW</button>
+        </div>
+      </div>
+    </div>
+
+    <aside class="hc-panel">
+      <h2 class="section-title">Axes</h2>
+      <div class="hc-axes">
+        {['x', 'y', 'z', 'w'].map((axis, i) => (
+          <label class={`hc-axis hc-${axis}`}>
+            <span class="hc-axis-name">{axis.toUpperCase()}{axis === 'w' && <small> 4th</small>}</span>
+            <select id={`hc-axis-${axis}`} data-axis={axis}>
+              {['Published', 'Topic', 'Length', 'Era'].map((d, j) => <option value={d} selected={i === j}>{d}</option>)}
+            </select>
+          </label>
+        ))}
+      </div>
+
+      <h2 class="section-title">Slice the 4th dimension</h2>
+      <label class="hc-slice">
+        <input id="hc-slice-on" type="checkbox" /> Only show one slice
+      </label>
+      <input id="hc-slice" type="range" min="0" max="100" value="50" aria-label="Slice position" disabled />
+      <p id="hc-slice-label" class="muted hc-small">All stories shown</p>
+
+      <h2 class="section-title">In view <span id="hc-count" class="muted"></span></h2>
+      <ol id="hc-list" class="hc-list"></ol>
+    </aside>
+  </section>
+
+  <script type="application/json" id="hc-data" set:html={JSON.stringify(data)} />
+  <script is:inline>
+  (() => {
+    const posts = JSON.parse(document.getElementById('hc-data').textContent);
+    const canvas = document.getElementById('hc-canvas');
+    const ctx = canvas.getContext('2d');
+    const tip = document.getElementById('hc-tip');
+    const list = document.getElementById('hc-list');
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // ---- Dimensions: each maps a story to a value in [-1, 1] -------------------
+    const ERAS = ['1980s', '1990s', '2000s', 'Today'];
+    const topics = [...new Set(posts.map((p) => p.topic))].sort();
+    const tMin = Math.min(...posts.map((p) => p.time)), tMax = Math.max(...posts.map((p) => p.time));
+    const mMax = Math.max(...posts.map((p) => p.minutes));
+    const spread = (i, n) => (n < 2 ? 0 : -0.8 + (1.6 * i) / (n - 1));
+    const hash = (s) => { let h = 2166136261; for (const c of s) h = Math.imul(h ^ c.charCodeAt(0), 16777619); return h; };
+    const jitter = (p, k) => (((hash(p.title + k) >>> 0) % 1000) / 1000 - 0.5) * 0.22;
+    const DIMS = {
+      Published: { value: (p) => -0.85 + 1.7 * ((p.time - tMin) / (tMax - tMin || 1)), label: (p) => p.date, ends: ['Older', 'Newer'] },
+      Topic: { value: (p) => spread(topics.indexOf(p.topic), topics.length) + jitter(p, 't'), label: (p) => p.topic, ends: [topics[0], topics.at(-1)] },
+      Length: { value: (p) => -0.85 + 1.7 * (p.minutes / mMax), label: (p) => `${p.minutes} min read`, ends: ['Short', 'Long'] },
+      Era: { value: (p) => spread(ERAS.indexOf(p.era), ERAS.length) + jitter(p, 'e'), label: (p) => `Looks back to ${p.era === 'Today' ? 'today' : 'the ' + p.era}`, ends: ['1980s', 'Today'] },
+    };
+    const TOPIC_COLOURS = ['#e0b13a', '#5aa2f0', '#e8746a', '#62c49a', '#b48cf0', '#f09a4a'];
+    const colourFor = (p) => TOPIC_COLOURS[topics.indexOf(p.topic) % TOPIC_COLOURS.length];
+
+    const axes = { x: 'Published', y: 'Topic', z: 'Length', w: 'Era' };
+    const target = (p) => ['x', 'y', 'z', 'w'].map((a) => DIMS[axes[a]].value(p));
+    posts.forEach((p) => { p.pos = target(p); });
+
+    // ---- Tesseract geometry --------------------------------------------------
+    const verts = [];
+    for (let i = 0; i < 16; i++) verts.push([0, 1, 2, 3].map((b) => ((i >> b) & 1 ? 1 : -1)));
+    const edges = [];
+    for (let i = 0; i < 16; i++) for (let b = 0; b < 4; b++) { const j = i ^ (1 << b); if (i < j) edges.push([i, j]); }
+
+    // ---- View state ------------------------------------------------------------
+    const planes = { xw: true, yw: false, zw: true };
+    let playing = !reduce;
+    let a4 = { xw: 0.5, yw: 0, zw: 0.35 };
+    let yaw = -0.6, pitch = 0.35;
+    let slice = null; // null = show all, otherwise centre of the w slice in [-1, 1]
+    let hover = null, W = 0, H = 0, dpr = 1, last = performance.now();
+
+    function rot4(v) {
+      let [x, y, z, w] = v, c, s, t;
+      c = Math.cos(a4.xw); s = Math.sin(a4.xw); t = x * c - w * s; w = x * s + w * c; x = t;
+      c = Math.cos(a4.yw); s = Math.sin(a4.yw); t = y * c - w * s; w = y * s + w * c; y = t;
+      c = Math.cos(a4.zw); s = Math.sin(a4.zw); t = z * c - w * s; w = z * s + w * c; z = t;
+      return [x, y, z, w];
+    }
+    function project(v) {
+      const r = rot4(v);
+      const k4 = 2.6 / (3.2 - r[3]);                 // 4D → 3D perspective
+      let x = r[0] * k4, y = r[1] * k4, z = r[2] * k4;
+      let c = Math.cos(yaw), s = Math.sin(yaw), t = x * c + z * s; z = -x * s + z * c; x = t;
+      c = Math.cos(pitch); s = Math.sin(pitch); t = y * c - z * s; z = y * s + z * c; y = t;
+      const k3 = 4.2 / (5.6 - z);                    // 3D → 2D perspective
+      const scale = Math.min(W, H) * 0.2;
+      return { x: W / 2 + x * k3 * scale, y: H / 2 - y * k3 * scale, depth: z, w: r[3], k: k3 };
+    }
+    // The w a story has once rotated, mapped to [-1, 1]; this is what the slice uses.
+    const wOf = (p) => rot4(p.pos)[3] / 1.3;
+    const inSlice = (p) => slice === null || Math.abs(wOf(p) - slice) < 0.28;
+
+    function mix(a, b, t) {
+      const pa = a.match(/\w\w/g).map((h) => parseInt(h, 16)), pb = b.match(/\w\w/g).map((h) => parseInt(h, 16));
+      return `rgb(${pa.map((v, i) => Math.round(v + (pb[i] - v) * t)).join(',')})`;
+    }
+
+    function resize() {
+      const r = canvas.getBoundingClientRect();
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      W = r.width; H = r.height;
+      canvas.width = W * dpr; canvas.height = H * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+
+    let drawn = [];
+    function draw() {
+      const blue = '#5a8fd6', gold = '#e0b13a';
+      const text = '#f5f7fb', muted = '#9fb2cf'; // the stage is always dark
+      ctx.clearRect(0, 0, W, H);
+
+      // Edges, coloured by how far into the 4th dimension they sit.
+      const pv = verts.map(project);
+      ctx.lineCap = 'round';
+      for (const [i, j] of edges) {
+        const a = pv[i], b = pv[j], wt = ((a.w + b.w) / 2 + 1.4) / 2.8;
+        ctx.strokeStyle = mix(blue.slice(1), gold.slice(1), Math.max(0, Math.min(1, wt)));
+        ctx.globalAlpha = 0.25 + 0.55 * wt;
+        ctx.lineWidth = 0.6 + 1.6 * wt;
+        ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
+      }
+      ctx.globalAlpha = 1;
+      for (const v of pv) { ctx.fillStyle = gold; ctx.beginPath(); ctx.arc(v.x, v.y, 1.6 + v.k, 0, Math.PI * 2); ctx.fill(); }
+
+      // Axis end labels on the inner cube.
+      ctx.font = '600 11px Inter, system-ui, sans-serif';
+      ctx.fillStyle = muted;
+      [['x', [1.15, -1, -1, 0]], ['y', [-1, 1.15, -1, 0]], ['z', [-1, -1, 1.15, 0]]].forEach(([a, v]) => {
+        const p = project(v);
+        ctx.fillText(`${a.toUpperCase()} · ${axes[a]} → ${DIMS[axes[a]].ends[1]}`, p.x + 6, p.y);
+      });
+
+      // Stories, back to front.
+      drawn = posts.map((p) => ({ p, s: project(p.pos), on: inSlice(p) })).sort((a, b) => a.s.depth - b.s.depth);
+      for (const d of drawn) {
+        const near = (d.s.w + 1.3) / 2.6;            // nearer in w → bigger and brighter
+        const r = (4.5 + 7 * near) * d.s.k * (d.on ? 1 : 0.7);
+        ctx.globalAlpha = d.on ? 0.45 + 0.55 * near : 0.12;
+        ctx.fillStyle = colourFor(d.p);
+        ctx.beginPath(); ctx.arc(d.s.x, d.s.y, r, 0, Math.PI * 2); ctx.fill();
+        if (d.p === hover) { ctx.globalAlpha = 1; ctx.strokeStyle = text; ctx.lineWidth = 2; ctx.stroke(); }
+        d.r = r;
+      }
+      ctx.globalAlpha = 1;
+    }
+
+    function updateList() {
+      const shown = posts.filter(inSlice).sort((a, b) => wOf(b) - wOf(a));
+      document.getElementById('hc-count').textContent = `(${shown.length})`;
+      list.innerHTML = '';
+      for (const p of shown) {
+        const li = document.createElement('li');
+        const a = document.createElement('a');
+        a.href = p.href; a.textContent = p.title;
+        const dot = document.createElement('span'); dot.className = 'hc-dot'; dot.style.background = colourFor(p);
+        li.append(dot, a);
+        li.addEventListener('mouseenter', () => { hover = p; if (!playing) draw(); });
+        li.addEventListener('mouseleave', () => { hover = null; if (!playing) draw(); });
+        list.append(li);
+      }
+    }
+
+    let listTimer = 0;
+    function frame(now) {
+      const dt = Math.min(50, now - last); last = now;
+      if (playing) {
+        for (const k of Object.keys(planes)) if (planes[k]) a4[k] += dt * 0.00035;
+        listTimer += dt;
+        if (slice !== null && listTimer > 400) { updateList(); listTimer = 0; }
+      }
+      // Ease stories towards their pivoted positions.
+      for (const p of posts) { const t = target(p); p.pos = p.pos.map((v, i) => v + (t[i] - v) * 0.12); }
+      draw();
+      requestAnimationFrame(frame);
+    }
+
+    // ---- Interaction -----------------------------------------------------------
+    let drag = null;
+    canvas.addEventListener('pointerdown', (e) => { drag = { x: e.clientX, y: e.clientY, moved: false }; canvas.setPointerCapture(e.pointerId); });
+    canvas.addEventListener('pointermove', (e) => {
+      const r = canvas.getBoundingClientRect(), mx = e.clientX - r.left, my = e.clientY - r.top;
+      if (drag) {
+        const dx = e.clientX - drag.x, dy = e.clientY - drag.y;
+        if (Math.abs(dx) + Math.abs(dy) > 3) drag.moved = true;
+        yaw += dx * 0.008; pitch = Math.max(-1.3, Math.min(1.3, pitch + dy * 0.008));
+        drag.x = e.clientX; drag.y = e.clientY;
+      }
+      let best = null, bd = 18;
+      for (const d of drawn) { const dd = Math.hypot(d.s.x - mx, d.s.y - my); if (d.on && dd < Math.max(bd, d.r + 4)) { bd = dd; best = d; } }
+      hover = best ? best.p : null;
+      canvas.style.cursor = hover ? 'pointer' : drag ? 'grabbing' : 'grab';
+      if (hover) {
+        tip.hidden = false;
+        tip.innerHTML = '';
+        const t = document.createElement('strong'); t.textContent = hover.title;
+        const m = document.createElement('span');
+        m.textContent = ['Published', 'Topic', 'Length', 'Era'].map((k) => DIMS[k].label(hover)).join(' · ');
+        tip.append(t, m);
+        tip.style.left = Math.min(mx + 14, W - 260) + 'px';
+        tip.style.top = my + 14 + 'px';
+      } else tip.hidden = true;
+    });
+    canvas.addEventListener('pointerup', () => { if (drag && !drag.moved && hover) location.href = hover.href; drag = null; });
+    canvas.addEventListener('pointerleave', () => { hover = null; tip.hidden = true; });
+
+    const playBtn = document.getElementById('hc-play');
+    const setPlay = (on) => { playing = on; playBtn.textContent = on ? 'Pause' : 'Play'; playBtn.setAttribute('aria-pressed', String(on)); };
+    playBtn.addEventListener('click', () => setPlay(!playing));
+    setPlay(playing);
+    document.querySelectorAll('[data-plane]').forEach((b) => b.addEventListener('click', () => {
+      planes[b.dataset.plane] = !planes[b.dataset.plane];
+      b.setAttribute('aria-pressed', String(planes[b.dataset.plane]));
+      if (!playing) setPlay(true);
+    }));
+
+    document.querySelectorAll('.hc-axes select').forEach((sel) => sel.addEventListener('change', () => {
+      const axis = sel.dataset.axis, dim = sel.value;
+      const other = Object.keys(axes).find((a) => a !== axis && axes[a] === dim);
+      if (other) { axes[other] = axes[axis]; document.getElementById(`hc-axis-${other}`).value = axes[axis]; }
+      axes[axis] = dim;
+      updateList();
+    }));
+
+    const sliceOn = document.getElementById('hc-slice-on'), sliceIn = document.getElementById('hc-slice'), sliceLbl = document.getElementById('hc-slice-label');
+    const applySlice = () => {
+      slice = sliceOn.checked ? (sliceIn.value / 50 - 1) : null;
+      sliceIn.disabled = !sliceOn.checked;
+      sliceLbl.textContent = slice === null ? 'All stories shown' : `Showing the layer at w = ${slice.toFixed(2)}`;
+      updateList();
+    };
+    sliceOn.addEventListener('change', applySlice);
+    sliceIn.addEventListener('input', applySlice);
+
+    new ResizeObserver(() => { resize(); draw(); }).observe(canvas);
+    resize(); updateList(); requestAnimationFrame(frame);
+  })();
+  </script>
+</Base>
