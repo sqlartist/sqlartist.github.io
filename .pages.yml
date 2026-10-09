@@ -1,0 +1,131 @@
+# Pages CMS (https://pagescms.org) – the browser editor for this blog.
+# Sign in at https://app.pagescms.org with GitHub and open this repository.
+media:
+  input: public/images/uploads
+  output: /images/uploads
+
+content:
+  - name: posts
+    label: Stories
+    type: collection
+    path: src/content/posts
+    filename: "{primary}.md"
+    view:
+      primary: title
+      fields: [title, date, draft]
+      sort: [date, title]
+      default:
+        sort: date
+        order: desc
+    fields:
+      - name: title
+        label: Title
+        type: string
+        required: true
+      - name: subtitle
+        label: Subtitle
+        description: The line under the title, like Medium's subtitle.
+        type: string
+      - name: date
+        label: Published
+        type: date
+        required: true
+        options:
+          time: true
+      - name: cover
+        label: Cover image
+        description: Shown on the home page and when the story is shared.
+        type: image
+      - name: tags
+        label: Topics
+        description: For example SQL Server, Retro Computing, Life.
+        type: string
+        list: true
+      - name: repo
+        label: GitHub repository
+        description: Optional. Adds a "Run it in SQL" box to the story.
+        type: string
+      - name: runSteps
+        label: How to run it
+        type: text
+      - name: runSql
+        label: T-SQL to show in the box
+        type: code
+        options:
+          language: sql
+      - name: era
+        label: Era the story looks back to
+        description: Used by the hypercube.
+        type: select
+        options:
+          values: ["1980s", "1990s", "2000s", "Today"]
+        default: Today
+      - name: draft
+        label: Draft (hidden from the site)
+        type: boolean
+        default: true
+      - name: mediumUrl
+        label: Medium link
+        description: Optional. Adds an "Also on Medium" link.
+        type: string
+      - name: canonicalUrl
+        label: Original address
+        description: Optional. Only fill this in if the story was first published somewhere else.
+        type: string
+      - name: body
+        label: Story
+        type: rich-text
+
+  - name: glossary
+    label: Glossary
+    type: collection
+    path: src/content/glossary
+    filename: "{primary}.md"
+    view:
+      primary: term
+      fields: [term, category, year]
+      sort: [term]
+    fields:
+      - { name: term, label: Term, type: string, required: true }
+      - { name: year, label: Year, type: string }
+      - name: category
+        label: Section
+        type: select
+        options:
+          values: ["Computers", "Games & Demos", "People", "TV & Film", "Life in Britain", "Other"]
+      - { name: what, label: What it is, type: text }
+      - name: posts
+        label: Related stories
+        description: The story's file name, without .md
+        type: string
+        list: true
+      - { name: body, label: Why it mattered, type: rich-text }
+
+  - name: profile
+    label: Profile
+    type: file
+    path: src/data/profile.json
+    format: json
+    fields:
+      - { name: name, label: Name, type: string }
+      - { name: alias, label: Handle, type: string }
+      - { name: siteTitle, label: Site title, type: string }
+      - { name: tagline, label: Tagline, type: text }
+      - { name: avatar, label: Profile photo, type: image }
+      - { name: location, label: Location, type: string }
+      - { name: bio, label: About me, type: text }
+      - name: links
+        label: Links
+        type: object
+        list: true
+        fields:
+          - { name: label, label: Label, type: string }
+          - { name: url, label: Address, type: string }
+      - name: projects
+        label: Projects
+        type: object
+        list: true
+        fields:
+          - { name: name, label: Name, type: string }
+          - { name: description, label: Description, type: string }
+          - { name: url, label: Address, type: string }

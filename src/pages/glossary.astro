@@ -1,0 +1,83 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import { getPosts, url } from '../lib';
+
+const ORDER = ['Computers', 'Games & Demos', 'People', 'TV & Film', 'Life in Britain', 'Other'];
+const posts = await getPosts();
+const titles = new Map(posts.map((p) => [p.id, p.data.title]));
+const entries = (await getCollection('glossary')).sort((a, b) =>
+  a.data.term.replace(/^\W+/, '').localeCompare(b.data.term.replace(/^\W+/, '')),
+);
+const rendered = await Promise.all(entries.map(async (e) => ({ entry: e, Content: (await render(e)).Content })));
+const sections = ORDER.map((name) => ({ name, items: rendered.filter((r) => r.entry.data.category === name) })).filter((s) => s.items.length);
+const anchor = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+---
+<Base title="Glossary" description="Rubber keys, loading screeches and bionic men: a guide to the things my stories take for granted.">
+  <section class="profile-hero glossary-hero">
+    <div class="wrap">
+      <p class="eyebrow">Glossary</p>
+      <h1 class="gl-title">Press PLAY on tape</h1>
+      <p class="lede">
+        My stories are full of rubber keys, loading screeches and bionic men. If you weren't a British kid in the
+        1980s, some of that needs explaining. Here's what these things were, and why they mattered so much to me and to
+        everyone my age.
+      </p>
+    </div>
+  </section>
+  <div class="wrap glossary">
+    <div class="gl-tools">
+      <label class="gl-search">
+        <span class="sr-only">Search the glossary</span>
+        <input id="gl-q" type="search" placeholder="Search, e.g. Spectrum" autocomplete="off" />
+      </label>
+      <nav class="gl-sections" aria-label="Sections">
+        {sections.map((s) => <a class="tag" href={`#${anchor(s.name)}`}>{s.name}</a>)}
+      </nav>
+    </div>
+    <p id="gl-empty" class="muted" hidden>Nothing matches that. Try another word.</p>
+    {sections.map((s) => (
+      <section class="gl-section" id={anchor(s.name)}>
+        <h2 class="section-title">{s.name}</h2>
+        <div class="gl-grid">
+          {s.items.map(({ entry, Content }) => (
+            <article class="gl-card" id={entry.id} data-text={`${entry.data.term} ${entry.data.what} ${entry.body}`.toLowerCase()}>
+              <header>
+                <h3>{entry.data.term}</h3>
+                {entry.data.year && <span class="gl-year">{entry.data.year}</span>}
+              </header>
+              <p class="gl-what">{entry.data.what}</p>
+              <div class="gl-why">
+                <p class="label">Why it mattered</p>
+                <Content />
+              </div>
+              {entry.data.posts.filter((p) => titles.has(p)).length > 0 && (
+                <p class="gl-read">
+                  Read:{' '}
+                  {entry.data.posts.filter((p) => titles.has(p)).map((p, i) => (
+                    <>{i > 0 && ' · '}<a href={url(`/posts/${p}/`)}>{titles.get(p)}</a></>
+                  ))}
+                </p>
+              )}
+            </article>
+          ))}
+        </div>
+      </section>
+    ))}
+  </div>
+  <script is:inline>
+    (() => {
+      const q = document.getElementById('gl-q');
+      const cards = [...document.querySelectorAll('.gl-card')];
+      const sections = [...document.querySelectorAll('.gl-section')];
+      const empty = document.getElementById('gl-empty');
+      q?.addEventListener('input', () => {
+        const v = q.value.trim().toLowerCase();
+        let shown = 0;
+        cards.forEach((c) => { const ok = !v || c.dataset.text.includes(v); c.hidden = !ok; if (ok) shown++; });
+        sections.forEach((s) => { s.hidden = !s.querySelector('.gl-card:not([hidden])'); });
+        empty.hidden = shown > 0;
+      });
+    })();
+  </script>
+</Base>

@@ -1,0 +1,180 @@
+---
+// Easter egg: type LOAD "" anywhere (or press the footer button) to load the
+// site like a 48K ZX Spectrum loading from tape.
+import profile from '../data/profile.json';
+---
+<div id="zx" class="zx" hidden role="dialog" aria-modal="true" aria-label="ZX Spectrum loading screen">
+  <div class="zx-border" id="zx-border"></div>
+  <div class="zx-screen">
+    <canvas id="zx-canvas" width="256" height="192"></canvas>
+    <p class="zx-status" id="zx-status"></p>
+  </div>
+  <button type="button" class="zx-close" id="zx-close">Stop the tape</button>
+</div>
+<script is:inline define:vars={{ title: profile.alias.toUpperCase(), name: profile.name.toUpperCase() }}>
+(() => {
+  const root = document.getElementById('zx');
+  const border = document.getElementById('zx-border');
+  const canvas = document.getElementById('zx-canvas');
+  const status = document.getElementById('zx-status');
+  const ctx = canvas.getContext('2d');
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // The Spectrum's palette: normal and BRIGHT.
+  const C = ['#000000', '#0000d7', '#d70000', '#d700d7', '#00d700', '#00d7d7', '#d7d700', '#d7d7d7'];
+  const B = ['#000000', '#0000ff', '#ff0000', '#ff00ff', '#00ff00', '#00ffff', '#ffff00', '#ffffff'];
+
+  // ---- Build the loading screen: a 1-bit bitmap plus 32x24 colour attributes.
+  function buildScreen() {
+    const off = document.createElement('canvas'); off.width = 256; off.height = 192;
+    const o = off.getContext('2d');
+    o.fillStyle = '#000'; o.fillRect(0, 0, 256, 192);
+    o.fillStyle = '#fff'; o.textBaseline = 'top';
+    o.font = 'bold 30px monospace'; o.textAlign = 'center'; o.fillText(title, 128, 18);
+    o.font = 'bold 12px monospace'; o.fillText(name, 128, 60);
+    o.font = '10px monospace';
+    o.fillText('STORIES WRITTEN IN T-SQL', 128, 92);
+    o.fillText('DOOM  ELITE  BOING  48K', 128, 108);
+    o.fillText('(C) 1982-' + new Date().getFullYear(), 128, 160);
+    // The famous rainbow flash, bottom right.
+    const bands = ['#fff', '#fff', '#fff', '#fff'];
+    for (let i = 0; i < 4; i++) {
+      o.fillStyle = bands[i];
+      o.beginPath(); o.moveTo(176 + i * 12, 152); o.lineTo(188 + i * 12, 152); o.lineTo(212 + i * 12, 128); o.lineTo(200 + i * 12, 128); o.fill();
+    }
+    const px = o.getImageData(0, 0, 256, 192).data;
+    const bits = new Uint8Array(256 * 192);
+    for (let i = 0; i < bits.length; i++) bits[i] = px[i * 4] > 110 ? 1 : 0;
+    // attrs[row][col] = [ink, paper, bright]
+    const attrs = [];
+    for (let r = 0; r < 24; r++) {
+      const row = [];
+      for (let c = 0; c < 32; c++) {
+        let a = [7, 1, 1];                                  // white on blue
+        if (r < 2 || r > 21) a = [0, 0, 0];
+        if (r >= 2 && r <= 6) a = [6, 1, 1];                // yellow title
+        if (r === 7 || r === 8) a = [5, 1, 1];              // cyan name
+        if (r >= 16 && r <= 18 && c >= 22) a = [[2, 6, 4, 5][Math.min(3, Math.max(0, Math.floor((c - 22 + (18 - r)) / 1.5)))], 1, 1];
+        row.push(a);
+      }
+      attrs.push(row);
+    }
+    return { bits, attrs };
+  }
+
+  let screen, img, timers = [], audio, osc, gain, running = false, rafId = 0;
+
+  function paintLine(y) {
+    // Before attributes arrive the Spectrum shows black ink on white paper.
+    for (let x = 0; x < 256; x++) {
+      const on = screen.bits[y * 256 + x];
+      const i = (y * 256 + x) * 4, v = on ? 0 : 0xd7;
+      img.data[i] = img.data[i + 1] = img.data[i + 2] = v; img.data[i + 3] = 255;
+    }
+  }
+  function paintAttr(r, c) {
+    const [ink, paper, bright] = screen.attrs[r][c], pal = bright ? B : C;
+    const hex = (h) => [1, 3, 5].map((k) => parseInt(h.slice(k, k + 2), 16));
+    const ik = hex(pal[ink]), pp = hex(pal[paper]);
+    for (let y = r * 8; y < r * 8 + 8; y++) for (let x = c * 8; x < c * 8 + 8; x++) {
+      const on = screen.bits[y * 256 + x], i = (y * 256 + x) * 4, col = on ? ik : pp;
+      img.data[i] = col[0]; img.data[i + 1] = col[1]; img.data[i + 2] = col[2];
+    }
+  }
+
+  // ---- Border stripes: smooth scrolling bands rather than flicker.
+  let phase = 'pilot', offset = 0;
+  function stripes() {
+    const pilot = phase === 'pilot';
+    const a = pilot ? '#d70000' : '#0000d7', b = pilot ? '#00d7d7' : '#d7d700';
+    const size = pilot ? 22 : 7;
+    if (phase === 'done') { border.style.background = '#d7d7d7'; return; }
+    if (!reduce) offset = (offset + (pilot ? 0.6 : 1.4)) % (size * 2);
+    border.style.background = `repeating-linear-gradient(180deg, ${a} ${-offset}px, ${a} ${size - offset}px, ${b} ${size - offset}px, ${b} ${size * 2 - offset}px)`;
+    rafId = requestAnimationFrame(stripes);
+  }
+
+  // ---- Tape noise: square-wave pilot tone, then random data bits.
+  function startSound() {
+    try {
+      audio = new (window.AudioContext || window.webkitAudioContext)();
+      osc = audio.createOscillator(); gain = audio.createGain();
+      osc.type = 'square'; osc.frequency.value = 807; gain.gain.value = 0.035;
+      osc.connect(gain).connect(audio.destination); osc.start();
+    } catch { audio = null; }
+  }
+  function dataSound(seconds) {
+    if (!audio) return;
+    const t0 = audio.currentTime;
+    for (let t = 0; t < seconds; t += 0.004) osc.frequency.setValueAtTime(Math.random() < 0.5 ? 1023 : 2047, t0 + t);
+  }
+  function stopSound() { try { osc?.stop(); audio?.close(); } catch {} audio = osc = null; }
+
+  const later = (ms, fn) => timers.push(setTimeout(fn, ms));
+
+  function open() {
+    if (running) return;
+    running = true; root.hidden = false; document.body.style.overflow = 'hidden';
+    screen = screen || buildScreen();
+    img = ctx.createImageData(256, 192);
+    for (let i = 0; i < img.data.length; i += 4) { img.data[i] = img.data[i + 1] = img.data[i + 2] = 0xd7; img.data[i + 3] = 255; }
+    ctx.putImageData(img, 0, 0);
+    status.textContent = '';
+    phase = 'pilot'; stripes(); startSound();
+    document.getElementById('zx-close').focus();
+
+    later(2200, () => { phase = 'data'; status.textContent = 'Program: ' + title.toLowerCase(); dataSound(0.25); });
+    later(2600, () => { phase = 'pilot'; if (osc) osc.frequency.setValueAtTime(807, audio.currentTime); });
+    later(3600, () => {
+      phase = 'data'; status.textContent = 'Bytes: SCREEN$';
+      // Lines arrive in the Spectrum's interleaved order: third, pixel row, character row.
+      const order = [];
+      for (let t = 0; t < 3; t++) for (let n = 0; n < 8; n++) for (let r = 0; r < 8; r++) order.push(t * 64 + r * 8 + n);
+      const perTick = 4, total = order.length + 24 * 32 / 16;
+      dataSound(reduce ? 1 : (total / perTick) * 0.03 + 0.5);
+      let k = 0;
+      const tick = () => {
+        if (!running) return;
+        for (let j = 0; j < perTick && k < order.length; j++, k++) paintLine(order[k]);
+        if (k >= order.length) {
+          const cell = (k - order.length) * 16;
+          for (let j = 0; j < 16 && cell + j < 768; j++) paintAttr(Math.floor((cell + j) / 32), (cell + j) % 32);
+          k++;
+        }
+        ctx.putImageData(img, 0, 0);
+        if (k < order.length + 48) timers.push(setTimeout(tick, reduce ? 0 : 30));
+        else finish();
+      };
+      tick();
+    });
+  }
+
+  function finish() {
+    phase = 'done'; stopSound();
+    const fail = Math.random() < 0.12;
+    status.textContent = fail ? 'R Tape loading error, 0:1  (rewind and try again)' : '0 OK, 0:1';
+    status.classList.toggle('zx-err', fail);
+    document.getElementById('zx-close').textContent = fail ? 'Give up and read the blog' : 'Back to the blog';
+  }
+
+  function close() {
+    running = false; timers.forEach(clearTimeout); timers = [];
+    cancelAnimationFrame(rafId); stopSound();
+    root.hidden = true; document.body.style.overflow = '';
+  }
+
+  document.getElementById('zx-close').addEventListener('click', close);
+  document.addEventListener('keydown', (e) => { if (running && e.key === 'Escape') close(); });
+  document.querySelectorAll('[data-zx-load]').forEach((b) => b.addEventListener('click', open));
+
+  // Type LOAD "" (or the Konami code) anywhere outside a text box.
+  const words = ['load""', 'arrowuparrowuparrowdownarrowdownarrowleftarrowrightarrowleftarrowrightba'];
+  let typed = '';
+  document.addEventListener('keydown', (e) => {
+    const t = e.target;
+    if (running || t.closest?.('input, textarea, select, [contenteditable]')) return;
+    if (e.key.length > 1 && !e.key.startsWith('Arrow')) return;
+    typed = (typed + e.key.toLowerCase()).slice(-80);
+    if (words.some((w) => typed.endsWith(w))) { typed = ''; open(); }
+  });
+})();
+</script>

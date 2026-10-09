@@ -1,0 +1,51 @@
+{
+  "name": "Trevor Dwyer",
+  "alias": "sqlartist",
+  "siteTitle": "sqlartist",
+  "tagline": "Making SQL Server do things it was never meant to do, and writing about data, retro computing and life.",
+  "avatar": "",
+  "location": "United Kingdom",
+  "bio": "I've spent more than thirty years designing relational databases, starting on an AS/400 in a warehouse with the plan upside down. These days I make SQL Server do things it was never built for: running Doom, Elite and a ZX Spectrum, playing music, carving 3D shapes and training a small language model, all in T-SQL.\n\nI write about data, the machines I grew up with, and the occasional story from life. Every article here was first published on Medium.",
+  "links": [
+    {
+      "label": "Medium",
+      "url": "https://medium.com/@trevor.dwyer"
+    },
+    {
+      "label": "GitHub",
+      "url": "https://github.com/sqlartist"
+    }
+  ],
+  "projects": [
+    {
+      "name": "DoomSQL",
+      "description": "The original Doom, real WAD and BSP, rendered by SQL Server.",
+      "url": "https://github.com/sqlartist/DoomSQL"
+    },
+    {
+      "name": "EliteSQL",
+      "description": "Elite's universe and wireframe ships running in T-SQL.",
+      "url": "https://github.com/sqlartist/EliteSQL"
+    },
+    {
+      "name": "ZXSpectrumSQL",
+      "description": "A ZX Spectrum 48K emulated in SQL Server, playing Daley Thompson's Decathlon.",
+      "url": "https://github.com/sqlartist/ZXSpectrumSQL"
+    },
+    {
+      "name": "BoingBallSQL",
+      "description": "The Amiga Boing Ball recreated with physics inside SQL Server.",
+      "url": "https://github.com/sqlartist/BoingBallSQL"
+    },
+    {
+      "name": "SQL-SYNTH",
+      "description": "Making SQL Server play music.",
+      "url": "https://github.com/sqlartist/SQL-SYNTH"
+    },
+    {
+      "name": "feynman-sql",
+      "description": "Feynman's postulates and relational text analytics in T-SQL.",
+      "url": "https://github.com/sqlartist/feynman-sql"
+    }
+  ]
+}

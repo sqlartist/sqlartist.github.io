@@ -1,0 +1,55 @@
+---
+import Base from '../layouts/Base.astro';
+import Avatar from '../components/Avatar.astro';
+import PostCard from '../components/PostCard.astro';
+import profile from '../data/profile.json';
+import { getPosts, tagSlug, url } from '../lib';
+
+const posts = await getPosts();
+const tags = [...new Set(posts.flatMap((p) => p.data.tags))].sort();
+const words = posts.reduce((n, p) => n + (p.body ?? '').split(/\s+/).length, 0);
+const since = posts.at(-1)?.data.date.getFullYear();
+---
+<Base title="About" description={profile.tagline}>
+  <section class="profile-hero">
+    <div class="wrap profile">
+      <Avatar size={128} />
+      <div>
+        <h1>{profile.name}</h1>
+        <p class="handle">@{profile.alias}{profile.location && ` · ${profile.location}`}</p>
+        <p class="lede">{profile.tagline}</p>
+        <ul class="links inline">
+          {profile.links.map((l) => <li><a class="btn" href={l.url}>{l.label}</a></li>)}
+          <li><a class="btn" href={url('/rss.xml')}>RSS</a></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+  <div class="wrap about">
+    <div class="prose bio">
+      {profile.bio.split(/\n\n+/).map((para) => <p>{para}</p>)}
+    </div>
+    <dl class="stats">
+      <div><dt>Stories</dt><dd>{posts.length}</dd></div>
+      <div><dt>Words</dt><dd>{Math.round(words / 1000)}k</dd></div>
+      <div><dt>Writing since</dt><dd>{since}</dd></div>
+    </dl>
+    {profile.projects?.length > 0 && (
+      <>
+        <h2 class="section-title">Projects on GitHub</h2>
+        <div class="projects">
+          {profile.projects.map((p) => (
+            <a class="project" href={p.url}>
+              <span class="project-name">{p.name}</span>
+              <span class="muted">{p.description}</span>
+            </a>
+          ))}
+        </div>
+      </>
+    )}
+    <h2 class="section-title">Topics</h2>
+    <div class="tags">{tags.map((t) => <a class="tag" href={url(`/tags/${tagSlug(t)}/`)}>{t}</a>)}</div>
+    <h2 class="section-title">All stories</h2>
+    <div class="feed">{posts.map((post) => <PostCard post={post} />)}</div>
+  </div>
+</Base>

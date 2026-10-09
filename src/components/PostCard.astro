@@ -1,0 +1,28 @@
+---
+import type { Post } from '../lib';
+import { formatDate, readingTime, url, tagSlug } from '../lib';
+interface Props { post: Post; featured?: boolean }
+const { post, featured = false } = Astro.props;
+const { title, subtitle, date, cover, tags } = post.data;
+---
+<article class:list={['card', { featured }]}>
+  <div class="card-text">
+    <div class="meta">
+      <time datetime={date.toISOString()}>{formatDate(date)}</time>
+      <span>·</span>
+      <span>{readingTime(post.body)}</span>
+    </div>
+    <h2><a href={url(`/posts/${post.id}/`)}>{title}</a></h2>
+    {subtitle && <p class="sub">{subtitle}</p>}
+    {tags.length > 0 && (
+      <div class="tags">
+        {tags.map((t) => <a class="tag" href={url(`/tags/${tagSlug(t)}/`)}>{t}</a>)}
+      </div>
+    )}
+  </div>
+  {cover && (
+    <a class="thumb" href={url(`/posts/${post.id}/`)} tabindex="-1" aria-hidden="true">
+      <img src={cover} alt="" loading={featured ? 'eager' : 'lazy'} />
+    </a>
+  )}
+</article>

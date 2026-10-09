@@ -1,0 +1,99 @@
+---
+import { getCollection, render } from 'astro:content';
+import { Code } from 'astro:components';
+import Base from '../../layouts/Base.astro';
+import Avatar from '../../components/Avatar.astro';
+import PostCard from '../../components/PostCard.astro';
+import profile from '../../data/profile.json';
+import { getPosts, formatDate, readingTime, tagSlug, url, type Post } from '../../lib';
+
+export async function getStaticPaths() {
+  const posts = await getPosts();
+  return posts.map((post, i) => ({
+    params: { slug: post.id },
+    props: { post, newer: posts[i - 1], older: posts[i + 1] },
+  }));
+}
+
+interface Props { post: Post; newer?: Post; older?: Post }
+const { post, newer, older } = Astro.props;
+const { Content } = await render(post);
+const { title, subtitle, date, cover, tags, mediumUrl, canonicalUrl, repo, runSteps, runSql } = post.data;
+const repoName = repo?.replace(/^https:\/\/github\.com\//, '');
+// Medium's auto-summary is a cut-off copy of the first paragraph; only show real standfirsts.
+const showStandfirst = subtitle && !subtitle.endsWith('…');
+const glossary = (await getCollection('glossary'))
+  .filter((g) => g.data.posts.includes(post.id))
+  .sort((a, b) => a.data.term.localeCompare(b.data.term));
+const shareUrl = new URL(Astro.url.pathname, Astro.site).href;
+const enc = encodeURIComponent;
+---
+<Base title={title} description={subtitle} image={cover} canonical={canonicalUrl} type="article">
+  <article class="post">
+    <header class="post-head">
+      <h1>{title}</h1>
+      {showStandfirst && <p class="standfirst">{subtitle}</p>}
+      <div class="byline">
+        <a href={url('/about/')}><Avatar size={44} /></a>
+        <div>
+          <a class="author" href={url('/about/')}>{profile.name}</a>
+          <div class="meta">
+            <span>{readingTime(post.body)}</span><span>·</span>
+            <time datetime={date.toISOString()}>{formatDate(date)}</time>
+          </div>
+        </div>
+      </div>
+      <div class="actions">
+        <a href={`https://www.linkedin.com/sharing/share-offsite/?url=${enc(shareUrl)}`} target="_blank" rel="noopener">Share on LinkedIn</a>
+        <a href={`https://x.com/intent/post?url=${enc(shareUrl)}&text=${enc(title)}`} target="_blank" rel="noopener">Post on X</a>
+        <a href={`https://bsky.app/intent/compose?text=${enc(`${title} ${shareUrl}`)}`} target="_blank" rel="noopener">Bluesky</a>
+        {repo && <a class="run-link" href="#run-it">Run it in SQL ↓</a>}
+        {mediumUrl && <a class="medium" href={mediumUrl}>Also on Medium</a>}
+      </div>
+    </header>
+    <div class="prose">
+      <Content />
+    </div>
+    {repo && (
+      <aside class="run-it" id="run-it">
+        <div class="run-head">
+          <p class="label">Run it in SQL</p>
+          <a class="btn" href={repo}>Get the code</a>
+        </div>
+        <p class="run-repo"><span class="mono">{repoName}</span></p>
+        {runSteps && <p class="run-steps">{runSteps}</p>}
+        {runSql && <Code code={runSql} lang="sql" theme="github-dark-dimmed" />}
+      </aside>
+    )}
+    <footer class="post-foot">
+      {tags.length > 0 && (
+        <div class="tags">{tags.map((t) => <a class="tag" href={url(`/tags/${tagSlug(t)}/`)}>{t}</a>)}</div>
+      )}
+      {glossary.length > 0 && (
+        <div class="post-glossary">
+          <p class="label">Too young to remember? See the glossary</p>
+          <div class="tags">
+            {glossary.map((g) => <a class="tag gold" href={url(`/glossary/#${g.id}`)}>{g.data.term}</a>)}
+          </div>
+        </div>
+      )}
+      <a class="author-card" href={url('/about/')}>
+        <Avatar size={64} />
+        <div>
+          <p class="label">Written by</p>
+          <p class="name">{profile.name}</p>
+          <p class="muted">{profile.tagline}</p>
+        </div>
+      </a>
+    </footer>
+  </article>
+  {(newer || older) && (
+    <section class="more wrap">
+      <h3>More from {profile.name}</h3>
+      <div class="feed">
+        {older && <PostCard post={older} />}
+        {newer && <PostCard post={newer} />}
+      </div>
+    </section>
+  )}
+</Base>
