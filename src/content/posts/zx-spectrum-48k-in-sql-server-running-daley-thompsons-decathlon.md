@@ -263,12 +263,12 @@ It can catch the structural mistakes that only surface when SQL Server parses 7,
 
 None of that was re-implemented. Sinclair’s own ROM, running its own memory test — which takes 640,000 instructions and eighty-two frames, something I’d completely forgotten about the Spectrum boot — and then its own character routines, setting individual bits in a table.
 
-![You will never feel the excitement of seeing this on a screen, both from back when it came out and also when it lived once again.](https://cdn-images-1.medium.com/max/1400/1*SpS0w7VdN8LVzqvC6XRiZg.png)
+![You will never feel the excitement of seeing this on a screen, both from back when it came out and also when it lived once again.](/images/medium/1_SpS0w7VdN8LVzqvC6XRiZg.png)
 *You will never feel the excitement of seeing this on a screen, both from back when it came out and also when it lived once again.*
 
 Just in case you wanted to see what the code looks like for a ZX Spectrum without installing it this is the SQL code which loads it.
 
-![Do not try to read this, the actual code is in the Github project. It is just showing the shape.](https://cdn-images-1.medium.com/max/1400/1*d2jbdkjwH2z-V3V2ar3zEg.png)
+![Do not try to read this, the actual code is in the Github project. It is just showing the shape.](/images/medium/1_d2jbdkjwH2z-V3V2ar3zEg.png)
 *Do not try to read this, the actual code is in the Github project. It is just showing the shape.*
 
 I sat and looked at that for a while and thought never again…
@@ -304,7 +304,7 @@ because it’s difficult, but because it’s where the database stops being a pl
 
 Forty-three years after Sinclair sold the thing for £175, it’s running inside a relational database, being played by a query. I think he’d have found that funny.
 
-![10.48s](https://cdn-images-1.medium.com/max/1400/1*7vSKo9pKXF3vxjHut_z3Mw.jpeg)
+![10.48s](/images/medium/1_7vSKo9pKXF3vxjHut_z3Mw.jpeg)
 *10.48s*
 
 ---
