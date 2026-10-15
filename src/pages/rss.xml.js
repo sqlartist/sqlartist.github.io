@@ -12,7 +12,11 @@ export async function GET(context) {
   const items = [];
   for (const post of posts) {
     const { Content } = await render(post);
-    const html = await container.renderToString(Content);
+    // Absolute addresses, so pictures and links work where the feed is imported (Substack and others).
+    const html = (await container.renderToString(Content)).replace(
+      /(src|href)="\/(?!\/)/g,
+      (_, attr) => `${attr}="${new URL(base + '/', context.site).href}`,
+    );
     items.push({
       title: post.data.title,
       description: post.data.subtitle,

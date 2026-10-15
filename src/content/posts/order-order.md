@@ -5,7 +5,8 @@ date: 2026-10-14T10:32:20.000Z
 cover: "/images/medium/1_mPZLv8icTl8C05RLe-Dqiw.jpeg"
 tags: ["House Of Commons", "Data Analysis", "SQL", "Government", "Statistics"]
 mediumUrl: "https://medium.com/@trevor.dwyer/order-order-a3cfa542dbaa"
-draft: false
+needsFullText: true
+draft: true
 ---
 
 [![](/images/medium/1_mPZLv8icTl8C05RLe-Dqiw.jpeg)](https://medium.com/@trevor.dwyer/order-order-a3cfa542dbaa?source=rss-fc091e981a91------2)

@@ -1,20 +1,22 @@
-// One-off import of a Medium export folder (the "posts" folder from Medium's
-// "Download your information" zip). Only full stories are imported; short
-// comment replies are skipped.
+// Imports stories from a Medium export (the "posts" folder from Medium's
+// "Download your information" zip). Short comment replies are skipped.
 //
-//   node scripts/import-medium-export.mjs path/to/posts
+//   node scripts/import-medium-export.mjs path/to/posts          # write every story
+//   node scripts/import-medium-export.mjs path/to/posts --fill   # only add missing
+//       stories and fill in ones the feed cut short; edits on the blog are kept
 import fs from 'node:fs';
 import path from 'node:path';
 import * as cheerio from 'cheerio';
 import { convertBody, frontmatter, slugify } from './medium-to-markdown.mjs';
+import { POSTS_DIR, isTeaser, mediumId, readPosts } from './post-tools.mjs';
 
 const dir = process.argv[2];
+const fill = process.argv.includes('--fill');
 if (!dir) {
-  console.error('Usage: node scripts/import-medium-export.mjs <posts folder>');
+  console.error('Usage: node scripts/import-medium-export.mjs <posts folder> [--fill]');
   process.exit(1);
 }
-const outDir = path.resolve('src/content/posts');
-fs.mkdirSync(outDir, { recursive: true });
+fs.mkdirSync(POSTS_DIR, { recursive: true });
 
 // https://medium.com/@user/my-story-title-f7e212603138 -> my-story-title
 function mediumSlug(url) {
@@ -22,7 +24,9 @@ function mediumSlug(url) {
   return last.replace(/-[0-9a-f]{8,12}$/, '');
 }
 
+const existing = new Map(readPosts().filter((p) => p.id).map((p) => [p.id, p]));
 let imported = 0;
+let filled = 0;
 let skipped = 0;
 for (const file of fs.readdirSync(dir).sort()) {
   if (!file.endsWith('.html') || file.startsWith('draft_')) continue;
@@ -36,10 +40,26 @@ for (const file of fs.readdirSync(dir).sort()) {
   const date = $('time.dt-published').attr('datetime');
   const mediumUrl = $('a.p-canonical').attr('href');
   const { markdown, subtitle, cover } = convertBody($('section[data-field="body"]').html(), { title, summary });
+
+  const known = existing.get(mediumId(mediumUrl));
+  if (fill && known) {
+    // Only replace stories that still hold Medium's cut-off opening; keep the
+    // blog's own details (topics, era, run-it box) and publish them.
+    if (!known.needsFullText || !isTeaser(known.body)) continue;
+    let fm = known.fm.replace(/^needsFullText:.*\n?/m, '').replace(/^draft:.*$/m, 'draft: false');
+    if (!/^cover:/m.test(fm) && cover) fm = fm.replace(/^(date:.*)$/m, `$1\ncover: ${JSON.stringify(cover)}`);
+    fs.writeFileSync(known.file, `---\n${fm.trim()}\n---\n\n${markdown}`);
+    filled++;
+    console.log(`✓ full text added: ${known.slug}`);
+    continue;
+  }
+
   const slug = mediumSlug(mediumUrl) || slugify(title);
+  const target = path.join(POSTS_DIR, `${slug}.md`);
+  if (fill && fs.existsSync(target)) continue;
   const fm = frontmatter({ title, subtitle: subtitle || summary, date, cover, mediumUrl });
-  fs.writeFileSync(path.join(outDir, `${slug}.md`), fm + '\n' + markdown);
+  fs.writeFileSync(target, fm + '\n' + markdown);
   imported++;
   console.log(`✓ ${slug}`);
 }
-console.log(`Imported ${imported} stories, skipped ${skipped} comment replies.`);
+console.log(`Imported ${imported} new stories, filled in ${filled}, skipped ${skipped} comment replies.`);

@@ -7,6 +7,7 @@ on:
 
 permissions:
   contents: write
+  issues: write
 
 jobs:
   sync:
@@ -18,7 +19,8 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
-      - run: npm run sync:medium
+      - id: sync
+        run: npm run sync:medium
       - name: Save new stories
         run: |
           git config user.name "blog-bot"
@@ -30,3 +32,18 @@ jobs:
             git commit -m "Sync new stories from Medium"
             git push
           fi
+      - name: Ask for the full text of cut-off stories
+        if: steps.sync.outputs.teasers != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TEASERS: ${{ steps.sync.outputs.teasers }}
+        run: |
+          printf '%s\n' \
+            "Medium only sent the opening of these stories, so they are saved as hidden drafts and are not on the blog yet:" \
+            "" "$TEASERS" "" \
+            "To publish them in full, either:" \
+            "" \
+            "1. On Medium, go to Settings, Security and apps, Download your information. When the zip arrives by email, open the imports folder of this repository, click Add file, Upload files, drop the zip in and commit. Everything else happens by itself." \
+            "2. Or open the story in Pages CMS (app.pagescms.org), paste the full text over the opening, untick Draft and save." \
+            > body.md
+          gh issue create --title "Full text needed for new Medium stories" --body-file body.md

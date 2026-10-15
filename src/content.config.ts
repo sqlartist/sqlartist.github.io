@@ -10,7 +10,7 @@ const posts = defineCollection({
     date: z.coerce.date(),
     cover: z.string().optional(),
     tags: z.array(z.string()).default([]),
-    // Where the story also lives on Medium (shown as "Also on Medium").
+    // The story's Medium address; used to turn links to it into links to the blog copy.
     mediumUrl: z.string().optional(),
     // Set when this post first appeared elsewhere and search engines should credit that copy.
     canonicalUrl: z.string().optional(),
@@ -21,6 +21,8 @@ const posts = defineCollection({
     // The decade the story looks back to; one of the hypercube's dimensions.
     era: z.enum(['1980s', '1990s', '2000s', 'Today']).default('Today'),
     draft: z.boolean().default(false),
+    // Set by the Medium sync when the feed only had the opening of the story.
+    needsFullText: z.boolean().default(false),
   }),
 });
 

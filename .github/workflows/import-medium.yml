@@ -1,0 +1,58 @@
+name: Import Medium export
+
+# Runs when a Medium export zip is uploaded to the imports folder.
+on:
+  push:
+    branches: [main]
+    paths: ['imports/*.zip']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Import stories from the zip
+        run: |
+          shopt -s nullglob
+          zips=(imports/*.zip)
+          if [ ${#zips[@]} -eq 0 ]; then echo "No zip in imports/."; exit 0; fi
+          for zip in "${zips[@]}"; do
+            out="$RUNNER_TEMP/export-$(date +%s%N)"
+            unzip -q "$zip" -d "$out"
+            posts=$(find "$out" -type d -name posts | head -1)
+            if [ -z "$posts" ]; then echo "::warning::$zip has no posts folder"; continue; fi
+            node scripts/import-medium-export.mjs "$posts" --fill
+          done
+          npm run relink
+          git rm -q "${zips[@]}"
+      - name: Save stories
+        run: |
+          git config user.name "blog-bot"
+          git config user.email "blog-bot@users.noreply.github.com"
+          git add -A src/content/posts public/images/medium imports
+          if git diff --cached --quiet; then
+            echo "Nothing to change."
+          else
+            git commit -m "Import full stories from Medium export"
+            git push
+          fi
+      - name: Close finished reminders
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          waiting=$(grep -l '^needsFullText: true' src/content/posts/*.md | xargs -r grep -l '^draft: true' || true)
+          if [ -z "$waiting" ]; then
+            for n in $(gh issue list --state open --search 'in:title "Full text needed"' --json number --jq '.[].number'); do
+              gh issue close "$n" --comment "Full text imported and published."
+            done
+          fi

@@ -28,7 +28,7 @@ Every human receives a device roughly the size of a 50p coin. It contains all pu
 
 That is the premise of our thought experiment. Nigel’s alterations are imagined engineering, rather than a prediction that natural selection will eventually produce a USB socket. His body gives us a way to examine what this future would demand of us.
 
-This is a little personal. I already live with a deep brain stimulator, implanted to help manage chronic cluster headaches after other treatments had failed. I wrote about the experience in The Six Billion Dollar Man, including the rather unusual business of having to recharge myself. [\[6\]](https://medium.com/@trevor.dwyer/the-six-billion-dollar-man-8ed53378971d)
+This is a little personal. I already live with a deep brain stimulator, implanted to help manage chronic cluster headaches after other treatments had failed. I wrote about the experience in The Six Billion Dollar Man, including the rather unusual business of having to recharge myself. [\[6\]](/posts/the-six-billion-dollar-man/)
 
 That implant is a medical treatment. Nigel’s storage, replaceable thinking modules and mental backups remain imagined technologies. But the experience of depending on something electronic inside the body is already part of my everyday life.
 
@@ -185,7 +185,7 @@ Documents local model operation and the option to disable cloud features. Local 
 **5\.** [Dorkenwald and colleagues — Neuronal wiring diagram of an adult brain](https://www.nature.com/articles/s41586-024-07558-y)  
 Nature, 2024. The adult female fruit-fly brain reconstruction contains 139,255 neurons and more than 50 million chemical synapses. It is a structural map, not a demonstrated backup of a conscious individual.
 
-**6\.** [Trevor Dwyer — The Six Billion Dollar Man](https://medium.com/@trevor.dwyer/the-six-billion-dollar-man-8ed53378971d)  
+**6\.** [Trevor Dwyer — The Six Billion Dollar Man](/posts/the-six-billion-dollar-man/)  
 Medium, 5 September 2026. The author’s account of receiving a deep brain stimulator for chronic cluster headaches and living with the implanted device.
 
 Transfer calculations use decimal units: 1 PB = 1,000 TB; 1 byte = 8 bits. At 1 TB/s, 1 PB takes 1,000 seconds. At 1 Gbit/s, it takes 8,000,000 seconds, or approximately 92.6 days. These are ideal transfer times without protocol overhead, contention or processing delays.

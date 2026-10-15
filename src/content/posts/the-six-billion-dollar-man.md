@@ -37,7 +37,7 @@ Before you read the story below, log your initial instinct. Your vote will be ta
 
 ![](/images/medium/1_BImRw5bGVCZdkec-qayUjQ.png)
 
-Due to my Chronic Cluster Headaches mentioned in the story “The Cloud Has No Mercy” [The Cloud Has No Mercy](https://medium.com/@trevor.dwyer/the-cloud-has-no-mercy-f52518b55bb0?sharedUserId=trevor.dwyer), I was told after many years of devastating pain that I would require an operation and a device called a Deep Brain Stimulator installed as they had tried everything else open to them.
+Due to my Chronic Cluster Headaches mentioned in the story “The Cloud Has No Mercy” [The Cloud Has No Mercy](/posts/the-cloud-has-no-mercy/), I was told after many years of devastating pain that I would require an operation and a device called a Deep Brain Stimulator installed as they had tried everything else open to them.
 
 Deep Brain Stimulation (DBS) is an advanced, invasive surgical option reserved for patients with chronic cluster headaches who are entirely refractory (unresponsive) to standard medical therapies.
 
