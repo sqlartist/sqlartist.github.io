@@ -8,7 +8,8 @@
     "build": "astro build",
     "preview": "astro preview",
     "import:medium": "node scripts/import-medium-export.mjs",
-    "sync:medium": "node scripts/sync-medium-feed.mjs"
+    "sync:medium": "node scripts/sync-medium-feed.mjs",
+    "relink": "node scripts/finish-import.mjs"
   },
   "dependencies": {
     "@astrojs/rss": "^4.0.19",

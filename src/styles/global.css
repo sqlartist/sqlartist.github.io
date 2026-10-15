@@ -121,7 +121,6 @@ img { max-width: 100%; height: auto; }
 .actions { display: flex; flex-wrap: wrap; gap: 6px 18px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); margin: 24px 0 36px; padding: 10px 0; font-size: 14px; }
 .actions a { color: var(--muted); text-decoration: none; }
 .actions a:hover { color: var(--blue); }
-.actions .medium { margin-left: auto; color: var(--gold); font-weight: 500; }
 
 .prose { font-family: var(--serif); font-size: 20px; line-height: 1.62; letter-spacing: -0.003em; }
 .prose p { margin: 0 0 1.5em; }
@@ -193,7 +192,6 @@ img { max-width: 100%; height: auto; }
   .prose { font-size: 18px; }
   .prose pre { font-size: 13px; padding: 16px; margin-left: -16px; margin-right: -16px; border-radius: 0; }
   .standfirst { font-size: 19px; }
-  .actions .medium { margin-left: 0; }
   .profile { flex-direction: column; align-items: flex-start; gap: 20px; }
   .profile h1 { font-size: 34px; }
   .stats dd { font-size: 22px; }

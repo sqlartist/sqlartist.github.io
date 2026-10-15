@@ -4,7 +4,7 @@ on:
   push:
     branches: [main]
   workflow_run:
-    workflows: [Sync from Medium]
+    workflows: [Sync from Medium, Import Medium export]
     types: [completed]
   workflow_dispatch:
 

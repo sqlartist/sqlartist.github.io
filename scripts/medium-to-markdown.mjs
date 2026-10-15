@@ -135,7 +135,7 @@ export function convertBody(bodyHtml, { title = '', summary = '' } = {}) {
   return { markdown, subtitle, cover };
 }
 
-export function frontmatter({ title, subtitle, date, cover, mediumUrl, tags = [] }) {
+export function frontmatter({ title, subtitle, date, cover, mediumUrl, tags = [], draft = false, needsFullText = false }) {
   const lines = [
     '---',
     `title: ${yamlString(title)}`,
@@ -145,6 +145,7 @@ export function frontmatter({ title, subtitle, date, cover, mediumUrl, tags = []
   if (cover) lines.push(`cover: ${yamlString(cover)}`);
   lines.push(`tags: [${tags.map(yamlString).join(', ')}]`);
   if (mediumUrl) lines.push(`mediumUrl: ${yamlString(mediumUrl)}`);
-  lines.push('draft: false', '---', '');
+  if (needsFullText) lines.push('needsFullText: true');
+  lines.push(`draft: ${draft}`, '---', '');
   return lines.join('\n');
 }

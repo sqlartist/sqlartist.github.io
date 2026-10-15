@@ -71,7 +71,7 @@ const path = Astro.url.pathname.replace(import.meta.env.BASE_URL.replace(/\/$/, 
       <slot />
     </main>
     <footer class="site-footer">
-      <p>© {new Date().getFullYear()} {profile.name} · <a href={url('/rss.xml')}>RSS</a> · <a href={profile.links[0]?.url}>Medium</a> · <button type="button" class="zx-hint" data-zx-load title="Or type LOAD &quot;&quot; anywhere">LOAD ""</button></p>
+      <p>© {new Date().getFullYear()} {profile.name} · <a href={url('/rss.xml')}>RSS</a> · <button type="button" class="zx-hint" data-zx-load title="Or type LOAD &quot;&quot; anywhere">LOAD ""</button></p>
     </footer>
     <SpectrumLoader />
     <script is:inline>
