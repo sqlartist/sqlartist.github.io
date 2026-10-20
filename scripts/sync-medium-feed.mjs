@@ -39,6 +39,11 @@ async function importFeed() {
     const $item = $(item);
     const link = $item.find('link').text().split('?')[0].trim();
     const id = mediumId(link) || mediumId($item.find('guid').text());
+    // Shown on the Actions run page, so it's easy to see what Medium sent.
+    if (process.env.GITHUB_ACTIONS) {
+      const state = !id ? 'not a story' : known.has(id) ? 'already on the blog' : 'new';
+      console.log(`::notice title=In the Medium feed::${$item.find('title').text().trim()} (${state})`);
+    }
     if (!id || known.has(id)) return;
 
     const html = $item.find('content\\:encoded').text() || $item.find('description').text();
