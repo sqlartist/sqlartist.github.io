@@ -1,5 +1,5 @@
 ---
-title: "The Six Billion Dollar Man"
+title: "Patient Number 1 in DARPA’s Super Soldier Programme"
 subtitle: "or rather because of National Health Service (NHS) in the UK, I could be called “The Cost of a Few Prescriptions Man” but it’s not quite as pithy."
 date: 2026-09-05T22:29:19.278Z
 cover: "/images/medium/1_569bjZcokFrQOhr8nR-4jA.png"

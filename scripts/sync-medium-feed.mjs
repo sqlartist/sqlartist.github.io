@@ -13,7 +13,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import * as cheerio from 'cheerio';
 import { convertBody, frontmatter, slugify } from './medium-to-markdown.mjs';
-import { POSTS_DIR, isTeaser, localiseImages, mediumId, readPosts, relinkMedium } from './post-tools.mjs';
+import { POSTS_DIR, isTeaser, localiseImages, mediumId, readPosts, relinkMedium, updateTitle } from './post-tools.mjs';
 
 const MEDIUM_USER = process.env.MEDIUM_USER || 'trevor.dwyer';
 const FEED_URL = `https://medium.com/feed/@${MEDIUM_USER}`;
@@ -46,7 +46,12 @@ async function importFeed() {
       const state = !id ? 'not a story' : waiting.has(id) ? 'hidden, waiting for full text' : known.has(id) ? 'already on the blog' : 'new';
       console.log(`::notice title=In the Medium feed::${$item.find('title').text().trim()} (${state})`);
     }
-    if (!id || known.has(id)) return;
+    if (!id) return;
+    if (known.has(id)) {
+      const post = posts.find((p) => p.id === id);
+      updateTitle(post, $item.find('title').text().replace(/\s+/g, ' ').trim());
+      return;
+    }
 
     const html = $item.find('content\\:encoded').text() || $item.find('description').text();
     const plain = cheerio.load(html).text();

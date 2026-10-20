@@ -1,5 +1,5 @@
 ---
-title: "My Potato Mountain"
+title: "My Potato Mountain & The 46th Greatest Comedy Film Of All Time"
 subtitle: "Rebuilding the Wagon Queen Family Truckster jump, one engine at a time."
 date: 2026-09-13T00:03:58.225Z
 cover: "/images/medium/1_pSNOu8uqKT84meUuyEQ8fQ.png"

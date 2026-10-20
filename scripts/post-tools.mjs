@@ -45,6 +45,22 @@ export function readPosts() {
     });
 }
 
+// Medium is where Trevor renames stories, so a newer title there replaces the blog's.
+// The story keeps its blog address. Returns true when the title changed.
+export function updateTitle(post, title) {
+  const raw = (post.fm.match(/^title:\s*(.*)$/m) || [])[1];
+  if (!title || raw === undefined) return false;
+  let current = raw.trim();
+  try {
+    current = current.startsWith('"') ? JSON.parse(current) : current.replace(/^'(.*)'$/, '$1').replace(/''/g, "'");
+  } catch {}
+  if (title === current) return false;
+  const fm = post.fm.replace(/^title:.*$/m, `title: ${JSON.stringify(title)}`);
+  fs.writeFileSync(post.file, post.text.replace(post.fm, fm));
+  console.log(`✎ new title for ${post.slug}: ${current} → ${title}`);
+  return true;
+}
+
 // Links in story text that point at Trevor's own stories on Medium go to the
 // blog copy instead, so readers never get bounced to Medium's paywall.
 export function relinkMedium() {

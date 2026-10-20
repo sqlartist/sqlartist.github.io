@@ -3,12 +3,13 @@
 //
 //   node scripts/import-medium-export.mjs path/to/posts          # write every story
 //   node scripts/import-medium-export.mjs path/to/posts --fill   # only add missing
-//       stories and fill in ones the feed cut short; edits on the blog are kept
+//       stories, fill in ones the feed cut short and pick up renamed titles;
+//       other edits on the blog are kept
 import fs from 'node:fs';
 import path from 'node:path';
 import * as cheerio from 'cheerio';
 import { convertBody, frontmatter, slugify } from './medium-to-markdown.mjs';
-import { POSTS_DIR, isTeaser, mediumId, readPosts } from './post-tools.mjs';
+import { POSTS_DIR, isTeaser, mediumId, readPosts, updateTitle } from './post-tools.mjs';
 
 const dir = process.argv[2];
 const fill = process.argv.includes('--fill');
@@ -27,6 +28,7 @@ function mediumSlug(url) {
 const existing = new Map(readPosts().filter((p) => p.id).map((p) => [p.id, p]));
 let imported = 0;
 let filled = 0;
+let retitled = 0;
 let skipped = 0;
 for (const file of fs.readdirSync(dir).sort()) {
   if (!file.endsWith('.html') || file.startsWith('draft_')) continue;
@@ -45,8 +47,11 @@ for (const file of fs.readdirSync(dir).sort()) {
   if (fill && known) {
     // Only replace stories that still hold Medium's cut-off opening; keep the
     // blog's own details (topics, era, run-it box) and publish them.
-    if (!known.needsFullText || !isTeaser(known.body)) continue;
-    let fm = known.fm.replace(/^needsFullText:.*\n?/m, '').replace(/^draft:.*$/m, 'draft: false');
+    if (!known.needsFullText || !isTeaser(known.body)) {
+      if (updateTitle(known, title)) retitled++;
+      continue;
+    }
+    let fm = known.fm.replace(/^title:.*$/m, `title: ${JSON.stringify(title)}`).replace(/^needsFullText:.*\n?/m, '').replace(/^draft:.*$/m, 'draft: false');
     if (!/^cover:/m.test(fm) && cover) fm = fm.replace(/^(date:.*)$/m, `$1\ncover: ${JSON.stringify(cover)}`);
     fs.writeFileSync(known.file, `---\n${fm.trim()}\n---\n\n${markdown}`);
     filled++;
@@ -62,4 +67,4 @@ for (const file of fs.readdirSync(dir).sort()) {
   imported++;
   console.log(`✓ ${slug}`);
 }
-console.log(`Imported ${imported} new stories, filled in ${filled}, skipped ${skipped} comment replies.`);
+console.log(`Imported ${imported} new stories, filled in ${filled}, renamed ${retitled}, skipped ${skipped} comment replies.`);
