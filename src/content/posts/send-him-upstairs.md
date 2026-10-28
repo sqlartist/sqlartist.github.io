@@ -34,9 +34,7 @@ It's easier because the data is better. TheyWorkForYou, run by the volunteers at
 It's harder because the Lords doesn't behave like the Commons, so the tools from *Order! Order!* don't transfer:
 
 - **There's no Speaker calling "Order!".** The Lord Speaker presides, but the House polices itself, by shouting from the floor. My Commons rebuke detector, built on the Chair's interventions, has nothing to detect.
-
 - **Deputy Speakers appear under their own names.** In 2010, only four speeches in the whole year were printed as "The Lord Speaker". Everything else the Chair said is filed as "Baroness Somebody", indistinguishable from her speaking for herself.
-
 - **Grand Committee isn't in the daily files.** It's a second chamber within the chamber, published separately.
 
 And it starts in 1999. The House of Lords Act that year removed most of the hereditary peers, and the electronic record starts within weeks. Anything earlier is on the Millbank historic Hansard site, which would need its own scraper. That's a job for another month.
@@ -45,11 +43,12 @@ And it starts in 1999. The House of Lords Act that year removed most of the here
 
 Everything goes into the same SQL Server 2025 database, `HANSARD`, under a new schema `hl`, so nothing from the earlier articles is touched.
 
+
 | Table | What it holds | Rows |
-| ---------------------- | ----------------------------------------- | ------------------|  
+| ---------------------- | ----------------------------------------- | ------------------ |
 | `hl.SourceSpeech` | Every Lords speech, 1999–2026 | 713,963 |
 | `hl.Division` | Every division, with the totals |  |
-| Hansard printed | 3,306 |
+| Hansard printed | 3,306 |  |
 | `hl.Vote` | Every peer's vote in every division | one per vote |
 | `hl.Person` | Everyone who sat in either House | from people.json |
 | `hl.Membership` | Every seat they held: House, party, |  |
@@ -58,7 +57,8 @@ Everything goes into the same SQL Server 2025 database, `HANSARD`, under a new s
 |  | (see below) | rebuilt each run |
 | `hl.CommonsName` | Odell's Commons speaker name, |  |
 |  | by year, linked to a person | built in SQL |
-| ---------------------- | ----------------------------------------- | ------------------|
+| ---------------------- | ----------------------------------------- | ------------------ |
+
 
 The second source is ParlParse's `people.json`, also from mySociety. I had assumed I would need the parliamentary Members API for the details of each peer. I didn't. `people.json` already has peerage type (life, hereditary, bishop, law lord), party with a new row every time they switch, start and end dates, the reason they left (died, retired, resigned, excluded), and every Commons seat the same person ever held. It even carries the Members API identifier, if you want to go further.
 
@@ -78,7 +78,7 @@ SELECT TOP (5) DisplayAs, PersonId FROM hc.SourceSpeech WHERE PersonId IS NOT NU
 Every one of the 2.7 million rows had an empty person id. The join I had promised was a join against nothing.
 
 That left matching by name, which is where I need to confess something. A while ago I wrote a piece about the Florida election, joining voter records to other records by name, and the fuzzy matching in it was, in hindsight, not good enough. It produced matches that looked plausible and weren't. So this time I wanted to do it properly and measure the difference.  
-  
+
 SIDEBAR
 
 The trouble with names in Hansard is that Odell's `DisplayAs` uses the name an MP was *formally* known by, not the one anybody used. Tony Newton is "Antony Newton". Paddy Ashdown is "Jeremy Ashdown". Margaret Beckett appears under her maiden name, Jackson, for her first Parliament. And there are, at various points, several John Smiths.
@@ -99,8 +99,7 @@ names.update(re.sub(r"\b([A-Z])\b(?!\.)", r"\1.", x) for x in list(names))      
 That's every given name, every formal additional name, a table of nicknames (Tony/Antony, Tom/Thomas, Jeff/Jeffrey…), every family name they've ever had, and middle-initial forms in both the dotted and undotted styles Hansard can't decide between.
 
 The second step is the one that matters. A name only counts as a match if that person **held a Commons seat in that year**. The link is made per name, per year, so the two John Smiths split cleanly at the point one leaves and the other arrives. Where two people still fit, the one in the speaker's party wins. And where that doesn't settle it, the year is left **unlinked** rather than guessed:  
-  
-  
+
 SELECT n.DisplayAs, n.Yr, pn.PersonId,  
        PartyFit = MAX(CASE WHEN REPLACE(LOWER(n.Party), N' ', N'-') = m.Party THEN 1 ELSE 0 END)  
 INTO #cand  
@@ -114,12 +113,13 @@ GROUP BY n.DisplayAs, n.Yr, pn.PersonId;
 
 Then I ran the method I should have used for Florida against the methods I did use, on the same 2.7 million speeches:
 
+
 | Method | Linked correctly | Linked wrongly | Couldn't decide | No match |
-| ----------------------------- | ---------------- | ---------------- | ---------------- | ---------- |  
+| --------------------------- | ---------------- | -------------- | --------------- | -------- |
 | Naive: first name + surname | 88.0% | 0.3% | 5.0% | 6.7% |
 | Loose: surname only | 39.1% | 0.1% | 60.1% | 0.7% |
-| Ours: any name form +   
-| seat that year +   
+| Ours: any name form + |  |  |  |  |
+| seat that year + |  |  |  |  |
 | party, refuse if unsure | **97.8%** | **0.0%** | 0.0% | 2.2% |
 
 
@@ -129,7 +129,7 @@ The loose method is the one that feels kind. Surely being forgiving about first 
 
 The lesson isn't about fuzzy string distance at all. Our method doesn't do any. It's about having **a second key that isn't the name** (was this person actually an MP that year?) and being willing to output "I don't know". If I'd done that for Florida, that piece would have been shorter and right.
 
-###  Party lines, and what "rebel" means
+### Party lines, and what "rebel" means
 
 To say a peer rebelled, you need a party line, and the Lords doesn't publish one. So I defined it from the votes: in each division, the party line is however the majority of that party's peers voted, provided at least five of them voted and they didn't split exactly evenly. A rebel vote is one cast the other way.
 
@@ -252,13 +252,9 @@ The question share rises too, from a median of 44% to 58%, which I had predicted
 This is the section I most wanted to get right, so everything in it is a straight query.
 
 - **Seats:** two rows in `hl.Membership`. Hereditary, Labour, 15 July 2021 to 29 April 2026, ended by the Act. Then life, Labour, from 3 June 2026.
-
 - **Speeches:** 455 in five years, around 240 words each. His top debates are Horizon Europe (19 speeches), the Advanced Research and Invention Agency Bill, the European Research Council, Framework Programme 10, satellites and space debris, and undersea cables.
-
 - **Mentions of his father, the Peerage Act or disclaiming:** zero.
-
 - **Votes:** 817. Rebellion 0.24%, against 0.42% for other Labour peers. Other Labour peers average 344 votes each over the same period.
-
 - **The Hereditary Peers Bill:** seven divisions on 2 and 9 July 2025, Not Content every time. Three of them were government defeats (280–243, 284–239, 265–247).
 
 *[CHECK: confirm what each of the seven amendments did before describing his votes as "for abolition".]*
@@ -318,9 +314,7 @@ This used the embeddings from my first article. Each of the 1.7 million Commons 
 For every debate (same day, same heading and subheading, between 6 and 150 substantive speeches), the query:
 
 1. finds the debate's dominant topic cluster
-
 2. measures each speech's cosine distance from that cluster's centroid, and turns it into a z-score within the debate
-
 3. for the 20,000 most extreme, finds the distance to the *nearest* other speech in the same debate, and compares that with how close a typical speech in that debate is to its own nearest neighbour
 
 ```sql
@@ -480,17 +474,11 @@ One parsing trap is worth passing on. The SDLP's name contains the word "Labour"
 What I'd want a reader to know before quoting anything:
 
 - **The Lords data starts in November 1999.** Anything about "ever" means "since 1999". The Commons data is 1979–2021, with a gap from mid-2001 to 2004 in the vector table.
-
 - **Former-MP counts are a floor.** people.json splits some people into two records: Michael Morris MP and Lord Naseby are separate, and so are Quintin Hogg and Lord Hailsham. Mostly these are peers created before 1999.
-
 - **"Lost their seat" is badly undercounted** in people.json. Use election results for that.
-
 - **2016–18 shouts are a recording artefact,** and are excluded.
-
 - **The "pointless peers" list needs filtering.** Supreme Court justices are barred from sitting, and the Lord Great Chamberlain's role is ceremonial. The Archbishop of York showing no speeches for 2005–15 is a name-matching gap, not silence.
-
 - **The 3 hereditary peers still showing in 2026** are probably a lag in people.json.
-
 - **Divisions list slightly more voters than the printed totals,** mostly the four tellers, whom Hansard doesn't count.
 
 ## The code
