@@ -1,0 +1,47 @@
+name: Set up comments
+
+# Looks up the GitHub Discussions category giscus posts comments into and
+# saves its id in src/data/comments.json. Run once after Discussions is turned on.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  discussions: read
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Find the discussion category
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          owner=${GITHUB_REPOSITORY%/*}; name=${GITHUB_REPOSITORY#*/}
+          gh api graphql -f owner="$owner" -f name="$name" -f query='
+            query($owner: String!, $name: String!) {
+              repository(owner: $owner, name: $name) {
+                id
+                discussionCategories(first: 25) { nodes { id name } }
+              }
+            }' > found.json
+          wanted=$(jq -r .category src/data/comments.json)
+          jq --slurpfile f found.json --arg wanted "$wanted" '
+            ($f[0].data.repository) as $r
+            | ([$r.discussionCategories.nodes[] | select(.name == $wanted)] + [$r.discussionCategories.nodes[] | select(.name == "General")])[0] as $c
+            | if $c == null then error("Turn on Discussions in the repository settings first") else . end
+            | .repoId = $r.id | .category = $c.name | .categoryId = $c.id
+          ' src/data/comments.json > comments.json
+          mv comments.json src/data/comments.json
+          cat src/data/comments.json
+          echo "::notice title=Comments::Using discussion category $(jq -r .category src/data/comments.json)"
+      - name: Save
+        run: |
+          git config user.name "blog-bot"
+          git config user.email "blog-bot@users.noreply.github.com"
+          git add src/data/comments.json
+          if git diff --cached --quiet; then echo "Already set up."; else
+            git commit -m "Turn on comments"
+            git push
+          fi

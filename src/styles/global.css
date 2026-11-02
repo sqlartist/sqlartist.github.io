@@ -340,3 +340,20 @@ img { max-width: 100%; height: auto; }
   .site-header nav a { white-space: nowrap; }
   .theme-toggle { flex: none; }
 }
+
+/* Responses: giscus comments and the private feedback form */
+.responses { margin: 40px 0 0; padding-top: 28px; border-top: 1px solid var(--line); }
+.responses h2 { font-family: var(--serif); font-size: 24px; margin: 0 0 6px; }
+.responses .small { font-size: 14px; }
+.giscus-slot { margin: 16px 0 28px; min-height: 120px; }
+.feedback { display: grid; gap: 12px; padding: 18px 20px; border: 1px dashed var(--gold); border-radius: 12px; background: var(--gold-soft); }
+.feedback .label { margin: 0; font-size: 12px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--gold); font-weight: 600; }
+.feedback .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.feedback label { display: grid; gap: 4px; font-size: 14px; }
+.feedback input, .feedback textarea { font: inherit; font-size: 15px; padding: 9px 11px; border: 1px solid var(--line); border-radius: 8px; background: var(--bg); color: var(--text); width: 100%; box-sizing: border-box; }
+.feedback input:focus, .feedback textarea:focus { outline: 2px solid var(--gold); outline-offset: 1px; }
+.feedback .btn { justify-self: start; border: 0; cursor: pointer; font: inherit; font-weight: 600; }
+.feedback .btn:disabled { opacity: 0.6; cursor: default; }
+.feedback .status { margin: 0; color: var(--muted); }
+.feedback .hp { display: none; }
+@media (max-width: 640px) { .feedback .row { grid-template-columns: 1fr; } }

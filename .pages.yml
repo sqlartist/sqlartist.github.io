@@ -101,6 +101,21 @@ content:
         list: true
       - { name: body, label: Why it mattered, type: rich-text }
 
+  - name: comments
+    label: Comments & feedback
+    type: file
+    path: src/data/comments.json
+    format: json
+    fields:
+      - name: feedbackKey
+        label: Feedback form key
+        description: The access key Web3Forms emailed you. Leave empty to hide the feedback form.
+        type: string
+      - { name: category, label: Discussion category, type: string, description: "Leave as it is." }
+      - { name: repo, label: Repository, type: string, description: "Leave as it is." }
+      - { name: repoId, label: Repository id, type: string, description: "Leave as it is." }
+      - { name: categoryId, label: Category id, type: string, description: "Filled in automatically." }
+
   - name: profile
     label: Profile
     type: file
