@@ -4,6 +4,7 @@ import { Code } from 'astro:components';
 import Base from '../../layouts/Base.astro';
 import Avatar from '../../components/Avatar.astro';
 import PostCard from '../../components/PostCard.astro';
+import Responses from '../../components/Responses.astro';
 import profile from '../../data/profile.json';
 import { getPosts, formatDate, readingTime, tagSlug, url, type Post } from '../../lib';
 
@@ -85,6 +86,7 @@ const enc = encodeURIComponent;
         </div>
       </a>
     </footer>
+    <Responses title={title} />
   </article>
   {(newer || older) && (
     <section class="more wrap">

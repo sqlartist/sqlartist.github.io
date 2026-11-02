@@ -1,0 +1,95 @@
+---
+// Reader responses under a story: public comments through giscus (stored as
+// GitHub Discussions in the blog's repository) and a private feedback form
+// (Web3Forms, emailed to Trevor) for readers without a GitHub account.
+// Each part only appears once its settings in src/data/comments.json are filled in.
+import settings from '../data/comments.json';
+import profile from '../data/profile.json';
+
+interface Props { title: string }
+const { title } = Astro.props;
+const first = profile.name.split(' ')[0];
+const comments = Boolean(settings.repoId && settings.categoryId);
+const feedback = Boolean(settings.feedbackKey);
+---
+{(comments || feedback) && (
+  <section class="responses" id="responses">
+    <h2>Responses</h2>
+    {comments && (
+      <>
+        <p class="muted small">Comment with a free GitHub account, or use the form below to send {first} a private note.</p>
+        <div
+          class="giscus-slot"
+          data-repo={settings.repo}
+          data-repo-id={settings.repoId}
+          data-category={settings.category}
+          data-category-id={settings.categoryId}
+        ></div>
+      </>
+    )}
+    {feedback && (
+      <form class="feedback" action="https://api.web3forms.com/submit" method="POST">
+        <p class="label">{comments ? 'No GitHub account?' : 'Tell me what you think'} Send {first} a private note</p>
+        <input type="hidden" name="access_key" value={settings.feedbackKey} />
+        <input type="hidden" name="subject" value={`Blog feedback: ${title}`} />
+        <input type="hidden" name="from_name" value={profile.siteTitle} />
+        <input type="hidden" name="story" value={title} />
+        <input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off" />
+        <div class="row">
+          <label>Your name<input name="name" required maxlength="80" /></label>
+          <label><span>Email <span class="muted">(optional, for a reply)</span></span><input name="email" type="email" maxlength="120" /></label>
+        </div>
+        <label>Message<textarea name="message" rows="5" required maxlength="5000"></textarea></label>
+        <button class="btn" type="submit">Send</button>
+        <p class="status small" role="status" aria-live="polite"></p>
+      </form>
+    )}
+  </section>
+)}
+
+<script>
+  const slot = document.querySelector<HTMLElement>('.giscus-slot');
+  const themeNow = () => {
+    const t = document.documentElement.dataset.theme;
+    const dark = t ? t === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+    return dark ? 'dark_dimmed' : 'light';
+  };
+  if (slot) {
+    const s = document.createElement('script');
+    s.src = 'https://giscus.app/client.js';
+    Object.entries({
+      repo: slot.dataset.repo!, repoId: slot.dataset.repoId!,
+      category: slot.dataset.category!, categoryId: slot.dataset.categoryId!,
+      mapping: 'pathname', strict: '1', reactionsEnabled: '1', emitMetadata: '0',
+      inputPosition: 'top', theme: themeNow(), lang: 'en', loading: 'lazy',
+    }).forEach(([k, v]) => (s.dataset[k] = v));
+    s.crossOrigin = 'anonymous';
+    s.async = true;
+    slot.append(s);
+    // Follow the site's light/dark switch.
+    new MutationObserver(() => {
+      document.querySelector<HTMLIFrameElement>('iframe.giscus-frame')?.contentWindow?.postMessage(
+        { giscus: { setConfig: { theme: themeNow() } } }, 'https://giscus.app');
+    }).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+  }
+
+  const form = document.querySelector<HTMLFormElement>('form.feedback');
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const status = form.querySelector('.status')!;
+    const button = form.querySelector('button')!;
+    button.disabled = true;
+    status.textContent = 'Sending…';
+    try {
+      const res = await fetch(form.action, { method: 'POST', headers: { Accept: 'application/json' }, body: new FormData(form) });
+      const data = await res.json();
+      if (!data.success) throw new Error(data.message);
+      form.reset();
+      status.textContent = 'Thank you! Your note is on its way.';
+    } catch {
+      status.textContent = 'Sorry, that did not send. Please try again in a moment.';
+    } finally {
+      button.disabled = false;
+    }
+  });
+</script>
