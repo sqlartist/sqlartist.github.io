@@ -1,5 +1,5 @@
 ---
-title: "Send Him Upstairs"
+title: "Send Him Upstairs — The House Of Lords"
 subtitle: ""
 date: 2026-10-30T00:43:42.000Z
 cover: "/images/medium/1_NZbSRccxPV4xt_qPyGyvcQ.png"
