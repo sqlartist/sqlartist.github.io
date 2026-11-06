@@ -11,7 +11,6 @@ era: "1980s"
 draft: false
 ---
 
----
 
 ![](/images/medium/1_ZnMQQP43WGkKNas39r9X4w.png)
 
