@@ -12,7 +12,6 @@ era: "1990s"
 draft: false
 ---
 
----
 
 This idea is a continuation of my first article “Building an LLM in SQL Server” and using a SQL database for unusual, one might say “pointless” exercises. But this one is dear to me as I do remember playing Doom when it was released, being amazed at how well it run on the work network, the fact this software company — Id Software was just blowing everyone else out of the water with their game engine skills, maths and business model of making it Shareware.
 
