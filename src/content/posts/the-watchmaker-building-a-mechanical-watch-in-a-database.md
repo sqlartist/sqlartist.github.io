@@ -5,6 +5,7 @@ date: 2026-11-01T02:23:56.000Z
 cover: "/images/medium/1_FPlM81GuoAE2dYowsgbChA.gif"
 tags: ["Watches", "Postgresql", "SQL", "Time", "Mathematics"]
 mediumUrl: "https://medium.com/@trevor.dwyer/the-watchmaker-building-a-mechanical-watch-in-a-database-275dae48e0b5"
+repo: "https://github.com/sqlartist/watchmaker-sql"
 draft: false
 ---
 

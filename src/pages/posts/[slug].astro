@@ -21,6 +21,7 @@ const { post, newer, older } = Astro.props;
 const { Content } = await render(post);
 const { title, subtitle, date, cover, tags, mediumUrl, canonicalUrl, repo, runSteps, runSql } = post.data;
 const mediumProfile = profile.links.find((l) => /medium\.com/.test(l.url))?.url;
+const runIt = Boolean(repo && (runSteps || runSql));
 const repoName = repo?.replace(/^https:\/\/github\.com\//, '');
 // Medium's auto-summary is a cut-off copy of the first paragraph; only show real standfirsts.
 const showStandfirst = subtitle && !subtitle.endsWith('…');
@@ -49,21 +50,27 @@ const enc = encodeURIComponent;
         <a href={`https://www.linkedin.com/sharing/share-offsite/?url=${enc(shareUrl)}`} target="_blank" rel="noopener">Share on LinkedIn</a>
         <a href={`https://x.com/intent/post?url=${enc(shareUrl)}&text=${enc(title)}`} target="_blank" rel="noopener">Post on X</a>
         <a href={`https://bsky.app/intent/compose?text=${enc(`${title} ${shareUrl}`)}`} target="_blank" rel="noopener">Bluesky</a>
-        {repo && <a class="run-link" href="#run-it">Run it in SQL ↓</a>}
+        {runIt && <a class="run-link" href="#run-it">Run it in SQL ↓</a>}
       </div>
     </header>
     <div class="prose">
       <Content />
     </div>
-    {repo && (
+    {runIt && (
       <aside class="run-it" id="run-it">
         <div class="run-head">
           <p class="label">Run it in SQL</p>
-          <a class="btn" href={repo}>Get the code</a>
         </div>
         <p class="run-repo"><span class="mono">{repoName}</span></p>
         {runSteps && <p class="run-steps">{runSteps}</p>}
         {runSql && <Code code={runSql} lang="sql" theme="github-dark-dimmed" />}
+      </aside>
+    )}
+    {repo && (
+      <aside class="show-code">
+        <p class="label">Show me the code</p>
+        <p>You can browse the full T-SQL script, database schema and project files directly in the <a href={repo} target="_blank" rel="noopener">{repoName}</a> repository on GitHub. If you find it interesting, drop a ⭐ on the repo!</p>
+        <a class="btn" href={repo} target="_blank" rel="noopener">⭐ Star it on GitHub</a>
       </aside>
     )}
     {(mediumUrl || mediumProfile) && (

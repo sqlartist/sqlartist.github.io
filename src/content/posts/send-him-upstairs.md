@@ -5,6 +5,7 @@ date: 2026-10-30T00:43:42.000Z
 cover: "/images/medium/1_NZbSRccxPV4xt_qPyGyvcQ.png"
 tags: ["Politics", "Data Science", "Data Analysis", "SQL", "Government"]
 mediumUrl: "https://medium.com/@trevor.dwyer/send-him-upstairs-e961affc1306"
+repo: "https://github.com/sqlartist/house-of-lords-sql"
 draft: false
 ---
 
