@@ -13,7 +13,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import * as cheerio from 'cheerio';
 import { convertBody, frontmatter, slugify } from './medium-to-markdown.mjs';
-import { POSTS_DIR, isTeaser, localiseImages, mediumId, readPosts, relinkMedium, updateTitle } from './post-tools.mjs';
+import { POSTS_DIR, isTeaser, localiseImages, mediumId, readPosts, relinkMedium, skippedIds, updateTitle } from './post-tools.mjs';
 
 const MEDIUM_USER = process.env.MEDIUM_USER || 'trevor.dwyer';
 const FEED_URL = `https://medium.com/feed/@${MEDIUM_USER}`;
@@ -33,6 +33,7 @@ async function importFeed() {
   const $ = cheerio.load(xml, { xml: true });
   const posts = readPosts();
   const known = new Set(posts.map((p) => p.id).filter(Boolean));
+  const skipped = skippedIds();
   const waiting = new Set(posts.filter((p) => p.draft && p.needsFullText).map((p) => p.id));
   const teasers = [];
   let added = 0;
@@ -43,10 +44,10 @@ async function importFeed() {
     const id = mediumId(link) || mediumId($item.find('guid').text());
     // Shown on the Actions run page, so it's easy to see what Medium sent.
     if (process.env.GITHUB_ACTIONS) {
-      const state = !id ? 'not a story' : waiting.has(id) ? 'hidden, waiting for full text' : known.has(id) ? 'already on the blog' : 'new';
+      const state = !id ? 'not a story' : skipped.has(id) ? 'kept off the blog' : waiting.has(id) ? 'hidden, waiting for full text' : known.has(id) ? 'already on the blog' : 'new';
       console.log(`::notice title=In the Medium feed::${$item.find('title').text().trim()} (${state})`);
     }
-    if (!id) return;
+    if (!id || skipped.has(id)) return;
     if (known.has(id)) {
       const post = posts.find((p) => p.id === id);
       updateTitle(post, $item.find('title').text().replace(/\s+/g, ' ').trim());

@@ -45,6 +45,15 @@ export function readPosts() {
     });
 }
 
+// Medium stories Trevor wants kept off the blog (src/data/medium-skip.json).
+export function skippedIds() {
+  try {
+    return new Set(JSON.parse(fs.readFileSync(path.resolve('src/data/medium-skip.json'), 'utf8')).skip.map((s) => s.id));
+  } catch {
+    return new Set();
+  }
+}
+
 // Medium is where Trevor renames stories, so a newer title there replaces the blog's.
 // The story keeps its blog address. Returns true when the title changed.
 export function updateTitle(post, title) {

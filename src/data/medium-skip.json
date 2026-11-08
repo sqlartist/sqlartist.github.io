@@ -1,0 +1,10 @@
+{
+  "_note": "Medium stories that should never appear on the blog. The sync and the export import skip these ids.",
+  "skip": [
+    {
+      "id": "2af2d89767b4",
+      "title": "The People’s Front of Gunnersbury",
+      "url": "https://medium.com/@trevor.dwyer/the-peoples-front-of-gunnersbury-splitters-festivals-and-the-fight-against-neoliberal-austerity-2af2d89767b4"
+    }
+  ]
+}

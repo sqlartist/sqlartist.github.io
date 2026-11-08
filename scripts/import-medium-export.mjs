@@ -9,7 +9,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import * as cheerio from 'cheerio';
 import { convertBody, frontmatter, slugify } from './medium-to-markdown.mjs';
-import { POSTS_DIR, isTeaser, mediumId, readPosts, updateTitle } from './post-tools.mjs';
+import { POSTS_DIR, isTeaser, mediumId, readPosts, skippedIds, updateTitle } from './post-tools.mjs';
 
 const dir = process.argv[2];
 const fill = process.argv.includes('--fill');
@@ -43,6 +43,7 @@ for (const file of fs.readdirSync(dir).sort()) {
   const mediumUrl = $('a.p-canonical').attr('href');
   const { markdown, subtitle, cover } = convertBody($('section[data-field="body"]').html(), { title, summary });
 
+  if (skippedIds().has(mediumId(mediumUrl))) continue;
   const known = existing.get(mediumId(mediumUrl));
   if (fill && known) {
     // Only replace stories that still hold Medium's cut-off opening; keep the
