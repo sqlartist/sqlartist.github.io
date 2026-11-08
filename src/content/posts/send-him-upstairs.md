@@ -60,7 +60,7 @@ The loader is about 450 lines of Python. It downloads the XML (once: it’s 1.6 
 
 Here’s the wall.
 
-The README I wrote for the first version of this project said, that Odell’s \`person\_id\` column uses the same ParlParse identifiers as \`people.json\`, so linking the Commons to the Lords would be a single join. I wrote a check query for it, ran it, and got this:
+The README I wrote for the first version of this project said that Odell’s \`person\_id\` column uses the same ParlParse identifiers as \`people.json\`, so linking the Commons to the Lords would be a single join. I wrote a check query for it, ran it, and got this:
 
 ```sql
 SELECT TOP (5) DisplayAs, PersonId FROM hc.SourceSpeech WHERE PersonId IS NOT NULL;
@@ -69,7 +69,7 @@ SELECT TOP (5) DisplayAs, PersonId FROM hc.SourceSpeech WHERE PersonId IS NOT NU
 
 Every one of the 2.7 million rows had an empty person id. The join I had promised was a join against nothing.
 
-That left matching by name, which is where I need to confess something. A while ago (25 years) I worked on something relatable — a piece about the Florida election, joining voter records to other records by name, and the fuzzy matching in it was, lets say, not good enough. It produced matches that looked plausible but combined that with the events that happen meant history was changed forever. I will post that article someday, it is written but I am hesitant to show the data. So this time I wanted to do it properly and measure the difference.
+That left matching by name, which is where I need to confess something. A while ago (25 years) I worked on something relatable — a piece about the Florida election, joining voter records to other records by name, and the fuzzy matching in it was, let’s say, not good enough. It produced matches that looked plausible but combined that with the events that happen meant history was changed forever. I will post that article someday, it is written but I am hesitant to show the data. So this time I wanted to do it properly and measure the difference.
 
 The trouble with names in Hansard is that Odell’s \`DisplayAs\` uses the name an MP was *formally* known by, not the one anybody used. Tony Newton is “Antony Newton”. Paddy Ashdown is “Jeremy Ashdown”. Margaret Beckett appears under her maiden name, Jackson, for her first Parliament. And there are, at various points, several John Smiths.
 
@@ -95,8 +95,8 @@ FROM #names AS n
 JOIN hl.PersonName AS pn ON pn.Name = n.Clean
 JOIN hl.Membership AS m
  ON m.PersonId = pn.PersonId AND m.House = 'Commons'
- AND ISNULL(m.StartDate, '1900–01–01') <= n.LastSpoke
- AND ISNULL(m.EndDate, '9999–12–31') >= n.FirstSpoke
+ AND ISNULL(m.StartDate, '1900-01-01') <= n.LastSpoke
+ AND ISNULL(m.EndDate, '9999-12-31') >= n.FirstSpoke
 GROUP BY n.DisplayAs, n.Yr, pn.PersonId;
 ```
 
@@ -446,7 +446,7 @@ INTO hl.ChamberSeat
 FROM placed;
 ```
 
-Run a \`SELECT Shape, Grp FROM hl.ChamberSeat WHERE Election = ‘1997–05–03’\` in SSMS, open the **Spatial results** tab, and the 1997 chamber appears. A second function, \`hl.fnChamberSvg\`, turns the same rows into an SVG in real party colours, and the animated web version steps through the elections so you can watch the benches turn.
+Run a \`SELECT Shape, Grp FROM hl.ChamberSeat WHERE Election = '1997-05-03'\` in SSMS, open the **Spatial results** tab, and the 1997 chamber appears. A second function, \`hl.fnChamberSvg\`, turns the same rows into an SVG in real party colours, and the animated web version steps through the elections so you can watch the benches turn.
 
 ![The result in SSMS, the Speaker is the Single dot on the Left Side](/images/medium/1_dt8vHD_y7DK55sgFolIs_g.png)
 *The result in SSMS, the Speaker is the Single dot on the Left Side*

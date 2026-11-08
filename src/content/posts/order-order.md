@@ -33,15 +33,15 @@ I made one rule for myself. The database does the thinking. The viewer only draw
 
 ## My Visit to the Chambers
 
-I almost forgot about this, but I have been to the House of Commons as a guest of a friend and his charitable work. We were to have dinner with Peter Lilly, one of the MP’s who sat in Margret Thatchers cabinet. It was an interesting visit.
+I almost forgot about this, but I have been to the House of Commons as a guest of a friend and his charitable work. We were to have dinner with Peter Lilley, one of the MPs who sat in Margaret Thatcher’s cabinet. It was an interesting visit.
 
-I arrive and go through the many security gates and arrive in the main building, we then have a quick tour — first to the House of Commons where we weren’t allowed to sit on the seats — by this time my back had gone and I was in terrible pain so I just kept thinking — whats the harm, but I observed the rules.
+I arrive and go through the many security gates and arrive in the main building, we then have a quick tour — first to the House of Commons where we weren’t allowed to sit on the seats — by this time my back had gone and I was in terrible pain so I just kept thinking — what’s the harm, but I observed the rules.
 
-Before we went into the chamber there is a life size statue of Sir Winston Churchill in Bronze, its aged but his left foot is shiny, I asked why and apparently people touch his foot for luck when they enter the chamber.
+Before we went into the chamber there is a life size statue of Sir Winston Churchill in bronze, it’s aged but his left foot is shiny, I asked why and apparently people touch his foot for luck when they enter the chamber.
 
-The House of Lords was closed that day so we went down into the depths of the building and ended up in a dinning room over looking the Thames. It was at this point I realised I was the only person in the entire group of 20 that wasn’t wearing a tie. Londoners don’t wear ties these days, except in a few places and this was one of them.
+The House of Lords was closed that day so we went down into the depths of the building and ended up in a dining room overlooking the Thames. It was at this point I realised I was the only person in the entire group of 20 that wasn’t wearing a tie. Londoners don’t wear ties these days, except in a few places and this was one of them.
 
-I sat directly opposite the [Rt Hon Lord Lilley](https://www.peterlilley.co.uk/about/), and it was interesting as I only eat bread at these functions — I never want to eat under cooked lamb or a shrimp starter so I stick with bread. towards the end of the meal I want to smoke, so I go to leave and it turns out I need an escort. An armed Police Officer with an MP5 machine gun escorted me all the way to the main entrance, I smoked and he escorted me all the way back. At this point I saw people were chatting and I happened to be standing next to Peter Lilly and I remarked to him that I though his body of work was astounding. He was quite taken back. I had read every one of his ministerial papers the night before and back then I had a very decent memory. So I ended up chatting, with no tie to Margret Thatchers’ Minister for quite some time. All because regardless what he was actually like as an MP, but because he quite obviously believed in the data and that was evident in the huge amount of papers he had published and that meant in my eyes he was “a decent guy”.
+I sat directly opposite the [Rt Hon Lord Lilley](https://www.peterlilley.co.uk/about/), and it was interesting as I only eat bread at these functions — I never want to eat undercooked lamb or a shrimp starter so I stick with bread. Towards the end of the meal I want to smoke, so I go to leave and it turns out I need an escort. An armed Police Officer with an MP5 machine gun escorted me all the way to the main entrance, I smoked and he escorted me all the way back. At this point I saw people were chatting and I happened to be standing next to Peter Lilley and I remarked to him that I thought his body of work was astounding. He was quite taken aback. I had read every one of his ministerial papers the night before and back then I had a very decent memory. So I ended up chatting, with no tie to Margaret Thatcher’s minister for quite some time. All because regardless what he was actually like as an MP, but because he quite obviously believed in the data and that was evident in the huge amount of papers he had published and that meant in my eyes he was “a decent guy”.
 
 ## My first numbers were wrong
 
@@ -901,7 +901,7 @@ The code is on GitHub \[link to follow\], and the hypercube is on my website. Go
 ![Being kicked upstairs — The House Of Lords](/images/medium/1_xM6UpO-2PSh-oDoaVfef3g.jpeg)
 *Being kicked upstairs — The House Of Lords*
 
-I have included parts of the code used in the article as it shows what was run to get the analysis. But all the source code is on the github page and you run the files in order to obtain the result. There is a python script which downloads from Huggingface the Hanson dataset. Takes about 15 mins.
+I have included parts of the code used in the article as it shows what was run to get the analysis. But all the source code is on the GitHub page and you run the files in order to obtain the result. There is a python script which downloads the Hansard dataset from Hugging Face. Takes about 15 mins.
 
 Code will be up in a few days.
 
