@@ -79,6 +79,13 @@ export function convertBody(bodyHtml, { title = '', summary = '' } = {}) {
   const $ = cheerio.load(bodyHtml, null, false);
   let subtitle = '';
 
+  // Notes Trevor adds on Medium pointing back to the blog don't belong in the blog copy.
+  $('p, blockquote, h3, h4').each((_, el) => {
+    const t = $(el).text();
+    if (/sqlartist\.github\.io|originally published on my personal blog/i.test(t + ($(el).find('a').attr('href') || ''))
+      && /originally published|personal blog|no-paywall/i.test(t)) $(el).remove();
+  });
+
   // Title is shown by the page layout, so drop it from the body.
   const titleEl = $('.graf--title').first();
   if (titleEl.length) titleEl.remove();

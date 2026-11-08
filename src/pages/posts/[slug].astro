@@ -19,7 +19,8 @@ export async function getStaticPaths() {
 interface Props { post: Post; newer?: Post; older?: Post }
 const { post, newer, older } = Astro.props;
 const { Content } = await render(post);
-const { title, subtitle, date, cover, tags, canonicalUrl, repo, runSteps, runSql } = post.data;
+const { title, subtitle, date, cover, tags, mediumUrl, canonicalUrl, repo, runSteps, runSql } = post.data;
+const mediumProfile = profile.links.find((l) => /medium\.com/.test(l.url))?.url;
 const repoName = repo?.replace(/^https:\/\/github\.com\//, '');
 // Medium's auto-summary is a cut-off copy of the first paragraph; only show real standfirsts.
 const showStandfirst = subtitle && !subtitle.endsWith('…');
@@ -63,6 +64,16 @@ const enc = encodeURIComponent;
         <p class="run-repo"><span class="mono">{repoName}</span></p>
         {runSteps && <p class="run-steps">{runSteps}</p>}
         {runSql && <Code code={runSql} lang="sql" theme="github-dark-dimmed" />}
+      </aside>
+    )}
+    {(mediumUrl || mediumProfile) && (
+      <aside class="on-medium">
+        <p class="label">Also on Medium</p>
+        <p>{mediumUrl ? 'This story is on Medium too, if you want to clap, highlight or share it there.' : 'I publish on Medium too.'} Follow me there to hear about new stories and platform updates.</p>
+        <div class="links">
+          {mediumUrl && <a class="btn" href={mediumUrl} target="_blank" rel="noopener">This story on Medium</a>}
+          {mediumProfile && <a class="btn ghost" href={mediumProfile} target="_blank" rel="noopener">Follow me on Medium</a>}
+        </div>
       </aside>
     )}
     <footer class="post-foot">

@@ -60,13 +60,18 @@ content:
         options:
           values: ["1980s", "1990s", "2000s", "Today"]
         default: Today
+      - name: pinned
+        label: Pin to the top of the home page
+        description: Stories are listed newest first by their Published date. Pinned stories come before all others.
+        type: boolean
+        default: false
       - name: draft
         label: Draft (hidden from the site)
         type: boolean
         default: true
       - name: mediumUrl
         label: Medium link
-        description: Optional. The story's address on Medium. Links to it from other stories then go to this blog copy instead.
+        description: Optional. The story's address on Medium. Shown as "This story on Medium" at the end of the story; links to it from other stories go to this blog copy instead.
         type: string
       - name: canonicalUrl
         label: Original address

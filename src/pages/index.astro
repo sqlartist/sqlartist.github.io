@@ -5,7 +5,8 @@ import Avatar from '../components/Avatar.astro';
 import profile from '../data/profile.json';
 import { getPosts, tagSlug, url } from '../lib';
 
-const posts = await getPosts();
+// Newest first, with any pinned stories ahead of the rest.
+const posts = (await getPosts()).sort((a, b) => Number(b.data.pinned) - Number(a.data.pinned));
 const [latest, ...rest] = posts;
 const tags = [...new Set(posts.flatMap((p) => p.data.tags))].sort();
 ---

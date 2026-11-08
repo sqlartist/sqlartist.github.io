@@ -21,6 +21,8 @@ const posts = defineCollection({
     // The decade the story looks back to; one of the hypercube's dimensions.
     era: z.enum(['1980s', '1990s', '2000s', 'Today']).default('Today'),
     draft: z.boolean().default(false),
+    // Shown first on the home page, before the newest stories.
+    pinned: z.boolean().default(false),
     // Set by the Medium sync when the feed only had the opening of the story.
     needsFullText: z.boolean().default(false),
   }),
