@@ -6,6 +6,7 @@ cover: "/images/medium/1_q3O8bPHn_LoOiOrU0BWLiA.jpeg"
 tags: ["SQL Server", "AI & Data Science"]
 mediumUrl: "https://medium.com/@trevor.dwyer/two-graphics-cards-and-1-7-million-speeches-to-prove-a-negative-fbde793efbd5"
 era: "Today"
+repo: "https://github.com/sqlartist/ParliamentSQL"
 draft: false
 ---
 

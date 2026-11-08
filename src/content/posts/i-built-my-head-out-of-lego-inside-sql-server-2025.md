@@ -5,6 +5,7 @@ date: 2026-10-16T11:16:54.000Z
 cover: "/images/medium/1_NFRn5gbVPBwvhrClTJmSnQ.png"
 tags: ["Brain", "SQL", "Animation", "Lego", "Vector Database"]
 mediumUrl: "https://medium.com/@trevor.dwyer/i-built-my-head-out-of-lego-inside-sql-server-2025-77ecb529d1d2"
+repo: "https://github.com/sqlartist/LegoSQL"
 draft: false
 ---
 

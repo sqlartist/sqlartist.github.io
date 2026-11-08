@@ -6,6 +6,7 @@ cover: "/images/medium/1_6WnalunLgl3qoPX3fQ6vAg.jpeg"
 tags: ["SQL Server", "AI & Data Science"]
 mediumUrl: "https://medium.com/@trevor.dwyer/i-built-a-language-model-entirely-inside-sql-server-d65fda1751e1"
 era: "Today"
+repo: "https://github.com/sqlartist/the-language-model"
 draft: false
 ---
 

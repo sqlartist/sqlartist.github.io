@@ -46,6 +46,41 @@
       "name": "feynman-sql",
       "description": "Feynman's postulates and relational text analytics in T-SQL.",
       "url": "https://github.com/sqlartist/feynman-sql"
+    },
+    {
+      "name": "the-language-model",
+      "description": "A small neural language model, trained and run entirely in T-SQL.",
+      "url": "https://github.com/sqlartist/the-language-model"
+    },
+    {
+      "name": "LegoSQL",
+      "description": "My own head, rebuilt in Lego bricks inside SQL Server 2025.",
+      "url": "https://github.com/sqlartist/LegoSQL"
+    },
+    {
+      "name": "the-safecracker",
+      "description": "Cracking Feynman's Los Alamos safes with set-based SQL.",
+      "url": "https://github.com/sqlartist/the-safecracker"
+    },
+    {
+      "name": "ParliamentSQL",
+      "description": "1.7 million Commons speeches analysed in SQL Server 2025 on an RTX 5090.",
+      "url": "https://github.com/sqlartist/ParliamentSQL"
+    },
+    {
+      "name": "order-order",
+      "description": "Six Speakers and 2.7 million speeches: the Hansard series continues.",
+      "url": "https://github.com/sqlartist/order-order"
+    },
+    {
+      "name": "house-of-lords-sql",
+      "description": "The House of Lords joined to the Commons, person by person.",
+      "url": "https://github.com/sqlartist/house-of-lords-sql"
+    },
+    {
+      "name": "watchmaker-sql",
+      "description": "A mechanical watch built from geometry in a database.",
+      "url": "https://github.com/sqlartist/watchmaker-sql"
     }
   ]
 }

@@ -5,6 +5,7 @@ date: 2026-10-10T20:02:05.000Z
 cover: "/images/medium/1_qU-0gQ8X2lPiwdaHge_jww.jpeg"
 tags: ["SQL", "Safecracker", "Physics", "World War Ii", "Mathematics"]
 mediumUrl: "https://medium.com/the-academic/cracking-feynmans-safes-in-sql-server-c5469bae2501"
+repo: "https://github.com/sqlartist/the-safecracker"
 draft: false
 ---
 
