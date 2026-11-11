@@ -183,6 +183,8 @@ The database checks every pair for overlaps. The first time it ran there were fo
 
 ## The order the watch is dismantled
 
+Each round, every part that can slide straight out comes out.
+
 ![The order in which you need to dismantle](/images/medium/1_5rcw8pWuQdQb53fSNSx9Kg.png)
 *The order in which you need to dismantle*
 
