@@ -29,7 +29,7 @@ So, regardless of the scale of the end result I think he would be happy people u
 
 ## Abstract
 
-Traditional natural language processing (NLP) inside classical relational databases relies on sequential string-splitting logic, cursors, or loops that process data character-by-character or by word-by-word. This article presents an alternative paradigm: a native text-analytics engine built entirely inside local Transact-SQL (T-SQL) that mirrors Richard Feynman’s “all paths” quantum postulate. By processing tokenisation, TF-IDF weighting, and multi-dimensional vector space layout via parallel set operations, I demonstrate how text can be analyzed, clustered via K-Means, and visually mapped on a physical canvas using SQL Server’s native Spatial Geometry view.
+Text processing in a database usually means string splitting, cursors or loops that go through the text a word at a time. This is a text-analytics engine built entirely in T-SQL, loosely based on Feynman’s “all paths” idea: tokenising, TF-IDF weighting and K-Means clustering as set operations, with the result drawn in SQL Server’s Spatial results view.
 
 1\. The Core Philosophy: Sequential Reading vs. The All-Paths Matrix
 
@@ -43,22 +43,22 @@ When a typical program parses text, it acts like an explorer manually walking th
 
 Richard Feynman’s quantum postulate changes the entire architecture of the search. He argued that tiny particles don’t choose a single path from A to B — **they travel down every single possible path at the exact same moment.**
 
-This T-SQL framework forces unstructured text strings to act exactly like Feynman’s quantum particles. Instead of looping through a sentence, a **Tally Table Matrix** acts like a beam splitter. The second a string enters the query engine, it is instantly shattered into all possible character positions simultaneously.
+This T-SQL framework forces unstructured text strings to act exactly like Feynman’s quantum particles. Instead of looping through a sentence, a **Tally Table Matrix** acts like a beam splitter. The second a string enters the query engine, it is split into all its character positions at once.
 
 Every word location becomes an independent path running in parallel:
 
--   **The Noise (Destructive Interference):** In quantum mechanics, paths have “stopwatches” with spinning hands. If hands point in opposite directions, they cancel out. In this code, common stop-words (like *“and”* or *“uses”*) have their weights calculated against the entire document collection via Inverse Document Frequency (IDF). Because they appear everywhere, their mathematical stopwatch hands point in opposite directions, creating **destructive interference** that completely zeros out their linguistic noise.
+-   **The Noise (Destructive Interference):** In quantum mechanics, paths have “stopwatches” with spinning hands. If hands point in opposite directions, they cancel out. In this code, common stop-words (like *“and”* or *“uses”*) have their weights calculated against the entire document collection via Inverse Document Frequency (IDF). Because they appear everywhere, their mathematical stopwatch hands point in opposite directions, creating **destructive interference** that zeros them out.
 -   **The Signal (Constructive Interference):** Unique, definitive terms (like *“quantum”* or *“database”*) align perfectly. Their stopwatches point in the exact same direction, creating **constructive interference**. This piles up mathematical weight into specific vector pathways, letting the most important terms bubble to the top.
 
 2\. Moving Beyond the “Bag of Words”: Geometry & Tied Dice
 
 A standard “Bag-of-Words” text tool is completely blind to context. It throws all words into an unstructured pile, losing track of word positions.
 
-By using Feynman’s spatial logic, words are not just counted; but are tracked along the physical geometry of their paths. Because the engine maps the spatial position of every token at the exact same moment, it can run instantaneous relational self-joins to build multi-word chains (**N-Grams** and phrases) without losing the structural flow of the text.
+By using Feynman’s spatial logic, words are not just counted; but are tracked along the physical geometry of their paths. Because the engine maps the spatial position of every token at the exact same moment, it can use self-joins to build multi-word chains (**N-Grams** and phrases) without losing the structural flow of the text.
 
 We can then leverage the quantum concept of **Entanglement (the “Tied Dice” principle)** to handle document relationships. In standard database queries, comparing every document to every other document requires running thousands of isolated searches one after the other, or using a graph database.
 
-This engine runs a global matrix cross-join. It acts like pairs of magically tied dice: altering or evaluating a vector coordinate on one side of the matrix instantly forces the corresponding relationship score to resolve on the other side. This creates a true, multi-dimensional tensor contraction natively inside the relational engine, mapping the overlapping similarities of the entire corpus in a single pass.
+This engine runs a global matrix cross-join. It acts like pairs of magically tied dice: altering or evaluating a vector coordinate on one side of the matrix instantly forces the corresponding relationship score to resolve on the other side.
 
 3\. The Complete, End-to-End Local Framework
 
@@ -200,11 +200,9 @@ If you use your own text data you may encounter a problem which renders the Spat
 ![The Spatial Browser tab in SSMS has sadly been neglected but it does work](/images/medium/1_otwzjHYUk1_GdqJx5I053A.png)
 *The Spatial Browser tab in SSMS has sadly been neglected but it does work*
 
--   **The Wave Function Collapse (The Shaded Polygon):** The `STConvexHull()` function generates a shaded polygon area around the network infrastructure points. This polygon marks out the exact contextual territory of the data systems data.
+-   **The Wave Function Collapse (The Shaded Polygon):** The `STConvexHull()` function generates a shaded polygon area around the network infrastructure points. This polygon marks out the data systems cluster.
 -   **The Bridge Point:** The *Hybrid Engines* node sits right on the boundary line of the shape. Because it contains both quantum and database paths, its vector coordinate sits in the buffer zone between the two clusters.
--   **The Outlier:** The *Quantum Physics* bubble floats completely outside the shaded shape on the other side of the screen canvas, proving that its vocabulary path belongs to a completely separate linguistic group.
-
-By applying Feynman’s “all paths” perspective to database logic, we replace slow text loops with high-velocity geometric calculations — mapping raw strings into physical, visual coordinates on our screens.
+-   **The Outlier:** The *Quantum Physics* bubble floats completely outside the shaded shape on the other side of the screen canvas, because its vocabulary belongs to a separate group.
 
 A way to use this on non textual data that is equally useful could be with Application Logs. Take the following as an example:
 

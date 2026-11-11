@@ -23,18 +23,18 @@ Which finally leads me onto why I am writing an article on using SQL to create, 
 ![The Joy Of Writing Code](/images/medium/1_6WnalunLgl3qoPX3fQ6vAg.jpeg)
 *The Joy Of Writing Code*
 
-Everyone knows a language model is matrix multiplication wearing a hat. Fewer people notice that matrix multiplication is just \`GROUP BY\` over a join, which means your database server has been quietly capable of this all along. So I built one: weights in tables, forward pass as a query, back propagation as a sequence of \`UPDATE\` statements. I trained it on a curated corpus of 122 idiomatic SQL queries, so the thing generates SQL.
+Everyone knows a language model is matrix multiplication wearing a hat. Fewer people notice that matrix multiplication is just \`GROUP BY\` over a join, which means your database server has been capable of this all along. So I built one: weights in tables, forward pass as a query, back propagation as a sequence of \`UPDATE\` statements. I trained it on a curated corpus of 122 idiomatic SQL queries, so the thing generates SQL.
 
 ***A language model written in SQL, trained on SQL, that emits SQL.***
 
 **The Whole Model Is Five Lines of Algebra  
-**I went with a Bengio-style neural language model rather than a transformer. It’s the transformer’s direct ancestor, and it’s small enough that every tensor fits comfortably in a table without any of it feeling like a stunt.
+**I went with a Bengio-style neural language model rather than a transformer. It’s the transformer’s direct ancestor, and it’s small enough that every tensor fits comfortably in a table.
 
 *A Bengio-style neural language model, introduced by Yoshua Bengio and colleagues in 2003, is a feed forward architecture that predicts the next word in a sequence using a shared word embedding table and a multi-layer perceptron, overcoming the data sparsity limits of traditional n-gram models.*
 
 *My own work in this area was in 1999 with the TF-IDF algorithm and using this along with a semantic database called* WordNet *to create structure from unstructured data but stopped due to a complete lack of interest from anyone except a fellow SQL Server MVP Tony Rogerson.*
 
-But back to our main subject. Here’s the entire architecture. Context of C tokens, embedding lookup, concatenate, one dense layer with ReLU, project to the vocabulary, softmax:
+But back to our main subject. The entire architecture: Context of C tokens, embedding lookup, concatenate, one dense layer with ReLU, project to the vocabulary, softmax:
 
 ```sql
 slot k of C holds token t_k
@@ -45,9 +45,9 @@ logit[o] = SUM_h a[h] * W2[h,o] + B2[o]
 p[o] = EXP(logit[o] — max) / SUM(…) softmax
 ```
 
-Look at lines two and five. \`SUM\_i x\[i\] \* W1\[i,h\]\` is a sum of products, grouped by \`h\`. That’s not \*like\* a \`GROUP BY\` over a join. It \*\*is\*\* a \`GROUP BY\` over a join. Every line above becomes one CTE.
+Look at lines two and five. \`SUM\_i x\[i\] \* W1\[i,h\]\` is a sum of products, grouped by \`h\`. That is a \`GROUP BY\` over a join. Every line above becomes one CTE.
 
-Defaults are context 3, embedding dimension 16, hidden 32, vocabulary around 213 tokens. Roughly 12,000 parameters. Small, but genuinely learned rather than counted.  
+Defaults are context 3, embedding dimension 16, hidden 32, vocabulary around 213 tokens. Roughly 12,000 parameters. Small, but learned rather than counted.  
 Dimensions live in a config table rather than being hard-coded, so the model is re-sizable without editing a single function:
 
 ```sql
@@ -71,7 +71,7 @@ INSERT INTO dbo.ModelConfig (lock_col, C, D, H, V) VALUES (‘X’, 3, 16, 32, 0
 **Tokenising SQL, In SQL**  
 Before anything can be learned, the corpus has to be shredded into tokens. \`COUNT(\*)\` needs to become three tokens, not one opaque blob, or the model never learns that parentheses have structure.
 
-The naive approach is a chain of \`REPLACE\` calls padding every punctuation character with spaces. That works right up until it meets \`<>\`, which the single-character pass happily shreds into \`<\` and \`>\`. Two tokens where there should be one, and the model spends its capacity learning that \`<\` is usually followed by \`>\`.
+The naive approach is a chain of \`REPLACE\` calls padding every punctuation character with spaces. That works right up until it meets \`<>\`, which the single-character pass happily shreds into \`<\` and \`>\`. Two tokens where there should be one.
 
 The fix is to park the multi-character operators behind placeholders first, then restore them once the single-character pass is done:
 
@@ -130,11 +130,11 @@ RETURN
 
 Wrap the string in JSON array syntax, let \`OPENJSON\` do the splitting, and take \`\[key\]\` as the position. It’s a hack, but it’s a fast one and it works everywhere.
 
-### Randomness Is Harder Than It Looks
+### Random weights
 
-Weights start random. In SQL Server that’s a trap, because \`RAND()\` is evaluated once per statement, not once per row. Use it to initialise a weight table and you get several thousand identical values, a model with no symmetry to break, and a very confusing afternoon.
+Weights start random. In SQL Server that’s a trap, because \`RAND()\` is evaluated once per statement, not once per row. Use it to initialise a weight table and you get several thousand identical values, and a model with no symmetry to break.
 
-\`CHECKSUM(NEWID())\` is evaluated per row, which is what you actually want. There’s a second trap hiding inside it: \`ABS()\` overflows on the single value \`-2³¹\`. Take the modulus first — \`%\` preserves the sign, so you get your uniform distribution either side of zero without needing \`ABS()\` at all:
+\`CHECKSUM(NEWID())\` is evaluated per row, which is what you actually want. There’s a second trap: \`ABS()\` overflows on the single value \`-2³¹\`. Take the modulus first — \`%\` preserves the sign, so you get your uniform distribution either side of zero without needing \`ABS()\` at all:
 
 ```sql
 /* — — — — — — — — — — — — — — — — — — — — — — — — — — — — — — — — — 
@@ -151,7 +151,7 @@ CROSS JOIN dbo.Vocab AS v;
 ```
 
 **The Forward Pass Is One Query  
-**Here’s the payoff. The entire inference path — embedding lookup, hidden layer, ReLU, output projection, softmax — as a single inline table-valued function. Five CTEs for five lines of algebra:
+**The entire inference path — embedding lookup, hidden layer, ReLU, output projection, softmax — as a single inline table-valued function. Five CTEs for five lines of algebra:
 
 ```sql
 /* — — — — — — — — — — — — — — — — — — — — — — — — — — — — — — — — — 
@@ -206,15 +206,15 @@ RETURN
  JOIN dbo.Vocab AS v ON v.token_id = ex.out_id;
 ```
 
-**Two details in there are load-bearing.**
+**Two details matter.**
 
-The \`LEFT JOIN\` driving the logits from \`B2\` rather than from the hidden layer looks like belt and braces. It isn’t. Filter on \`a.act > 0\` and join inwards, and a context that happens to kill every hidden unit produces zero rows — a softmax over nothing. Driving from the bias table guarantees a complete distribution whatever the activations do.
+The \`LEFT JOIN\` driving the logits from \`B2\` rather than from the hidden layer looks like belt and braces, but it’s needed. Filter on \`a.act > 0\` and join inwards, and a context that happens to kill every hidden unit produces zero rows — a softmax over nothing. Driving from the bias table guarantees a complete distribution whatever the activations do.
 
-The softmax is split across two scopes for a reason. The obvious one-liner is \`SUM(EXP(x — MAX(x) OVER (…))) OVER (…)\`, and SQL Server rejects it outright — a windowed function may not appear inside the argument of another windowed function. The max-subtraction and the normalising sum need separate CTE levels. I hit this in two places and it’s the sort of thing you only discover at \`CREATE\` time.
+The softmax is split across two scopes for a reason. The obvious one-liner is \`SUM(EXP(x — MAX(x) OVER (…))) OVER (…)\`, and SQL Server rejects it outright — a windowed function may not appear inside the argument of another windowed function. The max-subtraction and the normalising sum need separate CTE levels.
 
 ### Back-propagation, And The Order That Matters
 
-Training is where it stops being cute and starts being engineering. Here are the gradients, in the order they must be computed:
+Here are the gradients, in the order they must be computed:
 
 ```sql
 dLogit[s,o] = (p[s,o] — 1{o = target[s]}) / B
@@ -227,11 +227,11 @@ dX[s,i] = SUM_h dZ[s,h] * W1[i,h]
 dEmb[t,d] += SUM over every (s,slot) where context token = t, of dX
 ```
 
-Read line four and line seven again. \`dZ\` needs \`W2\` and \`dX\` needs \`W1\` — and both need the values from \*before\* this batch’s update. Write the weights first and you’ll compute the backward pass against parameters that have already moved.
+\`dZ\` needs \`W2\` and \`dX\` needs \`W1\` — and both need the values from \*before\* this batch’s update. Write the weights first and you’ll compute the backward pass against parameters that have already moved.
 
-The model still trains if you get this wrong. It just trains slowly, and silently wrongly, and you’ll spend a week blaming your learning rate. So both gradients are materialised into temp tables before either weight matrix is touched.
+The model still trains if you get this wrong. It just trains slowly and wrongly. So both gradients are materialised into temp tables before either weight matrix is touched.
 
-The update itself is the part I enjoyed most. SGD with momentum is two assignments — \`v ← m\*v + g\`, then \`w ← w — lr\*v\` — and T-SQL evaluates every right-hand side in an \`UPDATE\` against pre-update row values. Which means both assignments land in a single statement, with no staging table and no ordering worry:
+SGD with momentum is two assignments — \`v ← m\*v + g\`, then \`w ← w — lr\*v\` — and T-SQL evaluates every right-hand side in an \`UPDATE\` against pre-update row values. So both assignments land in a single statement, with no staging table and no ordering worry:
 
 ```sql
 /* — — — — — — — — — — — — — — — — — — — — — — — — — — — — — — — — — 
@@ -273,17 +273,17 @@ JOIN g ON g.token_id = t.token_id AND g.dim = t.dim;
 
 **The Bug That Cost Me The Most Time**
 
-Not the calculus. A variable name.
+It was a variable name.
 
 I’d declared \`[@b](http://twitter.com/b "Twitter profile for @b")\` for the batch index and \`[@B](http://twitter.com/B "Twitter profile for @B")\` for the batch row count, because that’s how the maths is written. SQL Server compares variable names case-insensitively, regardless of database collation, so those are the same variable. The \`DECLARE\` fails, every variable declared alongside them becomes unbound, and you get a screen of errors ending in a baffling complaint about a CTE forty lines further down.
 
 The same trap was sitting one line below: a local \`[@lr](http://twitter.com/lr "Twitter profile for @lr")\` colliding with the \`[@Lr](http://twitter.com/Lr "Twitter profile for @Lr")\` parameter. It hadn’t been reported yet only because the \`DECLARE\` never got that far.
 
-Worth internalising, because the error count tells you nothing. One bad \`DECLARE\` unbinds everything in it. Fix the first message and re-run rather than working down the list.
+One bad \`DECLARE\` unbinds everything in it. Fix the first message and re-run rather than working down the list.
 
-**Does It Actually Work?**
+**Does It Work?**
 
-It does. 122 published SQL queries, 60 epochs, roughly two billion row operations:
+122 published SQL queries, 60 epochs, roughly two billion row operations:
 
 ![Model Training Performance](/images/medium/1_BEX-wypUkkr-IL-a8dDaNw.png)
 *Model Training Performance*
@@ -300,9 +300,9 @@ EXEC dbo.usp_Generate @Prompt = N'SELECT * FROM', @Greedy = 1;
 
 **Two Things SQL Does Better Than Python**
 
-I expected this to be a novelty. Two parts genuinely came out nicer than the equivalent imperative implementation, and both come from the same property: the model returns a \*relation\*.
+Two parts came out nicer than the equivalent imperative implementation, and both come from the same property: the model returns a \*relation\*.
 
-Because inference is a table-valued function, running a batch of prompts is \`CROSS APPLY\`. No loop, no padding, no batching logic — one tidy result set:
+Because inference is a table-valued function, running a batch of prompts is \`CROSS APPLY\`. No loop and no batching logic, just one result set:
 
 ```sql
 /* — — — — — — — — — — — — — — — — — — — — — — — — — — — — — — — — — 
@@ -358,7 +358,7 @@ WITH ranked AS (               3                    10                          
 WITH ranked AS (               4                    50                             0.7%
 ```
 
-The second one is better still. Constrained decoding — forcing generation to obey a grammar — is a genuinely awkward feature to bolt onto a normal inference stack. Here it’s a \`WHERE\` clause and a renormalising window function. \`WHERE\` is applied before window functions, so the arithmetic just works out:
+Constrained decoding (forcing generation to obey a grammar) is an awkward feature to bolt onto a normal inference stack. Here it’s a \`WHERE\` clause and a renormalising window function. \`WHERE\` is applied before window functions:
 
 ```sql
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -378,7 +378,7 @@ ORDER BY position;
 
 The interesting part is the shape: `FROM` after a column list will be near-certain, the table name after `FROM` much less so.
 
-There’s a third benefit that isn’t about queries at all. Nothing is hidden in a binary blob. The trained model is rows, so it can be backed up, diffed, code-reviewed, version-controlled, and shipped by \`INSERT\`. Cosine similarity between token embeddings is a \`GROUP BY\` — and run it, and you’ll find table names cluster with table names and aggregates cluster with aggregates. Nobody told it those categories exist.
+Nothing is hidden in a binary blob. The trained model is rows, so it can be backed up, diffed, code-reviewed, version-controlled, and shipped by \`INSERT\`. Cosine similarity between token embeddings is a \`GROUP BY\` — and run it, and you’ll find table names cluster with table names and aggregates cluster with aggregates.
 
 ![](/images/medium/1_H9_9ENhXU_TzwmA9ikGIwQ.png)
 
@@ -806,8 +806,6 @@ GO
 
 **Where It Falls Over**
 
-*I’d rather say this plainly than oversell it.*
-
 A three-token context window means it has learned local SQL \*syntax\*, not SQL \*semantics\*. It’ll cheerfully open a \`WITH\` clause and never close it, or emit \`WHERE order\_id = ‘london’\`. It has no idea what a table is.
 
 122 training queries is a very small corpus, so it memorises templates as much as it generalises. Embedding neighbours are meaningful for frequent tokens and close to noise for rare ones, whose vectors have barely moved from initialisation.
@@ -816,15 +814,15 @@ And autoregressive sampling stays stubbornly procedural. Each token depends on t
 
 ## The Point
 
-This isn’t how you should serve a language model. It’s a demonstration that the gap between “database engine” and “machine learning framework” is narrower than the tooling implies. Both are doing sums over sets. One of them just has better marketing.
+This isn’t how you should serve a language model, but the gap between “database engine” and “machine learning framework” is narrower than the tooling implies. Both are doing sums over sets.
 
-If you work with SQL every day, building one of these will teach you more about what a language model actually does than any number of tutorials with a \``` model.fit()` `` in them. There's nowhere to hide. Every matrix multiply is a join you wrote yourself.
+If you work with SQL every day, building one of these will teach you more about what a language model actually does than any number of tutorials with a \``` model.fit()` `` in them.
 
-There’s a detail here I didn’t notice until I’d finished writing the code. In 1999 I was doing n-grams and TF-IDF in T-SQL, and I stopped because nobody was interested. The wall I’d have hit next is *data sparsity* — n-grams can only count what they’ve already seen, and most sequences they never see at all.
+In 1999 I was doing n-grams and TF-IDF in T-SQL, and I stopped because nobody was interested. The wall I’d have hit next is *data sparsity* — n-grams can only count what they’ve already seen, and most sequences they never see at all.
 
-Bengio’s paper is the answer to exactly that problem. It was published in 2003. I put the work down four years too early.
+Bengio’s paper answers that problem. It was published in 2003. I put the work down four years too early.
 
-So this isn’t a departure from what I was doing back then. It’s the next page of it, in the same language, twenty-seven years later. I write Python when the job needs it. I’ve never needed a second language for the part I actually care about.
+So this is the next step of what I was doing back then, in the same language, twenty-seven years later. I write Python when the job needs it. I’ve never needed a second language for the part I actually care about.
 
 The full scripts run on SQL Server 2016 or later, and on Azure SQL. Four files: schema and corpus, model and forward pass, training, example queries. They can be ported in principle to PostgreSQL though the tokeniser and temp tables need rewriting.
 
@@ -834,4 +832,4 @@ I would suggest running the code from the scripts rather than copy/paste from th
 
 \*\*If this was useful, a few claps help other people find it. Follow me for more on SQL as a computational medium — I keep finding things it can do that it probably shouldn’t.\*\*
 
-\*What’s the strangest thing you’ve built inside a database? I’d genuinely like to know — leave a comment.\*
+\*What’s the strangest thing you’ve built inside a database? Leave a comment.\*

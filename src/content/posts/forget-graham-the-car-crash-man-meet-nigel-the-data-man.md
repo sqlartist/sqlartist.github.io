@@ -41,11 +41,11 @@ Start with the small capsule beneath his breastbone. Inside it sits the public a
 ![The Beginning…](/images/medium/1_rxuSsZ82vxcfO9AoZSXk2Q.png)
 *The Beginning…*
 
-There is real science behind the attraction of very small storage. In 2017, the DNA Fountain researchers reported successful retrieval at a density of 215 petabytes per gram of DNA, using an experiment that stored about 2.14 megabytes. The distinction matters. They demonstrated remarkable density in the storage material; they did not build a device containing 215 petabytes, a fast reader and a computer in one gram. [\[2\]](https://classpages.cselabs.umn.edu/Spring-2020/csci5980/papers/DNA-Storage/DNA%20Efficient%20Storage%20Architecture.pdf)
+There is real science behind the attraction of very small storage. In 2017, the DNA Fountain researchers reported successful retrieval at a density of 215 petabytes per gram of DNA, using an experiment that stored about 2.14 megabytes. They demonstrated remarkable density in the storage material; they did not build a device containing 215 petabytes, a fast reader and a computer in one gram. [\[2\]](https://classpages.cselabs.umn.edu/Spring-2020/csci5980/papers/DNA-Storage/DNA%20Efficient%20Storage%20Architecture.pdf)
 
 Multiplying that density by the weight of a coin does not tell us what fits inside a working implant. Nigel also needs machinery to read and write the data, error correction, processing, working memory, power and protection from damage. “The entire public internet” would need a definition, too: a dated collection of accessible material, with decisions about duplication, changing pages and media. Public availability alone would not settle permission to redistribute it.
 
-Nigel’s coin therefore represents several breakthroughs at once. We can imagine the destination, but we cannot responsibly put a delivery date or a consumer price on it. A prediction of “twenty or thirty years” would be a guess dressed as a product roadmap.
+Nigel’s coin therefore represents several breakthroughs at once. We can imagine the destination, but we cannot responsibly put a delivery date or a consumer price on it.
 
 The independence is easier to recognise. Language models can already run locally on suitable computers. The ambitious leap is giving everyone vastly greater capability in a tiny, affordable device that can operate safely inside a body. [\[3\]](https://docs.ollama.com/faq)
 
@@ -57,9 +57,9 @@ This brings us to his eyes. Nigel’s visual display can show where an answer ca
 
 ![](/images/medium/1_-NgX1VJAzyI7VORqml1Z-w.png)
 
-His system also needs to say “I don’t know”. Installing the internet in a person should not mean installing the internet’s confidence.
+His system also needs to say “I don’t know”.
 
-Follow his arm down to the wrist. Beneath a protective flap is a high-speed optical interface. When Nigel rests his hand on a compatible surface, it can deliver updates and, with his permission, exchange selected files. Ordinary contact with another person does not grant access. A handshake remains a handshake.
+Follow his arm down to the wrist. Beneath a protective flap is a high-speed optical interface. When Nigel rests his hand on a compatible surface, it can deliver updates and, with his permission, exchange selected files. Ordinary contact with another person does not grant access.
 
 ![](/images/medium/1_jAtE2RGqSw5e5R-yCosqfQ.png)
 
@@ -67,9 +67,9 @@ The port is there because storage capacity and transfer speed solve different pr
 
 Even Nigel cannot finish Tuesday’s update if Monday’s takes three months. His system would receive changed material and revised index entries, while common updates could be distributed through shared local hubs or broadcast channels. Model upgrades could arrive separately. Adding a new document should not require retraining or replacing the entire model, and a change to model weights would not necessarily make a small download.
 
-“Offline” would mean independent between updates. Fresh information must still arrive through some connection or physical delivery. Nigel could decline it, but his guide would then need to display its age. Yesterday’s knowledge can be useful, provided nobody mistakes it for today’s.
+“Offline” would mean independent between updates. Fresh information must still arrive through some connection or physical delivery. Nigel could decline it, but his guide would then need to display its age.
 
-The shallow folds around his ribs and upper back are the cooling system. Reading a huge archive and running powerful models require energy, and the heat must go somewhere. Nigel has an external charging connection and a strict limit on how warm his internal components may become. For difficult work, he might still sit at a powered desk that supplies extra cooling. The coin has not abolished the rest of the computer.
+The shallow folds around his ribs and upper back are the cooling system. Reading a huge archive and running powerful models require energy, and the heat must go somewhere. Nigel has an external charging connection and a strict limit on how warm his internal components may become. For difficult work, he might still sit at a powered desk that supplies extra cooling.
 
 ![](/images/medium/1_Dhegs-SqeSL9tA9LBCDL2Q.png)
 
@@ -79,7 +79,7 @@ Initially, these would be replaceable computing modules. He might fit one suited
 
 ![](/images/medium/1_Rd0MOGtVR6YuHoug9wl0iQ.png)
 
-Swapping a biological brain, or transferring the person living in it, is a much greater leap. Calling both operations an upgrade conceals the difficult part. A new processor does not establish that Nigel’s memories, character or conscious experience can be moved with it.
+Swapping a biological brain, or transferring the person living in it, is a much greater leap. A new processor does not establish that Nigel’s memories, character or conscious experience can be moved with it.
 
 For that possibility, look at the protected compartment near the base of his skull: the emergency backup. In our imagined future, it preserves recoverable records of Nigel’s mental life. An encrypted copy is also held somewhere physically separate. A backup stored only inside Nigel would have an obvious weakness if something happened to Nigel.
 
@@ -89,11 +89,11 @@ We can already preserve someone’s writing, photographs, recorded voice and rec
 
 A wiring diagram, however, does not by itself establish how to capture and restore a person. We do not yet know everything a faithful reconstruction would have to preserve, or how to read it from a living human brain without destroying what we hope to save. A convincing digital imitation would not prove continuity of consciousness. There is no established timetable for a restorable human mind.
 
-That uncertainty belongs in Nigel’s story. It makes his backup more interesting. Suppose two restored versions remembered the same childhood and both believed they were Nigel. Their shared history would not settle which one, if either, continued the original experience. The familiar language of copying files starts to strain when the files can disagree with you.
+Suppose two restored versions remembered the same childhood and both believed they were Nigel. Their shared history would not settle which one, if either, continued the original experience.
 
-Even a less ambitious personal archive would deserve careful design. What happens to the hours since the last backup? Can a corrupted update damage every copy? Who tests recovery? Anyone who has managed important data will recognise the distinction between having a backup and knowing it can be restored. Nigel would have unusually strong reasons to care.
+Even a less ambitious personal archive would deserve careful design. What happens to the hours since the last backup? Can a corrupted update damage every copy? Who tests recovery? Anyone who has managed important data will recognise the distinction between having a backup and knowing it can be restored.
 
-Now return to his skin. An engineered pigment layer shows storage use, synchronisation and faults through adjustable colours and patterns, independently of his natural complexion. As space runs low, amber bands deepen across his forearms. A small display gives the exact figures. For once, “you look a bit overloaded” is a useful diagnosis.
+Now return to his skin. An engineered pigment layer shows storage use, synchronisation and faults through adjustable colours and patterns, independently of his natural complexion. As space runs low, amber bands deepen across his forearms. A small display gives the exact figures.
 
 ![](/images/medium/1_t6FJI2VQkaCxqEyaM6wcTA.png)
 
@@ -107,7 +107,7 @@ This is a deliberately bleak commercial possibility. The core device might have 
 
 Nigel’s red warning skin would expose a failure of ownership. If missing a bill could erase a person’s memories, whoever controlled the account would hold extraordinary power over that person. Giving everyone the hardware would have achieved very little if continued access to their own life remained conditional.
 
-I would give Nigel permanent control of his personal records, with usable export formats, independent recovery and a baseline service that survives financial difficulty. Optional services could stop when a subscription ends. His own memories should remain accessible. The hardware must distinguish those cases before somebody decides that deletion is a convenient billing feature.
+I would give Nigel permanent control of his personal records, with usable export formats, independent recovery and a baseline service that survives financial difficulty. Optional services could stop when a subscription ends. His own memories should remain accessible.
 
 There is one more control on his chest: a physical privacy switch. Nigel chooses what may leave the device. He can share a piece of public knowledge without sharing his reason for looking it up, and send a file without handing over his entire history. Emergency access would be limited to information he had chosen in advance, rather than treating illness as permission to inspect everything.
 
@@ -131,20 +131,20 @@ These are imagined features, not a medical or engineering specification. Having 
 
 ![](/images/medium/1_rxuSsZ82vxcfO9AoZSXk2Q.png)
 
-Breastbone / The knowledge capsule / A 50p-sized home for the public archive, search index and local models. Nigel carries the library; he still has to judge the answers.
+Breastbone / The knowledge capsule / A 50p-sized home for the public archive, search index and local models.
 
 ![](/images/medium/1_-NgX1VJAzyI7VORqml1Z-w.png)
 
-Eyes / The evidence display / See the source, its date and any disagreement before acting. Unlimited storage does not make every answer true.
+Eyes / The evidence display / See the source, its date and any disagreement before acting.
 
 ![](/images/medium/1_jAtE2RGqSw5e5R-yCosqfQ.png)
 
-Wrist /The high-speed interface / Receive updates or share selected files through a protected optical port. Every exchange needs permission. Handshakes remain social.
+Wrist /The high-speed interface / Receive updates or share selected files through a protected optical port. Every exchange needs permission.
 
 ![Its a good job no one realises that I’m at actually Nigel](/images/medium/1_Dhegs-SqeSL9tA9LBCDL2Q.png)
 *Its a good job no one realises that I’m at actually Nigel*
 
-Ribs and upper back / Power and cooling / Extra cooling surfaces manage the heat of computation. Heavy work may require a powered desk. Thinking has an energy bill.
+Ribs and upper back / Power and cooling / Extra cooling surfaces manage the heat of computation. Heavy work may require a powered desk.
 
 ![](/images/medium/1_Rd0MOGtVR6YuHoug9wl0iQ.png)
 

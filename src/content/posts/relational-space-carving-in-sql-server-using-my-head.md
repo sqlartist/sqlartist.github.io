@@ -43,7 +43,7 @@ I would smile more but if you ever want to animate your head it is important to 
 
 To generate 3D geometry, we utilized a technique called **Visual Hull Intersection** (Space Carving).
 
-The query reads the top-left quadrant of the image as the Front Profile (X, Y) and the top-right quadrant as the Side Profile (Z, Y). By setting a luminance threshold of 150, we mathematically erased the grey studio background. I had issues at this point with my maths and ended up just resorting to using the top two views.
+The query reads the top-left quadrant of the image as the Front Profile (X, Y) and the top-right quadrant as the Side Profile (Z, Y). By setting a luminance threshold of 150, we erased the grey studio background. I had issues at this point with my maths and ended up just resorting to using the top two views.
 
 The core engine is a strict INNER JOIN on the Y (height) axis. If a voxel is solid from the front view *and* solid from the side view on the exact same row, it survives. If not, it is carved away.
 
@@ -54,7 +54,7 @@ Early tests using a massive @Skip = 8 downsampling variable resulted in severe m
 
 To eliminate the stepping artifacts, we dropped the downsampling to a 1:1 pixel resolution (@Skip = 1).
 
-Because evaluating millions of pixels via CTEs would cause the query optimizer to spool endlessly, the architecture was shifted to physical temporary tables. By inserting the front and side coordinates into #TempFront and #TempSide, and applying a **Clustered Index** to the Y axis on both, we forced SQL Server to execute a lightning-fast Merge Join.
+Because evaluating millions of pixels via CTEs would cause the query optimizer to spool endlessly, the architecture was shifted to physical temporary tables. By inserting the front and side coordinates into #TempFront and #TempSide, and applying a **Clustered Index** to the Y axis on both, we forced SQL Server to use a Merge Join.
 
 **The Final SQL Script**
 
@@ -67,7 +67,7 @@ To convert this raw data into a manifold mesh, we bypass manual topology and use
 1.  Assign a Points to Volume node to the geometry, tuning the Radius up until the individual point spheres bridge the gaps between the coordinates.
 2.  Pipe that volume directly into a Volume to Mesh node.
 
-When this is executed on the 1:1 high-resolution SQL export, the severe terracing disappears, resulting in an incredibly dense, solid silhouette.
+When this is executed on the 1:1 high-resolution SQL export, the severe terracing disappears, leaving a dense, solid silhouette.
 
 ![The high-resolution 1:1 mesh output from the Geometry Nodes.](/images/medium/1_r8Q_FG_5NfffgCK1zCs-QQ.png)
 *The high-resolution 1:1 mesh output from the Geometry Nodes.*
@@ -82,7 +82,7 @@ When I realised, I carried on with the post-processing.
 
 The final step is knocking down the micro-grid “waffle” texture left behind by the spherical voxel generation.
 
-By applying the Geometry Nodes modifier and passing the mesh through a Decimate modifier (to reduce the polygon count) followed by a Smooth modifier (to average the vertex laplacians), the head becomes perfectly clean.
+By applying the Geometry Nodes modifier and passing the mesh through a Decimate modifier (to reduce the polygon count) followed by a Smooth modifier (to average the vertex laplacians), the head comes out clean.
 
 ![](/images/medium/1_Kp01OSTBt3HEtaFildoZUg.png)
 

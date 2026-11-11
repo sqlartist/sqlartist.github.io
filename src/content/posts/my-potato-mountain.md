@@ -25,7 +25,7 @@ I’ve been obsessed with this car for years. I started in the physical world 
 
 ## From plastic to pixels
 
-After some success in the physical world I thought, why not build the scene in 3D? Unreal, maybe. Or Unity. Or Blender. It started as an idea for a single 2D render. Then it became an animation. Then a game. Then a full scene. That’s how these things go.
+After some success in the physical world I thought, why not build the scene in 3D? Unreal, maybe. Or Unity. Or Blender. It started as an idea for a single 2D render. Then it became an animation. Then a game. Then a full scene.
 
 ![Autodesk 3ds Max render.](/images/medium/1_2VsrAfi5urgjrWYHKUs2-w.png)
 *Autodesk 3ds Max render.*
@@ -43,7 +43,7 @@ That one fact has shaped how I’ve built everything since.
 
 ## What thirty years of SQL actually gave me
 
-For a long time I assumed my database career counted for nothing here. Wrong field, wrong brain, wrong everything. I was wrong, and it took me a while to see why.
+For a long time I assumed my database career counted for nothing here. I was wrong, and it took me a while to see why.
 
 I am not as spontaneous as I once was, I can’t afford to hand-place a scene. Click a thousand objects into position, forget how you did it, and the scene is a dead end the first time something breaks. And something always breaks.
 
@@ -51,7 +51,7 @@ So I stopped placing scenes and started writing them. Python builders that gener
 
 Underneath, a scene is just rows. Objects, parents, transforms, materials. Name them properly and you can rebuild them. My model is a hierarchy with a body parent and children named the way a schema should be — wheelFL, wheelFR, wheelRL, wheelRR — with Clark, Ellen, Rusty, Audrey and Aunt Edna as separate objects so they don’t get dragged into a vehicle export.
 
-That isn’t artistry. It’s normalisation. But it means that when I break the scene, I can regenerate it instead of mourning it. Thirty years of databases taught me one transferable thing: never keep the only copy of anything in your head.
+It’s really normalisation, and it means that when I break the scene, I can regenerate it instead of mourning it. Thirty years of databases taught me one transferable thing: never keep the only copy of anything in your head.
 
 ## Five engines and a lot of u-turns
 
@@ -63,7 +63,7 @@ That isn’t artistry. It’s normalisation. But it means that when I break the 
 ![The same animation just after the car leaves the ramp — and an early version of the car.](/images/medium/1_vfNTyM2su12vMgguy4FSEA.png)
 *The same animation just after the car leaves the ramp — and an early version of the car.*
 
-Twinmotion was the opposite problem. It was the fastest route to something that looked good, and the weather and sunlight modules are genuinely excellent. But custom vehicle animation was too random. I could get a nice result; I couldn’t get the same result twice. Repeatability matters more to me than speed, so Twinmotion became a place I visit for stills rather than the place I build.
+Twinmotion was the opposite problem. It was the fastest route to something that looked good, and the weather and sunlight modules are excellent. But custom vehicle animation was too random. I could get a nice result; I couldn’t get the same result twice. Repeatability matters more to me than speed, so Twinmotion became a place I visit for stills rather than the place I build.
 
 ![A Twinmotion render. I tried hard to make this one work.](/images/medium/1_NEBJaXC2LASRKb9IGfybrw.png)
 *A Twinmotion render. I tried hard to make this one work.*
@@ -82,7 +82,7 @@ Where it’s landed is Blender plus Unreal Engine 5.8. Blender for the rendered 
 
 ## The wheel that turned itself inside out
 
-Every time the model moves between packages I end up in texture and material hell. Every piece of documentation tells you it’s an easy process. Trust me, it isn’t, and I genuinely cannot work out how designers put up with this level of incompatibility — it’s a whole article on its own. Fix one thing and another appears. The best of them was a wheel that inverted itself on import — no error, no warning, just a wheel pointing into its own arch. I never did work out why.
+Every time the model moves between packages I end up in texture and material hell. Every piece of documentation tells you it’s an easy process. Trust me, it isn’t, and I cannot work out how designers put up with this level of incompatibility — it’s a whole article on its own. Fix one thing and another appears. The best of them was a wheel that inverted itself on import — no error, no warning, just a wheel pointing into its own arch. I never did work out why.
 
 The current one is more interesting. I have a Blender crash setup working properly — the car drives, hits a rock, rolls, the glass shatters and the metal deforms as it lands on its roof. I have the Truckster animated along its own spline from the same start point, jumping and landing. Transferring the shatter onto the Truckster’s path is the bit that isn’t right yet: the simulation fires far too early, so the glass explodes while the car is still in the air. It needs holding back until touchdown. That’s the sort of problem that sounds trivial and eats a fortnight.
 
@@ -95,7 +95,7 @@ The Wagon Queen Family Truckster is a fictional station wagon built for the 1983
 ![Fictional Wagon Queen Family Truckster advertisement — a fan-made parody graphic featuring a replica built by Gary Schneider, using dialogue attributed to John Hughes.](/images/medium/1_KDxA0Qw0SqqaEgVHpQT3eg.png)
 *Fictional Wagon Queen Family Truckster advertisement — a fan-made parody graphic featuring a replica built by Gary Schneider, using dialogue attributed to John Hughes.*
 
-Three things I found while researching it that I hadn’t known, and that are worth knowing if you’re building one yourself.
+Three things I found while researching it.
 
 First, the colour has a name: Metallic Pea. Ford never sold it. It exists only on this car, which means there’s no swatch and no hex code to work from — only film stills, shot on 1983 stock, in desert sun, then graded.
 
@@ -105,7 +105,7 @@ Second, George Barris probably didn’t build it. Nearly every source online cre
 
 Third, five cars were built, so the crew could rotate them as the damage piled up through the film. I laughed when I read that, because it’s exactly what I’ve ended up doing in software — separate versions of the same model at different stages of destruction. And none of the five survive. They were either destroyed during filming or converted back into ordinary LTD wagons for other Warner Bros productions. Every Truckster you see today is a replica. A good one made $91,000 at Barrett-Jackson in 2019.
 
-Which is worth sitting with for a moment. Between all those 3D printers, the wasted filament that comes with the territory, the software and the time, I could probably have bought the one that came up at auction and had it shipped to the UK with change to spare. I’m glad I didn’t. I’d have had to take driving lessons, pass a test and insure the thing — and as I said at the top, I’ve never learnt to drive. I’m building the Griswolds’ road trip and I’ve never driven a car.
+Between all those 3D printers, the wasted filament that comes with the territory, the software and the time, I could probably have bought the one that came up at auction and had it shipped to the UK with change to spare. I’m glad I didn’t. I’d have had to take driving lessons, pass a test and insure the thing — and as I said at the top, I’ve never learnt to drive.
 
 One last detail, for anyone who’s read the fan-written brochure that does the rounds — the one promising a “huge, large block” V8 that “drinks the gas like nobody’s business”:
 
@@ -119,7 +119,7 @@ This is the scene I set out to build. Clark is lost on the way to the Grand Cany
 
 Two things I learned about it changed how I approached mine.
 
-The stunt coordinator bet the crew he could launch the car more than 50 feet, and won. I’m targeting a 140-foot gap in Unreal, worked out with projectile maths rather than guessed at. Having a real number from the real stunt to argue with turned out to be worth more than any amount of reference footage.
+The stunt coordinator bet the crew he could launch the car more than 50 feet, and won. I’m targeting a 140-foot gap in Unreal, worked out with projectile maths rather than guessed at.
 
 And the place doesn’t exist. The driving shots were filmed at Baby Rocks on US-160 east of Kayenta, Arizona. The walk through the desert with the skeleton is Great Sand Dunes in Colorado. The hotel is El Tovar at the Grand Canyon. The film cuts several states into one road. A faithful recreation is therefore impossible, and once I accepted that mine is an interpretation rather than a copy, the whole thing got easier.
 
@@ -151,7 +151,7 @@ Going into a huge boardroom with Clint Eastwood and Daffy Duck posters all round
 
 So when the scene is finally finished and uploaded, who knows. The 45th anniversary of the film’s release comes round in 2028, and Warner Bros may want something extra for the archive. Stranger things have happened to me in Burbank.
 
-If you know tyFlow properly, or you’ve ever persuaded a Blender fracture simulation to hold off until the exact frame you wanted, I’d genuinely like to hear from you.
+If you know tyFlow properly, or you’ve ever persuaded a Blender fracture simulation to hold off until the exact frame you wanted, I’d like to hear from you.
 
 **This is my potato mountain. I’d like to finish it.**  
    

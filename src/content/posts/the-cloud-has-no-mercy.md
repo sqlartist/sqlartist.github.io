@@ -47,20 +47,20 @@ Back to the main piece.
 
 I guess they never had the baggage of downloading a single image over a 56k modem from CompuServe or MSN. They don’t know the absolute heartbreak of your mum picking up the landline at 99% completion, completely ignoring those repeated, desperate pleas: “I know it’s your phone and you pay the bill, but *please* do not make any calls for the next five hours!”
 
-It was right around that point — somewhere near the start of three decades deep in SQL databases — that I changed my entire trajectory. The singular goal? To never have to worry about that kind of expense or limitation ever again. We wanted to build systems that were faster, better, and limitless.
+It was right around that point — somewhere near the start of three decades deep in SQL databases — that I changed direction. I wanted never to have to worry about that kind of expense or limitation ever again.
 
-But just as a piece of ancient vellum will comfortably outlast a carefully curated collection of 8,000 decaying DVDs, our technological trade-offs are rarely what they seem. We successfully eliminated the agonizing wait times and the physical friction of the 90s, but we replaced them with something much more insidious: the Cloud and AI.
+We got rid of the waiting of the 90s, but we replaced it with the Cloud and AI.
 
 Some genius came up with the idea of limitless, instantly accessible compute, and it is glorious — right up until the moment it threatens to literally bankrupt you. They don’t even have the decency to invoice you upfront; you pay the bill after the algorithms have had their fun.
 
 ![Figure 3: Nimbus was the computer used at my school in 1986. It had a 10MB Winchester Hard Drive. I had to include a picture of that beast at the end of the article.](/images/medium/1_GClE8oPrJ-a_72qpAPSNKg.png)
 *Figure 3: Nimbus was the computer used at my school in 1986. It had a 10MB Winchester Hard Drive. I had to include a picture of that beast at the end of the article.*
 
-Between various Max subscriptions and managed cloud services, we have entered an era of unprecedented ruthlessness. If the money isn’t in that account the exact millisecond they check, they cut you off. They make unveiled threats to wipe your entire online history so quickly it makes your head spin. I mean, there should be a Nobel Prize for customer service this aggressively efficient. Even when you die, your loved ones don’t get processed with that kind of cold, calculated precision.
+Between various Max subscriptions and managed cloud services, the ruthlessness is something else. If the money isn’t in that account the exact millisecond they check, they cut you off. They make unveiled threats to wipe your entire online history so quickly it makes your head spin. I mean, there should be a Nobel Prize for customer service this aggressively efficient. Even when you die, your loved ones don’t get processed with that kind of cold, calculated precision.
 
-Therein lies the danger of the “Jason sent it” mindset. When we abstract away the hardware and stop questioning how the underlying infrastructure actually works, we lose control. We traded the physical annoyance of dropped connections for a world where a faceless billing algorithm acts as an unforgiving landlord over our digital lives.
+That’s the danger of the “Jason sent it” mindset. Stop asking how the infrastructure underneath works and you lose control of it.
 
-The lesson here isn’t to go backwards, but to look beneath the hood. Understand the compute cycles you are spinning up. Keep a grip on your data sovereignty, because renting infinite power means you can be evicted in a heartbeat.
+I’m not saying go backwards. Look under the hood, know what compute you are spinning up, and keep hold of your own data, because when you rent everything you can be evicted in a heartbeat.
 
 Still, I suppose I should be grateful. At least I never had to punch little holes into a card and wait overnight to see if it had worked, just praying the mainframe hadn’t eaten the entire batch by morning…
 

@@ -28,7 +28,7 @@ They turn up at the same time of day and night. The first one of the day was alw
 
 About twenty years ago, when they first arrived, I did what any desperate person does. I read everything. Journals, forums, the small print on trial protocols. And then I did what any desperate \*database\* person does. I built a system.
 
-That’s the thing about spending your life in SQL. When the world goes wrong, you don’t reach for a hammer. You reach for a schema.
+When you’ve spent your life in SQL and the world goes wrong, you reach for a schema.
 
 ## Version one: the back of the head
 
@@ -38,17 +38,17 @@ I liked that last bit a lot.
 
 It was ex-cranial, so the brain itself stayed out of it. But the question was still the same one I’m asking today: where exactly do you put the thing? A few millimetres either way seemed to decide whether it helped or just gave you a buzzing scalp. So my system tried to line up where the electrodes went with how people actually got on afterwards. Placement in, outcome out, look for the pattern.
 
-Was it any good? It was a desperate man’s database. It asked the right question with not nearly enough data. But it taught me something I’ve carried ever since. The answer isn’t in the textbook diagram. It’s in what happened to the people who went before you.
+Was it any good? It was a desperate man’s database. It asked the right question with not nearly enough data. But it taught me that the answer is in what happened to the people who went before you, not in the textbook diagram.
 
 ## Twenty years on, round two
 
 So why pick it up again? Partly because I’ve spent the last few months making SQL Server do silly things. Doom. Elite. A bouncing Amiga ball. A synth. At some point you ask yourself whether the same tricks could do something that matters.
 
-And partly because the tools have finally caught up with the idea. SQL Server 2025 has a native \`VECTOR\` type. Twenty years ago “find me the patients most like this one” meant a pile of hand-rolled maths. Now it’s a function call.
+And partly because the tools have finally caught up with the idea. SQL Server 2025 has a native \`VECTOR\` type. Twenty years ago “find me the patients most like this one” meant a pile of hand-rolled maths, and now it’s a function call.
 
 This time I went inside the skull, at least on paper. Deep brain stimulation, or DBS, is a real treatment for Parkinson’s. For cluster headache it’s still very much experimental, aimed at a spot called the posterior hypothalamus. I built it to handle both, because the problem is the same shape.
 
-The first decision was the easiest one: X-ray or 3D scan? I briefly fancied X-ray because it’s cheap and everywhere. Then I remembered an X-ray of a head is mostly a very good picture of a skull. You can’t see deep brain structures on it. Real surgical planning uses a 3D MRI, and a CT afterwards to check where the lead actually landed. So that’s what I modelled. Sometimes the harder option is the right one simply because its a hard problem.
+The first decision was the easiest one: X-ray or 3D scan? I briefly fancied X-ray because it’s cheap and everywhere. Then I remembered an X-ray of a head is mostly a very good picture of a skull. You can’t see deep brain structures on it. Real surgical planning uses a 3D MRI, and a CT afterwards to check where the lead actually landed. So that’s what I modelled.
 
 ---
 
@@ -58,16 +58,16 @@ The first decision was the easiest one: X-ray or 3D scan? I briefly fancied X-ra
 ***Every brain is a slightly different shape. Surgeons stretch each one onto a standard map, but a stretched map still isn’t a person. So each scan becomes a fingerprint of 14 numbers: ventricle widths, brain size, the distance between two landmarks in the middle of the brain, age. The system then finds the 40 previous patients whose fingerprints sit closest. Think of it as a dating app for brains, with worse chat-up lines.
 
 ***Let the outcomes do the teaching.***   
-This is the lesson from twenty years ago. It doesn’t copy where the neighbours’ electrodes went. It asks where the electrodes went and how well it worked, then works out the spot that best explains the good results. A placement that left someone with side effects counts against that area. There’s a slider for how cautious to be, which felt like the right thing to put in a human’s hands.
+This is the lesson from twenty years ago. The system doesn’t copy where the neighbours’ electrodes went. It asks where the electrodes went and how well it worked, then works out the spot that best explains the good results. A placement that left someone with side effects counts against that area. There’s a slider for how cautious to be.
 
 ***Keep it in the database.***   
-Obviously. The search, the scoring and the fitting all run in T-SQL. There’s a Python mirror of the same maths so the Streamlit front end still works on a laptop, but SQL Server does the thinking. Old habits.
+The search, the scoring and the fitting all run in T-SQL. There’s a Python mirror of the same maths so the Streamlit front end still works on a laptop, but SQL Server does the thinking. Old habits.
 
 ***Close the loop.***   
-Every new patient’s 12-month result goes back into the library. The next person gets a slightly better answer because of the last one. That’s the bit I wanted most back then.
+Every new patient’s 12-month result goes back into the library. The next person gets a slightly better answer because of the last one.
 
 ***Simulated data.***   
-I’m not going anywhere near real patient records for a hobby project. So I wrote a simulator that makes up brains, operations and outcomes. The bonus is that with made-up patients you know the right answer. With real ones you never do.
+I’m not going anywhere near real patient records for a hobby project. So I wrote a simulator that makes up brains, operations and outcomes. With made-up patients you know the right answer, which you never do with real ones.
 
 ---
 
@@ -80,7 +80,7 @@ In the simulation, yes. Modestly. To test it, I hid each past patient in turn an
 
 Half a millimetre doesn’t sound like much. In this part of the brain it’s the difference between “that helped” and “why can I taste rainbows?”
 
-These are made-up patients, and I wrote the rules they follow, so of course the method can learn them. That shows the machinery works. It doesn’t show it would help a real person. The suggestions also drift a touch closer to the areas that cause side effects, which is exactly why the caution slider exists. A real version would need proper brain registration, real post-op imaging, ethics approval and a lot of people much cleverer than me. There’s already serious open-source work in this area, the Lead-DBS toolbox for one. I’m a database man having a go, not a neurosurgeon.
+These are made-up patients, and I wrote the rules they follow, so of course the method can learn them. That shows the machinery works. It doesn’t show it would help a real person. The suggestions also drift a touch closer to the areas that cause side effects, which is why the caution slider exists. A real version would need proper brain registration, real post-op imaging, ethics approval and a lot of people much cleverer than me. There’s already serious open-source work in this area, the Lead-DBS toolbox for one. I’m a database man having a go, not a neurosurgeon.
 
 ---
 
@@ -791,7 +791,7 @@ Your question was a good one. Where the electrode goes matters, and the people w
 
 You’ll need a lot more data than you’ve got. Be patient. The tools will come.
 
-And building something, even something that will never go near an operating theatre, is a perfectly reasonable way to feel less helpless. It worked for me then. It still does.
+And building something, even something that will never go near an operating theatre, is a perfectly reasonable way to feel less helpless.
 
 The code, simulator and front end will be on my GitHub. Usual disclaimer, in bold because it matters: **simulated data, not medical advice, please don’t let anyone drill holes in you because of a SQL query.**
 

@@ -14,7 +14,7 @@ draft: false
 
 ## The question
 
-When I put 1.7 million speeches through two graphics cards to see whether ministers ever steal the Opposition’s ideas, one thing kept nagging at me. It wasn’t the speeches. It was the man in the big chair, shouting “Order!” every few minutes.
+When I put 1.7 million speeches through two graphics cards to see whether ministers ever steal the Opposition’s ideas, one thing kept nagging at me: the man in the big chair, shouting “Order!” every few minutes.
 
 How often does the Speaker actually have to step in? Leave the parties to their own devices and they become a rabble. Everyone knows that. But how much of a rabble, and has it changed?
 
@@ -27,7 +27,7 @@ My website already has a toy on it: every story I’ve written, placed inside a 
 ![The Hypercube — a 4D OLAP Cube analysing articles on my website.](/images/medium/1_wxmxdBCWzJ2DbKUje1uaPg.png)
 *The Hypercube — a 4D OLAP Cube analysing articles on my website.*
 
-Here’s the thing most people don’t know. SQL Server has had a hypercube built in since 2008. `GROUP BY CUBE` takes a list of dimensions and works out every combination of them in one statement. Give it five (year, Speaker, type of business, party, Government or Opposition) and it computes all 32 ways of slicing the House, from the finest detail right up to the grand total.
+SQL Server has had a hypercube built in since 2008. `GROUP BY CUBE` takes a list of dimensions and works out every combination of them in one statement. Give it five (year, Speaker, type of business, party, Government or Opposition) and it computes all 32 ways of slicing the House, from the finest detail right up to the grand total.
 
 I made one rule for myself. The database does the thinking. The viewer only draws what SQL Server worked out, and it never adds anything up itself.
 
@@ -45,17 +45,17 @@ I sat directly opposite the [Rt Hon Lord Lilley](https://www.peterlilley.co.uk/a
 
 ## My first numbers were wrong
 
-I started with the data I already had, the 1.7 million speeches from the vector search work. The first results came back and looked lovely. Bercow intervened more than anyone. Opposition and Government were treated much the same. I nearly wrote it up.
+I started with the data I already had, the 1.7 million speeches from the vector search work. The first results looked fine. Bercow intervened more than anyone. Opposition and Government were treated much the same. I nearly wrote it up.
 
 Then the cracks showed. The years 2002 to 2004 were almost empty. The speeches weren’t in the order they were spoken. And when I went back to the source, Evan Odell’s *Hansard Speeches 1979–2021*, it had 2.7 million rows, not 1.7.
 
-The missing million told the story. To build embeddings, I’d thrown away every speech too short to mean anything. And what’s the shortest speech in Parliament? “Order.” My cleaned-up dataset had quietly kept about a quarter of everything the Chair ever said. I was measuring the Speaker with most of the Speaker removed.
+The missing million told the story. To build embeddings, I’d thrown away every speech too short to mean anything. And what’s the shortest speech in Parliament? “Order.” My cleaned-up dataset had kept about a quarter of everything the Chair ever said. I was measuring the Speaker with most of the Speaker removed.
 
-That’s the lesson I’d pass on. Data you prepared for one question will happily answer a different one, and it won’t tell you it’s wrong. It’ll give you a neat answer.
+Data you prepared for one question will happily answer a different one, and it won’t tell you it’s wrong.
 
-Getting it back was satisfying. Every row in the source carries a TheyWorkForYou ID that records the sitting, the column and the paragraph, which is the true order of speaking. I matched my speeches back to it by date and their first 80 characters. 1,700,614 out of 1,700,647 paired up, in 34 seconds. Then I loaded the whole source instead, all 2.7 million rows, procedural lines and all.
+Every row in the source carries a TheyWorkForYou ID that records the sitting, the column and the paragraph, which is the true order of speaking. I matched my speeches back to it by date and their first 80 characters. 1,700,614 out of 1,700,647 paired up, in 34 seconds. Then I loaded the whole source instead, all 2.7 million rows, procedural lines and all.
 
-I also wrote a second version of the counting rules in Python, whose only job was to disagree with the SQL. It found a bug on day one. “Order. Order.” was being counted once, because the full stop that ends the first call is also the one that starts the second. Two implementations, one argument, one fix. It’s the same trick that saved me on the AS/400.
+I also wrote a second version of the counting rules in Python, whose only job was to disagree with the SQL. It found a bug on day one. “Order. Order.” was being counted once, because the full stop that ends the first call is also the one that starts the second. It’s the same trick that saved me on the AS/400.
 
 ```sql
 /* =====================================================================
@@ -244,7 +244,7 @@ The job changed. In the 1980s the Chair was keeping order. By the 2010s it was k
 
 ## The Government lost its protection
 
-This was the finding I didn’t expect, and it only appeared once the speeches were back in their proper order.
+This only appeared once the speeches were back in their proper order.
 
 For every intervention I worked out who had the floor at the time: the last Member to speak before the Chair stood up. Then I compared Government and Opposition, per 1,000 of their own speeches.
 
@@ -844,7 +844,7 @@ ORDER BY r.ReignId;
 The House got more forgiving over time. Personal rebukes ran at about 1.6 per 1,000 speeches in the late 1980s and about 0.4 in the 2010s. So I measured everyone against the years they actually sat. A score of 1 means normal for your era, and 10 means ten times the norm. Minimum 500 speeches:
 
 1.  **Ron Brown: 21 times** his era’s rate, and named three times. Yes, the mace man.
-2.  **Ian Blackford: 19 times.** Hold that thought.
+2.  **Ian Blackford: 19 times.**
 3.  **Andrew Faulds: 13 times.**
 4.  **David Shaw: 12 times**, a rare Conservative near the top.
 5.  **George Galloway: 11 times.**
@@ -872,14 +872,14 @@ One name sits at the top of both tables. **Ian Blackford**, SNP leader at Westmi
 
 The House shouted him down more than anyone, and the Chair pulled him up more than almost anyone. Nobody else comes close on both counts.
 
-The database found him twice, from two different directions. I like it when that happens.
+The database found him twice, from two different directions.
 
 ![Blackford (Me) actually being escorted out of the commons. The entire SNP benches (All me) following.](/images/medium/1_LL304wcpGVelYYgBjXoQbA.jpeg)
 *Blackford (Me) actually being escorted out of the commons. The entire SNP benches (All me) following.*
 
 ## Did the cameras change anything?
 
-The Commons was first televised on 21 November 1989, halfway through Weatherill’s time. So there’s a neat experiment sitting in the data: same Speaker, same Parliament, with and without an audience.
+The Commons was first televised on 21 November 1989, halfway through Weatherill’s time. So the data has a natural experiment in it: same Speaker, same Parliament, with and without an audience.
 
 In the three years before, the Chair intervened 40.6 times per 1,000 speeches. Afterwards it was 38.4. Interruptions fell from 31.8 to 25.4. So MPs behaved slightly better with the nation watching, and then, as the trend shows, got used to it.
 

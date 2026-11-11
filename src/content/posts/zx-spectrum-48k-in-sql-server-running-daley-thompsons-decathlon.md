@@ -55,15 +55,15 @@ They would hypnotise you with their weird sounds and because of your sister deli
 
 But this was going to be far easier. Why?
 
-Because I am going to use a Micro-drive, not a cassette. Micro-drives were as rare as the 3" floppy disk used in an Amstrad PCW8256 machines. (The world standard was 3.5" floppy disks) but good old Sir Alan Sugar must have got hold of a job lot from the back of a van and built his genuinely incredible machine around these disks.
+Because I am going to use a Micro-drive, not a cassette. Micro-drives were as rare as the 3" floppy disk used in an Amstrad PCW8256 machines. (The world standard was 3.5" floppy disks) but good old Sir Alan Sugar must have got hold of a job lot from the back of a van and built his incredible machine around these disks.
 
 Micro-drives do not have the brutal Copy Protection software embedded into many Game Cassette tapes from that era.
 
 Side Note: I’m 53 and never once heard of copy protection on a cassette before this project. People used to tape music all the time. But now it makes a bit more sense and perhaps it wasn’t the nightmare siblings of this world causing these load failures, perhaps it was the copy protection kicking in due to you using “a friends copy of the game”.
 
-## First, the honest bit about firsts
+## Not the first
 
-I nearly opened this with “nobody has ever done this.” Then I checked, which I recommend doing before you put a claim like that on the internet.
+I nearly opened this with “nobody has ever done this.” Then I checked.
 
 **Peter Negenborn built an Intel 8080 emulator in T-SQL and ran CP/M on it.**
 
@@ -90,50 +90,41 @@ somebody probably did a 6502 in PL/SQL in 2009 and never told anyone.
 Clive Sinclair built the world’s first slimline pocket calculator in 1972,  
 then spent the early eighties making computers cheap enough that ordinary families bought them. The ZX80 was the UK’s first mass-market home computer under £100. The ZX Spectrum followed in 1982–48K of RAM, a Z80 running at 3.5MHz, and those rubber keys.
 
-It did something no spec sheet captures. It put a programmable machine into hundreds of thousands of British living rooms at a price that didn’t require a family conference, and a generation of us learned to code on it because there was nothing else to do with the thing. The British games industry came out of those bedrooms more or less directly. Sinclair was knighted in 1983 and died in 2021, aged 81.
+It put a programmable machine into hundreds of thousands of British living rooms at a price that didn’t require a family conference, and a generation of us learned to code on it because there was nothing else to do with the thing. The British games industry came out of those bedrooms more or less directly. Sinclair was knighted in 1983 and died in 2021, aged 81.
 
-The engineering is also \*frugal\* in a way that makes it a lovely emulation  
+The engineering is also \*frugal\*, which makes it a good emulation  
 target. There’s no video chip worth the name. The screen is a bitmap sitting  
 in RAM at 0x4000, with a daft interleaved layout that saves a few gates at  
 the cost of making programmers do sums. One interrupt, fifty times a second.
 
-That’s the machine.
+That matters, because my first instinct was the Commodore 64.
 
-Which matters, because my first instinct was the Commodore 64.
-
-I got talked out of it inside about a minute, and the argument was better  
-than mine. The 64 means a VIC-II with sprites and raster interrupts and  
+I got talked out of it inside about a minute. The 64 means a VIC-II with sprites and raster interrupts and  
 badlines, plus CIA timers, and Ocean-era code leans on all of it. Get it  
 subtly wrong and you don’t get an error — you get output that looks nearly  
-right and costs you a fortnight. The Spectrum’s frugality is the whole  
-point: on that machine 100% of your cost is the CPU, and a CPU is the  
+right and costs you a fortnight. On the Spectrum 100% of your cost is the CPU, and a CPU is the  
 boring mechanical bit you already know how to write.
 
-I’ve been at this long enough to know that changing your mind quickly on  
-someone else’s better reasoning is a skill rather than a concession. There’s  
-a new wrinkle when the reasoning comes from an AI, though, which is that  
-it’ll argue just as confidently when it’s wrong. That came up later.
+The reasoning came from an AI, and an AI will argue just as confidently when it’s wrong. That came up later.
 
-The bit that was genuinely mine
+The bit that was mine
 
 **Daley Thompson’s Decathlon** is the game that destroyed joysticks across  
 Britain. Ocean, 1984. The entire thing is how fast you can waggle, which  
 makes it the worst possible fit for an emulator running at a fraction of  
-real time. That appealed.
+real time. I liked that.
 
 The tape release is Speedlock protected, and emulating a fast loader’s  
 timing games buys you nothing once the code’s in memory. The obvious dodge is to load it in a normal emulator and take a snapshot — which works, but it’s starting from someone else’s already-solved problem.
 
 I had the Micro-drive cartridge image. Micro-drive cartridges are unprotected, and it turned out this one had the whole story in it: a BASIC loader with machine code hidden inside a REM statement, jumping into itself, copying a stub into the printer buffer, restoring a saved register set popped off a fake stack it had built in the middle of a program line.
 
-There’s a moment where you decode those saved registers out of the cartridge bytes and IY comes out as \`0x5C3A\` — the standard Spectrum system variable pointer. That’s when you know you’ve read it correctly rather than plausibly. Nobody handed us that. It was sitting in a 137KB file that’s been on the internet for thirty years, waiting for someone curious enough to look.
+There’s a moment where you decode those saved registers out of the cartridge bytes and IY comes out as \`0x5C3A\` — the standard Spectrum system variable pointer. That’s when you know you’ve read it correctly. It was sitting in a 137KB file that’s been on the internet for thirty years, waiting for someone curious enough to look.
 
 Knowing that file existed, and why it beat the tape, is the sort of thing  
 that comes from having lived through it the first time.
 
 ## Ten deploys that didn’t work
-
-Here’s the part nobody puts in the article.
 
 The first version wouldn’t parse. Nor the second. T-SQL has a trap where  
 \`IF x SET [@a](http://twitter.com/a "Twitter profile for @a") = 1; ELSE …\` is a syntax error — the semicolon terminates the  
@@ -142,10 +133,9 @@ several hundred times. Fixed that, and the ROM image wouldn’t load, because a 
 
 Then three runs produced byte-identical results because the file on disk had changed and the copy on my server hadn’t, and neither of us could tell.
 
-My contribution through all of that was un-glamorous and, I think,  
-irreplaceable: I pasted everything back verbatim. Every error, every line  
+My contribution through all of that was to paste everything back verbatim. Every error, every line  
 number, full register dumps, disassembly listings, screenshots when words  
-wouldn’t do. No summarising, no “it didn’t work”. The exact text. The reason I didn’t try to understand the disassembly is shown in the code below.
+wouldn’t do. The reason I didn’t try to understand the disassembly is shown in the code below.
 
 1.  **DAA — the hardest instruction on the Z80**
 
@@ -299,8 +289,7 @@ session.
 A stored procedure that hill-climbs its way to a world record in the long  
 jump.
 
-That’s next, and I’m looking forward to it more than any of the above. Not  
-because it’s difficult, but because it’s where the database stops being a place the game lives and becomes the thing that plays it.
+That’s next, and I’m looking forward to it more than any of the above, because that’s where the database stops being a place the game lives and becomes the thing that plays it.
 
 Forty-three years after Sinclair sold the thing for £175, it’s running inside a relational database, being played by a query. I think he’d have found that funny.
 

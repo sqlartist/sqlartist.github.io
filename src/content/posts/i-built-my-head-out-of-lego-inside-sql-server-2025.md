@@ -52,17 +52,15 @@ Create the Lego head from an existing 67 MB OBJ of my head. Everything that foll
 
 A Lego stud is 8 mm from the next one. A brick is 9.6 mm tall. A plate is 3.2 mm, a third of a brick.
 
-The bit I love is this. Five plates stacked up is 16 mm, which is exactly two studs. That 5:2 ratio is why you can build sideways (“studs not on top”, if you’re a proper adult fan of Lego) and everything still lines up.
+Five plates stacked up is 16 mm, which is exactly two studs. That 5:2 ratio is why you can build sideways (“studs not on top”, if you’re a proper adult fan of Lego) and everything still lines up.
 
 For a database person that’s wonderful news. Store X and Z in studs and Y in brick layers and **every coordinate is an integer**. No floating point, no tolerances, and every “does this touch that?” question becomes an equality join. LDraw, the open file format the whole Lego CAD world runs on, does the same thing: 20 units per stud, 24 per brick, 8 per plate.
 
-There’s one trap, and I nearly fell straight into it. **A 1×1 brick is not a cube.** It’s 8 × 8 × 9.6 mm. Chop a model into cubes, call each one a brick, and your head comes out 20% too tall. Mine is long enough already and the first time I did this I looked like the statues on Easter Island.
+**A 1×1 brick is not a cube.** It’s 8 × 8 × 9.6 mm. Chop a model into cubes, call each one a brick, and your head comes out 20% too tall. Mine is long enough already and the first time I did this I looked like the statues on Easter Island.
 
 ### Two 2×4 bricks, 24 ways, and Burnside’s lemma
 
 The most famous bit of Lego maths is counting. How many ways can you join six 2×4 bricks? Lego quoted roughly 103 million for years. Then in 2005 a mathematician, Søren Eilers, actually counted them properly: **915,103,765**.
-
-Six is far too many to brute-force in a query. Two is perfect, though, and it’s a lovely bit of maths.
 
 Fix the bottom brick. Slide the top brick over it, either parallel or turned 90 degrees, keeping at least one stud in contact. That gives 46 positions. But spin the whole thing round 180 degrees and some of those positions turn into each other, so they aren’t different builds.
 
@@ -95,7 +93,7 @@ RawPlacements  FixedBy180  DistinctBuilds
 46             2           24
 ```
 
-Have a look at that WHERE clause. “Do these two bricks overlap?” is exactly the “do these two date ranges overlap?” test every SQL developer has written a hundred times, once for each direction. That turns out to be the theme of this whole article. **Lego problems keep turning into SQL problems we already know.**
+Have a look at that WHERE clause. “Do these two bricks overlap?” is exactly the “do these two date ranges overlap?” test every SQL developer has written a hundred times, once for each direction. **Lego problems keep turning into SQL problems we already know.**
 
 ### Something simple first. Or not.
 
@@ -182,7 +180,7 @@ Euler says 2. Two edges out of just over a million belong to only one triangle. 
 
 ### Turning my head into bricks is a window function
 
-Here’s the core idea. It’s the same idea my 3D printers’ slicer uses to fill in each layer.
+This part is the same method I used on my 3D Printer Slicer in SQL and fills in each layer.
 
 Fire a ray straight through my head along every row of the brick grid. Each time the ray crosses the surface it goes outside → inside → outside → inside. Sort the crossings along the ray, pair them up (1st with 2nd, 3rd with 4th) and everything between a pair is solid head.
 
@@ -206,7 +204,7 @@ WHERE r.n % 2 = 1                -- entering the solid
   AND CEILING(r.t) <= FLOOR(r.tOut);
 ```
 
-One subtle thing. If a ray passes *exactly* through a vertex or along an edge it gets counted twice, and inside and outside swap places. So, I nudge every ray about a micron off the exact grid. After that, any ray with an odd number of crossings must have leaked through a hole, and it gets skipped.
+If a ray passes *exactly* through a vertex or along an edge it gets counted twice, and inside and outside swap places. So, I nudge every ray about a micron off the exact grid. After that, any ray with an odd number of crossings must have leaked through a hole, and it gets skipped.
 
 At life size: **619 rays, 1,256 crossings, zero odd rays, in under a second.** Out came 8,331 1×1 bricks on a 23 × 31 × 30 grid.
 
@@ -243,7 +241,7 @@ WHERE NOT EXISTS (SELECT 1
 
 Even layers prefer bricks running across, odd layers prefer bricks running front to back. That way the joints in one layer are always covered by the bricks above. Proper brickwork bond, like a garden wall.
 
-**15 rounds, half a second, 731 bricks.** Then I checked it the way you should check anything you’re proud of: zero overlapping bricks, zero missing cells, zero extra cells.
+**15 rounds, half a second, 731 bricks.** Zero overlapping bricks, zero missing cells, zero extra cells.
 
 ![Life size, 731 bricks, hollow. In the side view you can see the alternating layers.](/images/medium/1_ms5wNrclr3HTxOsYFReHpg.png)
 *Life size, 731 bricks, hollow. In the side view you can see the alternating layers.*
@@ -272,9 +270,9 @@ CONCAT('1 ', b.ColourID, ' ',
 0 STEP
 ```
 
-A couple of gotchas. LDraw’s Y axis points *\*down\**, and a brick’s origin is the centre of its top face. Flipping Y and Z together gives you a 180-degree turn rather than a mirror image. Mirror-image me would be very unsettling.
+LDraw’s Y axis points *\*down\**, and a brick’s origin is the centre of its top face. Flipping Y and Z together gives you a 180-degree turn rather than a mirror image. Mirror-image me would be very unsettling.
 
-Put a \`0 STEP\` line after each layer and the file should become layer-by-layer building instructions in BrickLink Studio, for free. (Spoiler: it does. More on that at the end.)
+The \`0 STEP\` lines are what allow the process to turn it into a proper building instruction manual. It’s just a pause.
 
 ### Life size was a disappointment
 
@@ -291,7 +289,7 @@ So: \`@Scale = 2.0\`. That gives 66,645 voxels on a 45 × 61 × 60 grid, a 14,54
 
 The OBJ pointed at a material file that wasn’t in the folder. When I found it, it had no texture in it at all. The colour lived in the original Blender file, with four images packed inside it: the 4096 × 4096 Base Colour map, plus a metallic/roughness map, a normal map and an emission map.
 
-Getting it out cost me five minutes of staring at a Blender process that had used five seconds of CPU and was doing absolutely nothing. Running it headless with \` — factory-startup -noaudio\` sorted that out. This is the one step outside SQL Server I had to take: a tiny Blender script finds whatever image feeds Base Colour and saves it as a 1024 × 1024, 24-bit BMP.
+Getting it out cost me five minutes of staring at a Blender process that had used five seconds of CPU and was doing absolutely nothing. Running it headless with \`--factory-startup -noaudio\` sorted that out. This is the one step outside SQL Server I had to take: a tiny Blender script finds whatever image feeds Base Colour and saves it as a 1024 × 1024, 24-bit BMP.
 
 ![My face as a texture atlas. A patchwork quilt of skin, stubble and the occasional eyeball.](/images/medium/1_RE-swfEc4Q9314-kcSAMGQ.png)
 *My face as a texture atlas. A patchwork quilt of skin, stubble and the occasional eyeball.*
@@ -300,7 +298,7 @@ Getting it out cost me five minutes of staring at a Blender process that had use
 
 ### A BMP is just SUBSTRING (again)
 
-If you read the Space Carving article, you’ll know I’ve been here before. You’ll also know about my 32-bit alpha channel disaster. This time it’s 24-bit. I learned my lesson.
+If you read the Space Carving article, you’ll know I’ve been here before. You’ll also know about my 32-bit alpha channel disaster. This time it’s 24-bit.
 
 SQL Server can’t decode a JPEG or a PNG. But a 24-bit BMP is just a 54-byte header followed by raw pixels: bottom row first, three bytes each, stored Blue-Green-Red, with each row padded out to a multiple of 4 bytes. So \`OPENROWSET(… SINGLE\_BLOB)\` plus \`SUBSTRING\` is a perfectly good image decoder:
 
@@ -332,11 +330,11 @@ So before trusting anything, I splatted every triangle onto a flat image, colour
 
 ### Nearest colour is VECTOR\_DISTANCE
 
-Now for the fun part. For every one of the 686,435 triangles:
+For every one of the 686,435 triangles:
 
-\- its centre’s texture coordinate picks a pixel, which gives a colour  
- — its centre’s position picks a grid cell, which gives a brick  
- — its area is the weight
+- its centre’s texture coordinate picks a pixel, which gives a colour  
+- its centre’s position picks a grid cell, which gives a brick  
+- its area is the weight
 
 Each brick’s colour is the area-weighted average of all the triangles that land on it, snapped to the nearest real Lego colour.
 
@@ -362,8 +360,8 @@ I tried a “dominant colour” mode, where each brick takes whichever Lego colo
 
 The real fixes were two parameters:
 
-\- **A portrait palette.** An \`InPalette\` flag on the colour table. Out go Red, Blue, Yellow and that olive Dark Tan.  
- — **Exposure.** Multiply the Lab lightness before snapping to a colour.
+- **A portrait palette.** An \`InPalette\` flag on the colour table. Out go Red, Blue, Yellow and that olive Dark Tan.  
+- **Exposure.** Multiply the Lab lightness before snapping to a colour.
 
 Here’s one skin pixel before and after:
 
@@ -384,7 +382,7 @@ So, 1.25 it is. Proper skin tones, eyes with irises, the grey goatee and the gre
 
 ### Into BrickLink Studio
 
-Then I did the thing I’d been putting off. I installed BrickLink Studio and opened the file SQL Server had written.
+I installed BrickLink Studio and opened the file SQL Server had written.
 
 4,149 bricks, each one exactly where a SELECT statement put it, in the right colour and the right way round. And, unlike last time, no head 6,000 metres tall.
 
@@ -411,7 +409,7 @@ Two statistics jump right out on the Bill of Materials
 1.  **The Red Core Savings:** Just **1,157 Red 2 × 8 plates** swallowed **18,512 individual interior studs** inside my cranium — eliminating over 17,000 parts and costing just **£23.14**.
 2.  **The Price of a Salt-and-Pepper Beard:** Why are the top three rows of the Bill of Materials dominated by 1 × 1 and 1 × 2 *Light* and *Dark Bluish Gray* plates (£239.16 worth of tiny grey pieces)? Because every fleck of grey hair in my beard and temples alternates pixel-by-pixel. The greedy mesher refused to merge adjacent grey and brown voxels into larger plates, preserving the exact dithered texture of the beard.
 
-The one bit I’m not happy with is the chin. On the scan it’s a grey goatee. In Lego it’s a brown patch with a black hole under the jaw. That’s the shadow under my chin, baked into the texture and now faithfully reproduced in plastic. SQL Server did exactly what I asked it to. It always does. That’s the problem.
+The one bit I’m not happy with is the chin. On the scan it’s a grey goatee. In Lego it’s a brown patch with a black hole under the jaw. That’s the shadow under my chin, baked into the texture and now faithfully reproduced in plastic.
 
 ### I have no brain
 
@@ -443,7 +441,7 @@ WHERE h.ModelID = @HeadModelID
 
 Remember the onion peel? It pays off again here. “Inside my skull” is simply \`Depth > 2\`, and I leave one more empty layer between skull and brain. That gap is my cerebrospinal fluid. Technically it’s air, but it’s air with a medical name.
 
-**The folds** are where it got interesting. A smooth pink blob doesn’t say “brain”. Wrinkles do. So, I made a wiggly 3D wave (three sine waves, each one wobbled by another) and cut a groove wherever it crosses zero.
+**The folds.** A smooth pink blob doesn’t say “brain”. Wrinkles do. So, I made a wiggly 3D wave (three sine waves, each one wobbled by another) and cut a groove wherever it crosses zero.
 
 My first attempt said, “close to zero counts”, and it came out as a pink blob with a rash. Scattered speckles, no lines. The wave changes faster than one brick, so a “near zero” test skips straight over cells. The fix is to ask a better question: *\*is the wave positive here and negative next door?\** That gives an unbroken line one brick wide, every time:
 
@@ -466,7 +464,7 @@ The bricks exposed at the bottom of each groove turn Dark Pink, there’s a slot
 
 ### The video’s script is a SELECT
 
-This is the bit I’m pleased about because the whole video, every brick appearing, disappearing and coming back, is a table.
+The animation is driven by a table.
 
 Every brick gets up to three frame numbers: **T1** when it first appears, **T2** when it’s rewound away, and **T3** when it comes back. The renderer shows a brick when:
 
@@ -504,9 +502,9 @@ On my RTX 5090 that’s about a second a frame in Cycles. 854 frames, 28.5 secon
 
 The failures, as is tradition:
 
-\- **The first test frames were so overexposed** I looked like I’d been carved out of a bar of soap. The fix was to let the camera see a bright white backdrop while the bricks are lit by a much dimmer version of it.
+- **The first test frames were so overexposed** I looked like I’d been carved out of a bar of soap. The fix was to let the camera see a bright white backdrop while the bricks are lit by a much dimmer version of it.
 
--   **Rewinding to exactly half way cut off my eyes**, and the brain ended up floating above the stump like a pink lollipop on a stick. Half of the *\*head\** (not counting the neck) is eye level, 58% of the way up. With the eyes back, the brain sits in the skull like it should.
+- **Rewinding to exactly half way cut off my eyes**, and the brain ended up floating above the stump like a pink lollipop on a stick. Half of the *\*head\** (not counting the neck) is eye level, 58% of the way up. With the eyes back, the brain sits in the skull like it should.
 
 ![Build. Nearly there. Hang on. Rewind. Grow a brain. Close the skull. Spin.](/images/medium/1_AJwTtJ8eWKT8PEikYxlzgg.png)
 *Build. Nearly there. Hang on. Rewind. Grow a brain. Close the skull. Spin.*

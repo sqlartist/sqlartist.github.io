@@ -20,11 +20,11 @@ That question came from Feynman.
 
 ## 1\. The idea
 
-Feynman’s formulation of quantum mechanics rests on a move that still feels like cheating the first time you hear about it. Typically, a particle going from A to B takes one trajectory — the one that makes the action stationary. Feynman’s postulates say something different: the particle takes *every* path. Each contributes an amplitude of equal magnitude, and the phase of that contribution is the classical action in units of ħ. Add them all up and the paths that disagree cancel; the ones near the classical trajectory reinforce. The single path you observe isn’t chosen. It’s what’s left standing once everything else has interfered itself out of existence.
+Feynman’s formulation of quantum mechanics rests on a move that still feels like cheating the first time you hear about it. Typically, a particle going from A to B takes one trajectory — the one that makes the action stationary. Feynman’s postulates say something different: the particle takes *every* path. Each contributes an amplitude of equal magnitude, and the phase of that contribution is the classical action in units of ħ. Add them all up and the paths that disagree cancel; the ones near the classical trajectory reinforce. The single path you observe is what’s left once everything else has cancelled out.
 
-What grabbed me wasn’t the physics. It was the *procedural* shape of it. Don’t decide early. Don’t prune. Enumerate everything, cost everything, and let the winner emerge from the sum.
+What grabbed me was the procedural shape of it: don’t decide early, don’t prune, cost everything and let the winner come out of the sum.
 
-That’s a strange way to write a parser. Most text processing is a pipeline of early commitments — tokenise, then tag, then match, then correct — each stage throwing away information the next stage might have wanted. Feynman’s move is the opposite. Carry all the possibilities forward and settle at the end.
+That’s a strange way to write a parser. Most text processing is a pipeline of early commitments — tokenise, then tag, then match, then correct — each stage throwing away information the next stage might have wanted. Feynman’s way is to carry all the possibilities forward and settle at the end.
 
 Its pretty similar to the way I learn anyway, not having the interest in maths at school because they just didn’t teach it in context. Not once did a teacher say why you needed COS, TAN, SIN and why we were doing the calculations and angle measurements — not once did they say the reason for all this is because if you look at the Earth which is nearly round you can work out all this amazing stuff. The only thing that sunk in at school was Pythagoras’ theorem, but they never said where it would be useful. So with this lack of knowledge I stopped doing 4 A Levels and got a job in a Company that made ATM software and never looked back.
 
@@ -173,14 +173,14 @@ SELECT
 
 Remember when I started the article I said Feynman's work inspired me to write this, I am not claiming to have solved Quantum mechanics or done anything other than used the idea of parsing everything at once and seeing from all possible paths which one succeeds.
 
-**This is not a quantum process and it is not a path integral.** Feynman’s amplitudes are complex: `e^{iS/ħ}`. The entire content of the path integral is that phases can *cancel* — destructive interference is what kills the non-classical paths. My weights are real and positive. Nothing ever cancels. Paths only ever add.\*
+**This is not a quantum process and it is not a path integral.** Feynman’s amplitudes are complex: `e^{iS/ħ}`. The entire content of the path integral is that phases can *cancel* — destructive interference is what kills the non-classical paths. My weights are real and positive, so nothing ever cancels.\*
 
-What I actually built is a Boltzmann-weighted sum over paths, which is a softmax over path costs, which is — to say it plainly although its actually not any plainer — the forward algorithm over a linear-chain conditional random field. An Hidden Markov Mode (HMM) decoder in a physicist’s coat. That’s is work that has been used in NLP for many years and once again I am thwarted by those pesky scientists and their meddling ways of thinking of everything possible many years ago.
+What I actually built is a Boltzmann-weighted sum over paths, which is a softmax over path costs, which is — to say it plainly although its actually not any plainer — the forward algorithm over a linear-chain conditional random field. Basically a Hidden Markov Model (HMM) decoder. That’s is work that has been used in NLP for many years and once again I am thwarted by those pesky scientists and their meddling ways of thinking of everything possible many years ago.
 
 ![You can’t teach a monkey new tricks](/images/medium/1_Yi5ov3M5aSd6QPAqw2l1XA.jpeg)
 *You can’t teach a monkey new tricks*
 
-So in all honesty my claim is weak: Feynman’s postulate is where the *design template* came from. Include everything, cost everything, let the sum decide. The maths I ended up with is more thermal, not quantum. The inspiration was real; the isomorphism isn’t. Considering I self taught this stuff I think I’m doing as well as those kids with iPhones.
+So in all honesty my claim is weak: Feynman’s postulate is where the *design template* came from. The maths I ended up with is more thermal, not quantum. Considering I self taught this stuff I think I’m doing as well as those kids with iPhones.
 
 \*If anyone has access to a server that could actually do some quantum processing that would be nice…
 
@@ -208,7 +208,7 @@ Requiring every transition to advance exactly one position fixed the deletion bu
 
 That’s what forced the lattice. Real alternatives have to come from competing *actual counts* at each position, not from skipping them. Once the lattice existed the recursion became unnecessary, because a trellis gets the same answer without enumerating anything.
 
-So the naive implementation of “consider every path” died, and the postulate survived it. I think that’s the actual lesson: the physics gave me the right instinct, and I was correct eventually…
+So the naive implementation of “consider every path” died, and the postulate survived it. The physics gave me the right instinct, and I got there eventually…
 
 ## 5.4 Normalising edit distance hid whole edits
 
@@ -271,7 +271,7 @@ I got tired of judging this by eye, so I built a harness.
 
 A 45-line training corpus of firewall log phrasings supplies the fitted costs: 150 lexicon tokens, 158 bigrams, 24 POS transitions. A separate 49-line test corpus — different sentences, same domain, 87% bigram coverage — supplies the evaluation. Typos are generated by deterministic single-character mutation.
 
-Crucially, every intended correction is verified by the candidate generator *before* it goes into the corpus. That check found three targets — `ibound → inbound`, `ivalid → invalid`, `deied → denied` — that were impossible by construction, because `SOUNDEX` codes consonants positionally and dropping an early one moves every subsequent code. Without the check they'd have shown up as decoding failures that no amount of tuning could fix. They're the reason the candidate generator has a second, non-phonetic recall channel.
+Every intended correction is verified by the candidate generator *before* it goes into the corpus. That check found three targets — `ibound → inbound`, `ivalid → invalid`, `deied → denied` — that were impossible by construction, because `SOUNDEX` codes consonants positionally and dropping an early one moves every subsequent code. Without the check they'd have shown up as decoding failures that no amount of tuning could fix. They're the reason the candidate generator has a second, non-phonetic recall channel.
 
 Scoring is token-level: a token that was wrong and got fixed is a true positive, one that was right and got broken is a false positive.
 
@@ -306,7 +306,7 @@ Out of vocabulary       2.522 2.928 3.342
 
 ## 8\. Two different questions
 
-Look at the first three rows of that table. Clean, single-typo and multi-typo lines have *identical* ranges. That’s deliberate, and it took me a while to see why it should be.
+Look at the first three rows of that table. Clean, single-typo and multi-typo lines have *identical* ranges. That’s deliberate.
 
 Originally the score included the cost of the corrections, so a line with four typos that decoded perfectly still read as low coherence. Arguably defensible — the input really was degraded — but it meant the number couldn’t answer the question I actually cared about, which is *how good is the reading I just produced*.
 
@@ -318,7 +318,7 @@ CorrectionCost     FLOAT NULL,       -- what did the repairs cost?
 DecodedActionCost  FLOAT NULL,       -- how coherent is the result?The effect is exact. Every typo line now scores identically to the clean line it was derived from — test 16 went from 1.0972 to 0.7895, matching clean line 2 to four decimal places; test 25, five typos in five words, went from 2.1482 to 0.3300, matching clean line 1. Input quality is reported separately via the correction count.
 ```
 
-It also removed an overlap that was making the verdict bands impossible to calibrate. Before the split, corrected lines ran up to 1.097 while punctuation-heavy lines started at 1.068, so no single threshold separated them. Afterwards everything that should read green tops out at 0.956 and everything that shouldn’t starts at 1.068. An actual gap.
+It also removed an overlap that was making the verdict bands impossible to calibrate. Before the split, corrected lines ran up to 1.097 while punctuation-heavy lines started at 1.068, so no single threshold separated them. Afterwards everything that should read green tops out at 0.956 and everything that shouldn’t starts at 1.068.
 
 ---
 
@@ -335,15 +335,15 @@ F1 by cell, rows `@CorrectionWeight`, columns `@OovPenalty`:
 ![THE CONTROL VARIABLE & WEIGHTS](/images/medium/1_x4uviu4MOoqb3ceHGOuyOw.png)
 *THE CONTROL VARIABLE & WEIGHTS*
 
-Identical along each diagonal. Which makes sense: O − W is the margin by which correcting a token is better leaving it alone, so it decides whether a one-edit fix fires at all. Below +0.5 it doesn’t, and recall falls off a cliff — 2 misses at zero margin, 12 at −1.0, 25 at −1.5.
+Identical along each diagonal, because O − W is the margin by which correcting a token is better leaving it alone, so it decides whether a one-edit fix fires at all. Below +0.5 it doesn’t, and recall falls off a cliff — 2 misses at zero margin, 12 at −1.0, 25 at −1.5.
 
-***But there’s a second, independent constraint.*** *The* `*W = 1.0*` *row breaks the diagonal pattern and never reaches 100% at any OOV penalty, carrying a floor of 2 false negatives that no amount of O fixes. That's not a margin problem. It's the channel model being too quiet to outvote the bigrams — exactly the inflection failure from §5.4, reappearing on its own from a completely different direction.*
+***But there’s a second, independent constraint.*** *The* `*W = 1.0*` *row breaks the diagonal pattern and never reaches 100% at any OOV penalty, carrying a floor of 2 false negatives that no amount of O fixes. That's the channel model being too quiet to outvote the bigrams, the same inflection failure as in §5.4.*
 
 *False positives tell the other half. They occur only at low W with high O: five at (1.0, 3.0), three at (1.5, 3.5), zero anywhere with W ≥ 2.0. A three-edit correction costs 3W and becomes attractive once that drops below O plus the bigram saving. At W = 1.5 that’s 4.5 against roughly 4.6, so* `*resumed → reset*` *sneaks back in. At W = 2.0 it's 6.0 against 5.1 and stays out.*
 
 *So:* ***W ≥ 1.5 for the channel model to be heard, W ≥ 2.0 to be immune to over-correction, and O − W ≥ 0.5 for corrections to fire at all.*** *Eight cells satisfy all three. (2.0, 3.0) is the most interior of them, with three of four orthogonal neighbours also at 100%.*
 
-*The hand-derived values turned out to be right, but I’d have had no way of knowing that without the grid — and more importantly, no way of knowing why.*
+*The hand-picked values turned out to be right, but I’d have had no way of knowing that, or why, without the grid.*
 
 ---
 
@@ -355,7 +355,7 @@ The first sweep attempt didn’t finish. Twenty-five cells at several minutes ea
 
 The fix is one that should have been obvious from the start: **edit distances don’t depend on the cost weights at all.** All 25 cells were recomputing byte-identical distances. So they’re computed once per distinct token, ever, and cached.
 
-The population is deliberately split into two statements, which is the part that matters:
+The population is deliberately split into two statements:
 
 ```sql
 -- Step 1: blocking only. Lands in a real table.
@@ -380,7 +380,7 @@ CROSS APPLY (SELECT dbo.fnEditDistance(b.Token, b.LexToken) AS RawEdit) e
 WHERE e.RawEdit > 0 AND e.RawEdit <= @CacheCeiling;
 ```
 
-Inside one query the optimiser may reorder. Across two statements it cannot. Roughly 1,500 distance computations now cover the entire sweep, against 1.2 million in the flattened worst case. Cells went from minutes to under a second, and the output is byte-identical to the uncached run — which is the check that matters for a pure optimisation.
+Inside one query the optimiser may reorder. Across two statements it cannot. Roughly 1,500 distance computations now cover the entire sweep, against 1.2 million in the flattened worst case. Cells went from minutes to under a second, and the output is byte-identical to the uncached run.
 
 ---
 
@@ -398,7 +398,7 @@ And I know of at least three things that will break on real data:
 -   **Blocking becomes a scan.** `DIFFERENCE(lex.Token, ...)` and `LEFT(lex.Token, 1)` are functions on the column, so there's no seek. Invisible at 150 rows, painful at 30,000. Wants persisted computed columns and indexes.
 -   **Candidate ranking gets crowded.** At this size the nearest word by edit distance is almost always the right one. At scale there will be a dozen words at distance one, and the ordering will need unigram frequency.
 
-The next step isn’t more tuning. It’s real firewall log lines, with real errors in them, and finding out which of those three predictions was right.
+The next step is real firewall log lines, with real errors in them, and finding out which of those three predictions was right.
 
 ---
 
@@ -411,9 +411,9 @@ None of this belongs in a database. You could write it in fifty lines of Python 
 
 But the constraint keeps teaching me things. Forcing a sequence model into set-based SQL made the exponential blow-up impossible to ignore, because a recursive CTE that fans out to a million rows doesn’t degrade gracefully — it stops. It made the ordering assumption visible, because SQL is the one language that will cheerfully reorder your data and be entirely within its rights. It made every cost explicit, because there’s nowhere to hide a heuristic in a `CASE` expression. And it produced at least two bugs — the `SELECT`\-assignment loop, the flattened derived table — that simply don't exist in other languages.
 
-The Feynman thing was never a claim. It was a way in: a specific, unusual instruction about how to organise a computation, borrowed from somewhere it had already proved itself. Consider everything. Cost everything. Let the sum decide.
+The Feynman idea was a way in, an unusual instruction about how to organise a computation.
 
-The maths I ended up with has a different name, and I should use that name. But I wouldn’t have got there any other way.
+The maths I ended up with has a different name, but I wouldn’t have got there any other way.
 
 As Promised: [https://github.com/sqlartist/feynman-sql](https://github.com/sqlartist/feynman-sql)
 

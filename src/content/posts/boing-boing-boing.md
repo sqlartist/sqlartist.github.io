@@ -44,21 +44,19 @@ The most historically accurate option is stranger. The 1984 demo doesn’t rende
 
 I loved that, because it’s already a database idea. Rotation isn’t animation, it’s a lookup against a different row set. They were doing a join in 1984; they just didn’t have anywhere to put it.
 
-But I picked the third option: render the thing from scratch. Not because it’s more authentic — it’s less — but because it plays to what SQL is actually good at, and I wanted to see how far that went.
+But I picked the third option: render the thing from scratch. It’s less authentic, but it plays to what SQL is actually good at, and I wanted to see how far that went.
 
-This is the thing about spheres. It’s a closed-form intersection. Under orthographic projection you don’t need a discriminant, you don’t need clipping, you don’t need to rasterise a polygon. You need \`d² = dx² + dy²\`, and if that’s inside the radius, you’ve hit it. Everything else is a normal, two rotations and a checkerboard.
+A sphere is a closed-form intersection. Under orthographic projection you don’t need a discriminant, you don’t need clipping, you don’t need to rasterise a polygon. You need \`d² = dx² + dy²\`, and if that’s inside the radius, you’ve hit it. Everything else is a normal, two rotations and a checkerboard.
 
-That’s pure maths on a grid of pixels. Which is to say: it’s a \`SELECT\`.
+That’s pure maths on a grid of pixels, so it’s a \`SELECT\`.
 
 ---
 
-## The bit I was pleased with
+## One query
 
 The ball’s motion is also closed form. Position is a function of the frame number — a triangle wave for the horizontal sweep, a parabola for the bounce, and spin proportional to how far it’s traveled, which means the spin reverses at the walls on its own without me writing any logic for it.
 
-No state. Nothing depends on the previous frame.
-
-So frames aren’t a loop. Frames are just another dimension of the cross product.
+Nothing depends on the previous frame, so frames are just another dimension of the cross product.
 
 The entire animation — 64 frames, 320×256, five and a bit million pixels — comes out of one \`INSERT … SELECT\`. No recursive CTE, no \`WHILE\`, no cursor, no temp table. A chain of \`CROSS APPLY\`s you read top to bottom like a shader.
 
@@ -75,33 +73,27 @@ This is where it got interesting, I wanted to take it further and have two balls
 
 Adding a second ball is still one query. Add \*collision\* between them and the whole edifice comes down.
 
-Not because the physics is hard. It’s relatively easy physics, equal masses, elastic, exchange the normal component of velocity and push them apart if they’ve overlapped. Twenty lines in any language.
+The physics is relatively easy: equal masses, elastic, exchange the normal component of velocity and push them apart if they’ve overlapped. Twenty lines in any language.
 
 It comes down because collision response depends on the \*previous step\*. Where ball one is at frame 40 depends on whether it hit ball two at frame 39. Position is no longer a function of the frame number, and the moment that’s true, frames stop being a dimension you can join to and start being a sequence you have to walk.
 
-One collision. That’s all it took to destroy the property the entire design rested on.
-
-I found that genuinely annoying given the first part had gone rather well. It is the reason I’m writing this up rather than the bigger projects. Every SQL developer gets told “think in sets, not loops” and nobody ever shows them the “Why”. Well here is the “Why”. Closed form: one statement, five million rows, no loop. Add one dependency on prior state: nothing survives.
+I found that annoying given the first part had gone rather well. It is the reason I’m writing this up rather than the bigger projects. Every SQL developer gets told “think in sets, not loops” and nobody ever shows them the “Why”. Well here is the “Why”.
 
 ---
 
 ## Embracing the Complexity
 
-My first instinct was to keep everything declarative with a recursive CTE. That’s the trick, and it nearly works. But the recursive member can only reference the CTE once, and pairwise collision needs a self-join.
+My first instinct was to keep everything declarative with a recursive CTE. It nearly works. But the recursive member can only reference the CTE once, and pairwise collision needs a self-join.
 
-So I split the thing along the line where the two halves genuinely differ.
+So I split the simulation from the rendering.
 
 Simulation is sequential. It’s a \`WHILE\` loop. It’s also tiny — a handful of rows and a few hundred substeps — so it costs nothing. Four set-based statements per step: gravity and integration, wall reflection, then a pairwise contact resolution written as a self-join with the impulses summed per ball.
 
 Rendering stayed set-based. It’s still one statement. It just no longer works out where the balls are; it joins to where the simulator says they were.
 
-That’s the whole architecture. The worse SQL made the better system.
-
 ## Three Balls
 
-Because the collision is written pairwise rather than as a special case for two, it takes any number of balls. I added a third by inserting a row. That’s it. One row in a table, and three balls bounce off each other and off the walls with correct depth ordering, because two spheres at the same depth with the same radius resolve trivially — whichever pixel is deeper into its own silhouette is the one in front.
-
-Getting that for free was the moment the design decision paid for itself.
+Because the collision is written pairwise rather than as a special case for two, it takes any number of balls. I added a third by inserting a row, and three balls bounce off each other and off the walls with correct depth ordering, because two spheres at the same depth with the same radius resolve trivially — whichever pixel is deeper into its own silhouette is the one in front.
 
 ---
 
@@ -111,13 +103,13 @@ As with most of my projects it isn’t a production technique. Nobody should ren
 
 It’s useful for three other things
 
-It’s the best teaching device for set-based thinking I’ve come across. Not the concept — everyone’s heard the concept — but the \*edge\* of it. Boing is a perfect mini example. Here’s a closed-form problem, and it’s one beautiful statement. Here’s the same problem with one sequential dependency, and it’s a loop. Nothing else I’ve built shows that transition so cleanly, because in a real system the two are always tangled together.
+It’s the best teaching device for set-based thinking I’ve come across. Boing is a perfect mini example. A closed-form problem is one statement. The same problem with one sequential dependency is a loop. Nothing else I’ve built shows that transition so cleanly, because in a real system the two are always tangled together.
 
 It finds engine behaviour that every day work never will. The \`CASE\` short-circuit trap is going straight into my mental checklist. Pushing an engine into a shape it was never designed for is how you learn where its real edges are, and those edges show up later in queries that matter.
 
 And it’s a learning challenge in the oldest sense. There’s no spec, no acceptance criteria, and nobody’s asking for it. You just have to work out whether the thing is possible and then find out.
 
-There’s a wider ambition behind it too. If you can emulate a machine inside a database, you can put the games in as data — cartridge images in \`varbinary\`, the machine as stored procedures — and you’ve got an archive that runs what it stores. A shelf of 1980s software living inside the same engine that’s serving your reports. I don’t know yet whether that’s a good idea. I know it’s a good problem.
+There’s a wider ambition behind it too. If you can emulate a machine inside a database, you can put the games in as data — cartridge images in \`varbinary\`, the machine as stored procedures — and you’ve got an archive that runs what it stores. A shelf of 1980s software living inside the same engine that’s serving your reports.
 
 ---
 
@@ -129,7 +121,7 @@ The real question is the ratio of **wide** work to **deep** work. Wide work �
 
 By that measure Quake isn’t the wall people (I) assume. Its renderer is overwhelmingly wide work. Emulating a 68000 with a full custom chipset is almost entirely deep work, and that’s where it dies.
 
-Boing is the extreme wide case, which is why it came out as one query. And the second I introduced a single dependency on prior state, it stopped being one.
+Boing is the extreme wide case, which is why it came out as one query.
 
 Two balls taught me more than Doom did but I do think they are both pretty cool.
 

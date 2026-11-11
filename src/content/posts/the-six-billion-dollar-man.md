@@ -33,7 +33,7 @@ Forgive the slight silliness of this piece but it’s all horrific for me and my
 
 **Pre-Story Poll**
 
-Before you read the story below, log your initial instinct. Your vote will be tallied against our global community data at the conclusion of the file.
+Before you read the story below, have a guess at which one is the lie.
 
 ![](/images/medium/1_BImRw5bGVCZdkec-qayUjQ.png)
 
@@ -118,7 +118,7 @@ I guess I will never know…
 
 **The Cyber-Vulnerability Fact**
 
-In a terrifying twist of real-world history, the major medical manufacturers responsible for building these advanced thoracic IPG units (who also dominate the global heart pacemaker market) notoriously left glaring security holes in their systems and devices. For years, implantable devices and transmitters faced massive FDA cyber-security roll-outs because firmware lacked basic encryption. Historically, hard-coded master technician keys and default factory settings — colloquially mocked by white-hat hackers as equivalent to leaving the device password as **“Password123”** — left hundreds of thousands of hearts and neurological pacemakers vulnerable to remote signal interception.
+The big manufacturers of these implanted units (who also dominate the heart pacemaker market) left serious security holes in their devices. For years, implants and their transmitters needed FDA cyber-security fixes because the firmware lacked basic encryption. Hard-coded technician keys and default factory settings, which white-hat hackers likened to leaving the password as **“Password123”**, left hundreds of thousands of heart and neurological implants open to remote interception.
 
 Which is nice…
 

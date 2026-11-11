@@ -19,11 +19,9 @@ I’ve spent the last few months doing daft things with SQL Server. Doom runs in
 
 What I’d never done was make it \*make a noise\*.
 
-So that became the question. Not “can I store an MP3 in a \`varbinary\` column”. Obviously you can, and it’s about as exciting as a filing cabinet. The question was whether SQL Server itself could produce the sound: every sample, every drum hit, every note, worked out with set-based T-SQL, with Python doing nothing more than passing the bytes to the speakers.
+Storing an MP3 in a \`varbinary\` column is easy and about as exciting as a filing cabinet. I wanted to see whether SQL Server itself could produce the sound: every sample, every drum hit, every note, worked out with set-based T-SQL, with Python doing nothing more than passing the bytes to the speakers.
 
 I also had a target in mind. The Prodigy, “Smack My Bitch Up”.
-
-I’ll come back to how that went.
 
 I’m not the first to make SQL sing, and it’s only fair to say so. Ramiro Medina built a synthesiser in PostgreSQL in 2022 that played “Twinkle Twinkle Little Star”, and the ClickHouse folks made NoiSQL. But as far as I can find, nobody had made SQL Server play Amiga MODs, or had a database chop up a breakbeat. That’s where I wanted to go.
 
@@ -31,11 +29,9 @@ I’m not the first to make SQL sing, and it’s only fair to say so. Ramiro Med
 
 ## Rule one: SQL makes the sound, Python is just the speaker
 
-I set myself one rule and stuck to it. Python is allowed to call a stored procedure, take the “varbinary” it gets back and hand it to the sound card. That’s all. No numpy doing the mixing behind my back. No “just this one filter in Python”. If it makes a sound and wasn’t me annoyed at myself for a very stupid bug then SQL Server made it.
+I set myself one rule and stuck to it. Python is allowed to call a stored procedure, take the “varbinary” it gets back and hand it to the sound card. That’s all. If it makes a sound and wasn’t me annoyed at myself for a very stupid bug then SQL Server made it.
 
 The Python side is “pyodbc” plus “sounddevice”. It fetches two seconds of audio at a time on a background thread, so the next chunk is being rendered while the current one plays. If SQL Server can render faster than real time, you get music. If it can’t, you get silence and an embarrassing pause.
-
-No pressure, then.
 
 ## Why not The Prodigy, then?
 
@@ -62,7 +58,7 @@ A sound is just a list of numbers. At CD quality there are 44,100 of them every 
 CROSS APPLY GENERATE_SERIES(GREATEST(ev.StartS, @StartSample), LEAST(ev.EndS, @last)) g
 ```
 
-Every note in the song becomes a range of sample numbers. For each of them I work out the time, the phase, and what the oscillator’s doing at that instant. Classic synth waveforms turn out to be one-liners:
+Every note in the song becomes a range of sample numbers. For each of them I work out the time, the phase, and what the oscillator’s doing at that instant. Classic synth waveforms are one-liners:
 
 ```sql
 CASE ev.Waveform
@@ -77,7 +73,7 @@ CASE ev.Waveform
 END
 ```
 
-The hi-hat is my favourite line in the whole project. Real synths make hi-hats by filtering noise, and filters normally need the previous output. That’s recursion, which is exactly what set-based SQL hates. But if your noise is a pure function of the sample number (it’s an integer hash, not \`RAND()\`), then “noise now minus noise a moment ago” is a perfectly good high-pass filter. And you can compute it for every sample at once. No loop, no state, just a slightly smug \`CROSS APPLY\`.
+The hi-hat is my favourite line in the whole project. Real synths make hi-hats by filtering noise, and filters normally need the previous output. That’s recursion, which set-based SQL hates. But if your noise is a pure function of the sample number (it’s an integer hash, not \`RAND()\`), then “noise now minus noise a moment ago” is a perfectly good high-pass filter. And you can compute it for every sample at once with a \`CROSS APPLY\`.
 
 The acid bassline does things the same way. Instead of a filter sweep, it’s a \`SUM\` over up to 40 harmonics, with the high ones fading as each note goes on. That’s the squelch you know from the 90s, done as an aggregate.
 
@@ -86,13 +82,13 @@ The acid bassline does things the same way. Instead of a filter sweep, it’s a 
 
 The shape of every sound in the synth. The top row is the classic oscillators, one formula each. Then there’s noise, and the three drums built from sines, noise and a fade. The acid bass is shown twice: sharp and buzzy as the note starts, then rounded off 0.3 s later as the high harmonics fade.
 
-Mixing is the most SQL thing imaginable:
+Mixing is the simplest part:
 
 ```sql
 SELECT n, SUM(v) AS x FROM #voice GROUP BY n
 ```
 
-Every drum, every bass note, every stab, all added together per sample. One \`GROUP BY\`. That’s a mixing desk.
+Every drum, every bass note, every stab, all added together per sample. One \`GROUP BY\`.
 
 ## Getting the bytes out
 
@@ -123,9 +119,9 @@ The first time it played I just sat there grinning. It’s a database. It went �
 
 ## Rung two: a ProTracker player
 
-Synthesis is clever. But what I actually love is tracker music: Amiga MODs, four channels, 8-bit samples, patterns scrolling up the screen. So rung two was a proper ProTracker \`.mod\` player. And not “Python reads the file and SQL plays it”. SQL Server reads the file.
+What I actually love is tracker music: Amiga MODs, four channels, 8-bit samples, patterns scrolling up the screen. So rung two was a proper ProTracker \`.mod\` player. SQL Server reads the file itself, not Python.
 
-Here’s a lovely surprise. The Amiga ran on a Motorola 68000, which is big-endian. MOD files are big-endian. SQL Server’s binary-to-int cast is big-endian. Thirty-odd years apart, they agree. Reading the header needs no byte-swapping at all:
+The Amiga ran on a Motorola 68000, which is big-endian. MOD files are big-endian. SQL Server’s binary-to-int cast is big-endian. Reading the header needs no byte-swapping at all:
 
 ```sql
 CAST(SUBSTRING(@Mod, O + 22, 2) AS int) * 2 AS HdrLen, - sample length, in words
@@ -133,11 +129,11 @@ CAST(SUBSTRING(@Mod, O + 25, 1) AS tinyint) AS Vol,
 CAST(SUBSTRING(@Mod, O + 26, 2) AS int) * 2 AS LpStart, - loop start
 ```
 
-It’s WAV, on the way out, that’s the odd one out.
+Only the WAV on the way out needs swapping.
 
 ## The one place I gave in and wrote a loop
 
-A MOD isn’t a flat list of notes. Effects change the speed mid-song. Commands jump to another position, or break out of a pattern early. Slides carry on from one row into the next. That’s genuinely sequential. The “conductor” walks the song one row at a time: a few thousand rows for a typical module.
+A MOD isn’t a flat list of notes. Effects change the speed mid-song. Commands jump to another position, or break out of a pattern early. Slides carry on from one row into the next. That’s sequential. The “conductor” walks the song one row at a time: a few thousand rows for a typical module.
 
 What I refused to do was loop over “ticks” or “channels”. Within a row, every effect has a closed form in the tick number \`k\`. A volume slide is just “start + k × rate, clamped”. An arpeggio is “which third of the chord are we on, \`k % 3\`”. So each row’s ticks, for every channel, come out of one \`INSERT…SELECT\`:
 
@@ -149,7 +145,7 @@ CASE WHEN c.Effect = 0 AND c.Param > 0–0xy arpeggio
  THEN pb.P / POWER(CAST(2 AS float), (CASE k.value % 3 WHEN 0 THEN 0 WHEN 1 THEN xy.X ELSE xy.Y END) / 12.0E0)
 ```
 
-That was the most important decision in the whole project. Be procedural only where the problem genuinely is, and set-based everywhere else.
+So it’s procedural only where the problem is, and set-based everywhere else.
 
 The mixer, meanwhile, is pure sets. Each tick of each channel says “play sample \`s\`, starting at position \`p\`, stepping \`d\` points per output sample, at volume \`v\`”. The position of any output sample is then just arithmetic, and a looping sample is just a modulo:
 
@@ -162,7 +158,7 @@ CROSS APPLY (SELECT CAST(CASE
  END AS int) AS Idx) m
 ```
 
-It uses the nearest sample point, with no smoothing between points. That isn’t laziness. It’s exactly what the Amiga’s sound chip did, and it’s where the crunch comes from.
+It uses the nearest sample point, with no smoothing between points. That’s what the Amiga’s sound chip did, and it’s where the crunch comes from.
 
 ## “It takes forever to load”
 
@@ -170,7 +166,7 @@ The first real module I threw at it was \`lynx\_-\_rave\_vibes.mod\` from The Mo
 
 The culprit was the conductor. Thousands of iterations, each writing to permanent tables, each committing, each flushing to the log. On top of that, SQL Server kept recompiling the statements that touched the small temp tables inside the loop. The fix: switch the loop’s working tables to table variables, buffer everything in memory, and write it all out in one go, in one transaction. Same logic, a fraction of the time.
 
-It’s the oldest lesson in the book, and I still had to learn it again. Row-by-row isn’t what kills you. Row-by-row \*commits\* are.
+Row-by-row wasn’t the problem. Committing every row was.
 
 ---
 
@@ -178,15 +174,15 @@ It’s the oldest lesson in the book, and I still had to learn it again. Row-by-
 
 Once MODs were playing, the obvious next wish was the records I actually wanted to hear: early-90s hardcore like Soundcorp’s “Dreamfinder” and the Q-Project’s “Champion Sound”. I went hunting for tracker versions and came up empty.
 
-Then it clicked. Those records were \*made\* on samplers. People chopped breakbeats into slices on an Akai and re-triggered them. So instead of finding a MOD of the record, why not have SQL Server do what the Akai did? Load a WAV of a record you own, find the beat, chop it into slices, and turn the slices into instruments in a tracker kit. Then the MOD engine I’d already built can play it, re-order it and re-mix it.
+Those records were \*made\* on samplers. People chopped breakbeats into slices on an Akai and re-triggered them. So instead of finding a MOD of the record, why not have SQL Server do what the Akai did? Load a WAV of a record you own, find the beat, chop it into slices, and turn the slices into instruments in a tracker kit. Then the MOD engine I’d already built can play it, re-order it and re-mix it.
 
 ## Finding the beat, with a self-join
 
-Beat detection is a lovely set-based problem:
+Beat detection is a set-based problem:
 
 1\. Measure the loudness in 5-millisecond windows.  
 2\. Mark every sudden jump in loudness as an onset: a drum hit, near enough.  
-3\. Auto-correlate the onsets. In other words, join the window table to itself at every possible time offset, and see which offset lines up the most hits.
+3\. Auto-correlate the onsets: join the window table to itself at every possible time offset, and see which offset lines up the most hits.
 
 ```sql
 SELECT g.Lag, SUM(a.Onset * b.Onset) AS R
@@ -230,7 +226,7 @@ EXEC synth.BuildModTimeline 5;
 
 Nothing this silly works first time. A few favourites:
 
-“smallint” × “tinyint” = “smallint”. The mixer multiplied each sample point by its volume. That was fine for 8-bit Amiga samples: 127 × 64 fits easily. The sampler’s 16-bit slices go up to about 32,000 × 64, and SQL Server kept the result as a “smallint”. Arithmetic overflow. The fix is a “CAST(… AS float)” in the right place. A thirty-year-old reminder about data type precedence.
+“smallint” × “tinyint” = “smallint”. The mixer multiplied each sample point by its volume. That was fine for 8-bit Amiga samples: 127 × 64 fits easily. The sampler’s 16-bit slices go up to about 32,000 × 64, and SQL Server kept the result as a “smallint”. Arithmetic overflow. The fix is a “CAST(… AS float)” in the right place.
 
 “The player that waited forever.” When a background render failed, the error died quietly in its thread, and the player sat there waiting for audio that was never coming. Now it tells you what went wrong and stops.
 
@@ -241,7 +237,7 @@ SQL Server was making music the whole time. It was going to my headphones, sitti
 
 ---
 
-## A graphic equaliser, because of course
+## A graphic equaliser
 
 Once it played, I wanted to “see” it play. So the Python window became a dashboard. The tracker scrolls with the current row lit up. There’s a 20-band graphic equaliser with falling bars and peak-hold markers, and left and right level meters that show the Amiga’s hard left-right-right-left panning. Next to it sits a panel of live SQL Server statistics.
 
@@ -251,9 +247,9 @@ Once it played, I wanted to “see” it play. So the Python window became a das
 ![The dashboard playing the demo module](/images/medium/1_frdSH1i7AfmDAEeE2-oeuQ.png)
 *The dashboard playing the demo module*
 
-My favourite detail on that panel is that it doesn’t need VIEW SERVER STATE. A session can always read its own row in \`sys.dm\_exec\_sessions\`. So after each chunk, the renderer asks SQL Server how much CPU and how many reads it has just spent making the last two seconds of music.
+The panel doesn’t need VIEW SERVER STATE. A session can always read its own row in \`sys.dm\_exec\_sessions\`. So after each chunk, the renderer asks SQL Server how much CPU and how many reads it has just spent making the last two seconds of music.
 
-“RenderMod” also reports its own work counts: ticks, sample points, and how many lookups it joined. Watching that realtime figure while the bars bounce is strangely gripping. Every frame is a race between the query and the sound card.
+“RenderMod” also reports its own work counts: ticks, sample points, and how many lookups it joined. Every frame is a race between the query and the sound card.
 
 ---
 
@@ -261,9 +257,9 @@ My favourite detail on that panel is that it doesn’t need VIEW SERVER STATE. A
 
 Yes. Badly, loudly and with enormous enthusiasm.
 
-What I’ll take away from it isn’t really the audio. It’s the decisions. Write the whole thing as sets, and give in to a loop only where the music is genuinely sequential. Don’t chase a record that isn’t yours to copy; build the tools to make your own. And when something’s slow, look for the commits before you blame the maths.
+Write the whole thing as sets, and give in to a loop only where the music is sequential. Don’t chase a record that isn’t yours to copy; build the tools to make your own. And when something’s slow, look for the commits before you blame the maths.
 
-The Prodigy will have to wait. But SQL Server can now chop up a breakbeat, pitch the vocal up an octave and play it back through a graphic equaliser. Honestly, the 1992 version of me would have been delighted.
+The Prodigy will have to wait. But SQL Server can now chop up a breakbeat, pitch the vocal up an octave and play it back through a graphic equaliser. The 1992 version of me would have been delighted.
 
 The full code, including the synth, the MOD player, the sampler and the dashboard is now available: [https://github.com/sqlartist/SQL-SYNTH](https://github.com/sqlartist/SQL-SYNTH)
 
