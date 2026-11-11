@@ -10,40 +10,42 @@ repo: "https://github.com/sqlartist/ParliamentSQL"
 draft: false
 ---
 
-![Why do I do this to myself?](/images/medium/1_q3O8bPHn_LoOiOrU0BWLiA.jpeg)
-*Why do I do this to myself?*
+![Why do I do this to myself?](/images/medium/1_q3O8bPHn_LoOiOrU0BWLiA.jpeg)
+*Why do I do this to myself?*
 
 ### The question
 
 Do MPs ever change each other’s minds?
 
-Not “do they vote differently” — the whips settle that. I mean something narrower and more interesting: does an argument made from the opposition benches ever end up coming out of a minister’s mouth? Somebody stands up in 1987, says a thing nobody has said before, and four years later the government is saying it back. That happens, surely. Parliament would be a very expensive piece of theatre if it never happened.
+Not “do they vote differently” — the whips settle that. I mean something narrower and more interesting: does an argument made from the opposition benches ever end up coming out of a minister’s mouth? Somebody stands up in 1987, says a thing nobody has said before, and four years later the government is saying it back. That happens, surely?
 
-I had 1.7 million speeches, a database that can do vector search, and two graphics cards sitting in a machine under my desk doing nothing. It seemed like a fair question to put to them.
+I had 1.7 million speeches, a database that can do vector search, and two graphics cards sitting in a machine under my desk doing nothing. It seemed like a fair use for them.
 
 The answer, for about a month, was no.
 
-I want to be clear that I did not want the answer to be no. I wanted a lovely little chart with a bump in it. What I got was two independent methods, built weeks apart on entirely different principles, both saying no, for entirely different reasons. Which is — and I have had to talk myself round to this — a much better result than a bump would have been. One method saying yes is a finding. Two methods saying no, where you can explain exactly \*why\* each one couldn’t see what you hoped it would see, is an actual piece of work.
+I did not want the answer to be no. I wanted a result that surprised people. What I got was two independent methods, built weeks apart on entirely different principles, both saying no, for entirely different reasons. Which actually led me down a much more interesting path with this data.
 
 It also means that everything genuinely interesting here was found by accident while I was failing at the main thing. The House of Commons has quietly stopped using its own interruption protocol. Being a minister makes you \*more\* likely to be shouted at, not less. Eighty-five per cent of every six words ever spoken in the Commons since 1979 was spoken exactly once and never again.
 
-And at one point I had a query that proved every single Member of Parliament is funny one hundred per cent of the time. More on that later, because it is the single stupidest bug I have written in thirty years and I am oddly proud of it.
+And at one point I had a query that proved every single Member of Parliament is funny one hundred per cent of the time. More on that later.
 
 ---
 
-### The only appreciating asset I have ever owned
+### The only appreciating asset I have ever owned
 
-I have been buying computer hardware since the mid-1990s. Tandem systems, AS/400s, a succession of PCs, every category of storage that has ever been invented and several that were quietly withdrawn. In thirty years, every single piece of it started depreciating the moment I got the box open. Some of it was worth less than the box.
+I have been buying computer hardware since the mid-1990s. Tandem systems, a succession of PCs, every category of storage that has ever been invented including the completely non standard 3" floppy disk Alan Sugar used in his Amstrad PCW 8256 Word Processing machine. Having said that, that machine got me through 11 GCSEs.
+
+In thirty years, every single piece of computer equipment started depreciating the moment I got the box open. Some of it was worth less than the box.
 
 Then I bought two RTX 5090s, about a week before the price went up.
 
-They are now worth more than I paid for them. Not notionally, not “if you account for inflation” — actually, demonstrably, go and look, more money than I handed over. I have owned a house, several cars I never learned to drive, and roughly four hundred hard disks, and the only thing in thirty years that has gone \*up\* is a pair of graphics cards I bought to mess about with.
+They are now worth more than I paid for them. Not notionally, not “if you account for inflation” — actually, demonstrably, go and look, more money than I handed over. I have owned a house, a car I never learned to drive, and roughly four hundred hard disks, and the only thing in thirty years that has gone \*up\* is a pair of graphics cards I bought to treat myself after being extremely unwell for a number of years.
 
 So there was a certain obligation to use them for something.
 
-And here is the thing that nobody writing about GPUs seems to want to say out loud: the interesting work is not the GPU. It is the handover. A 5090 is phenomenally good at a small number of things and completely useless at everything else. SQL Server is phenomenally good at a different small number of things and would take a fortnight to do what the 5090 does in ninety seconds. Put them in the same room and make each one do only what it is good at, and you can answer questions that neither of them can answer alone.
+And here is the thing that nobody writing about GPUs seems to want to say out loud: the interesting work is not the GPU. It is the combination of the GPU and the CPU. A 5090 is phenomenally good at a small number of things and completely useless at everything else. SQL Server (CPU) is phenomenally good at a different small number of things and would take two weeks to do what the 5090 does in ninety seconds. Put the combined processing power and ability together and you have something quite unique and very powerful. Now GPU processing is out there but its very early days on making that accessible to everyone.
 
-That is the actual article. The parliamentary stuff is just the excuse.
+That was the aim of the original article but it changed during the analysis of the data and I got hooked. It explains why I ended up writing three articles on a subject that has never really interested me.
 
 ---
 
@@ -51,27 +53,27 @@ That is the actual article. The parliamentary stuff is just the excuse.
 
 Everyone building a vector search demo uses the same three datasets. Wikipedia, because it is there. Product reviews, because somebody once wrote a tutorial. Movie plots, because the results are funny in screenshots. You end up with a demo that proves your index works and tells you nothing at all about the world.
 
-Hansard is the official report of everything said in the House of Commons. The version I used covers 1979 onwards — 2,694,375 speeches, of which 1,700,647 are longer than forty words and attached to a real debate heading. That filter matters: below forty words you are mostly collecting “I beg to move”, “The Question is”, and men saying “no” at each other.
+Hansard is the official report of everything said in the House of Commons. The version I used covers 1979 onwards — 2,694,375 speeches, of which 1,700,647 are longer than forty words and attached to a real debate heading. That filter matters: below forty words you are mostly collecting “I beg to move”, “The Question is”, and men saying “no” at each other.
 
-I went for post-1979 deliberately. The Victorian material is wonderful and completely irrelevant to anyone alive. If I am going to find something out, I would like it to be about a Parliament people remember.
+I went for post-1979\* deliberately. The Victorian material is wonderful and completely irrelevant to anyone alive. If I am going to find something out, I would like it to be about a Parliament people remember.
 
-What makes it a good corpus is not the size — 1.7 million rows is nothing, it fits in memory on a decent laptop. It is that every row is \*attributed\*. Speaker, party, date, debate, and whether they held office. You do not get that with Wikipedia. It means every question you can ask about the text, you can also ask about who said it, when, and from which side of the room.
+\*It was only after I had finished most of my analysis I remembered my dear friend who passed away a few years ago got a mention in the House of Commons in 1969. I decided to revisit and that comes later on.
 
-It is also, bluntly, the best-documented argument in the English-speaking world, conducted continuously for four decades by people who were paid to be persuasive. If there is a signal anywhere for “did somebody change somebody else’s mind”, it is in here.
+What makes Hansard a good corpus is not the size — 1.7 million rows is nothing, it fits in memory on a decent laptop. It is that every row is \*attributed\*. Speaker, party, date, debate, and whether they held office. You do not get that often with data like this. It means every question you can ask about the text, you can also ask about who said it, when, and from which side of the room. It’s one of the very best at covering metadata and as I found out annoyingly terrible also.
+
+It is I would say, the best-documented argument in the English-speaking world, conducted continuously for four decades by people who were paid to be persuasive. If there is a signal anywhere for “did somebody change somebody else’s mind”, it is in here.
 
 ---
 
-### The division of labour
+### The division of labour
 
-This is the bit I actually want you to take away, so I am going to be unusually clear about it.
+This is a key part of the analysis. SQL Server 2025 has a \`VECTOR\` type and \`VECTOR\_DISTANCE\`. It can do similarity search. What it cannot do — what no database can do at any sensible speed — is the thing you need \*before\* similarity search is useful: look at 1.7 million 384-dimensional vectors all at once and work out where the clusters are.
 
-SQL Server 2025 has a \`VECTOR\` type and \`VECTOR\_DISTANCE\`. It can do similarity search. What it cannot do — what no database can do at any sensible speed — is the thing you need \*before\* similarity search is useful: look at 1.7 million 384-dimensional vectors all at once and work out where the clusters are.
+That is k-means. It is forty iterations of a 1.7-million-by-41,730 matrix multiply. On a CPU that is a few hours. On a 5090 it is ninety seconds, because it is exactly the shape of arithmetic a GPU exists to do: the same operation, on every element, with no branching and no conditionals.
 
-That is k-means. It is forty iterations of a 1.7-million-by-41,730 matrix multiply. On a CPU that is a long lunch. On a 5090 it is ninety seconds, because it is exactly the shape of arithmetic a GPU exists to do: the same operation, on every element, with no branching and no conditionals.
+### What the GPU does
 
-### What the GPU does
-
-Plain PyTorch, no libraries beyond torch. Chunked because 1.7M × 41,730 does not fit in 32 GB all at once.
+Using Plain PyTorch and no libraries beyond torch. The data is chunked because 1.7M × 41,730 does not fit in the RTX 5090’s 32 GB all at once.
 
 ```python
 # Assignment step: every speech to its nearest centroid.
@@ -96,7 +98,7 @@ C /= counts.unsqueeze(1)
 C = torch.nn.functional.normalize(C, dim=1)
 ```
 
-That is the whole algorithm. Forty of those, and 1.7 million speeches have been sorted into 41,730 topical neighbourhoods. The GPU then hands the database two things: a cluster id per speech, and a 384-bit binary signature per speech — one bit per dimension, sign only.
+That is the whole algorithm. Forty of those, and 1.7 million speeches have been sorted into 41,730 topical neighbourhoods. The GPU then hands the database two things: a cluster id per speech, and a 384-bit binary signature per speech — one bit per dimension, sign only.
 
 ```python
 # 384 floats -> 384 bits -> 6 BIGINTs.
@@ -111,11 +113,11 @@ And then the GPU is done. It has no further part in this. It cannot store anythi
 
 ---
 
-### What the database does
+### What the database does
 
-SQL Server’s job is everything the GPU cannot touch: persisting it, indexing it so that only the relevant slice is ever read, and — the part everybody forgets — joining it to who said it.
+SQL Server’s job is everything the GPU cannot touch: persisting it, indexing it so that only the relevant slice is ever read, and — the part everybody forgets — joining it to who said it.
 
-The cluster ids are the whole trick. Order the columnstore by cluster id and put it on a partition scheme, and a query for one neighbourhood touches one partition instead of the table.
+The cluster ids are the key to this, if you order the columnstore by cluster id and put it on a partition scheme, then a query for one neighbourhood touches one partition instead of the table.
 
 ```sql
 /*  64 partitions over the cluster id space. The boundaries are
@@ -145,7 +147,7 @@ CREATE CLUSTERED COLUMNSTORE INDEX ccix_speech_sig
     ON ps_cluster (cluster_id);
 ```
 
-And then the search. This is the part that made me laugh when it worked, because it is a \*vector similarity search\* implemented with an XOR and a population count — an instruction that has been in CPUs since the 1960s and in T-SQL since 2022.
+And then the search. This part is a \*vector similarity search\* implemented with an XOR and a population count — an instruction that has been in CPUs since the 1960s and in T-SQL since 2022.
 
 ```sql
 /*  Hamming distance on the binary signatures. BIT_COUNT(a ^ b)
@@ -165,9 +167,9 @@ WHERE s.cluster_id IN (SELECT cluster_id FROM @clusters)
 ORDER BY hamming;
 ```
 
-Neither half can do the other’s job. The GPU cannot hold the data, cannot join it to a party affiliation, and cannot answer a question six months later without being handed everything again. The database cannot do the matrix arithmetic that works out where the neighbourhoods are in the first place.
+Each half of the analysis can only be done on that chip. The GPU cannot hold the data, cannot join it to a party affiliation, and cannot answer a question six months later without being handed everything again. The database cannot do the matrix arithmetic that works out where the neighbourhoods are in the first place.
 
-The GPU builds the map. The database reads it. That is the entire architecture and it took me three attempts to see it that plainly.
+The GPU builds the map. The database reads it. That is the entire architecture and you will see this becoming more and more available to people.
 
 ---
 
@@ -197,27 +199,27 @@ So. Imagine a library.
 | Hamming distance        | Comparing stickers instead of reading books                      |
 ```
 
-I got as far as **”and then you only search the three nearest rooms”** before I stopped, because I had heard it.
+I got as far as **”and then you only search the three nearest rooms”** before I realised the problem
 
 How do you know which rooms are nearest?
 
 You don’t. Not in the version I had built. k-means numbers its clusters in whatever order it happens to produce them, so cluster 4 and cluster 39,000 could be about exactly the same thing and sit at opposite ends of the building. I had sorted the books onto shelves and then arranged the shelves at random. Every “nearby room” I was searching was nearby in numbering and nowhere near in meaning.
 
-The fix was a second, much smaller k-means — over the 41,730 centroids themselves this time — grouping them into 64 super-clusters and renumbering so that topically adjacent piles get adjacent numbers. Spatial locality written into the physical layout of the table. It is the best idea in the project and it took ninety seconds to run.
+The fix was a second, much smaller k-means — over the 41,730 centroids themselves this time — grouping them into 64 super-clusters and renumbering so that topically adjacent piles get adjacent numbers. Spatial locality gets written into actual physical layout of the table. It is the bit that allowed me to carry on and it only took ninety seconds to run.
 
 Brian, during all of this, was attempting to kill a sock.
 
-I want to be clear that he contributed nothing. He does not know what a vector is. He is a long, low, deeply stupid animal bred to go down holes after badgers, and the badgers were armed. But the obligation to say a thing out loud, in order, to something that is definitely not going to help, is the cheapest code review available and I have yet to find a better one.
+I want to be clear that he contributed nothing. He does not know what a vector is. He is a long, low, deeply self-centred animal bred to go down holes after badgers. But the ability to say a thing out loud, in order, to something that is definitely not going to help, is the cheapest code review available.
 
-If you take one engineering practice from this article, take the dog.
+If you take one engineering practice from this article, buy a dog.
 
 ---
 
-### Attempt one: embeddings. Verdict, no.
+### Attempt one: embeddings. Verdict, no.
 
-The idea was obvious enough that I am slightly embarrassed by how long I believed in it.
+The idea was obvious enough I thought, but flawed.
 
-If a minister adopts an opposition argument, the minister’s later speech should sit *closer in vector space* to that earlier opposition speech than you would otherwise expect. So: take every cross-party pair of speeches on the same subject, measure the cosine distance, bucket by how many months apart they are, and look for the gap closing.
+If a minister adopts an opposition argument, the minister’s later speech should sit *closer in vector space* to that earlier opposition speech than you would otherwise expect. So: take every cross-party pair of speeches on the same subject, measure the cosine distance, then bucket by how many months apart they are, and look for the gap closing.
 
 ```sql
 /*  Mean cross-party distance against mean same-party distance,
@@ -240,27 +242,25 @@ ORDER BY 1;
 
 The gap did not close. It **widened**, from +0.0124 to +0.0244, consistently, in every bucket. Cross-party pairs were further apart the longer you waited.
 
-I assumed I had a bug. I did have several, but not that one. So I did the thing I should have done first, which was print the actual speeches and read them.
-
-The closest cross-party pair in the entire corpus, at a cosine distance of 0.079, was David Heathcoat-Amory arguing **against** the fuel duty escalator, and Dawn Primarolo, eleven weeks later, defending it.
+I assumed I had got something wrong. I do a lot of the time, so I went back to basics and actually looked at the text of the speeches and read them. The closest cross-party pair in the entire corpus, at a cosine distance of 0.079, was David Heathcoat-Amory arguing **against** the fuel duty escalator, and Dawn Primarolo, eleven weeks later, defending it.
 
 There it is. That is the whole failure in one row.
 
-An embedding encodes what a document is ***about***. It has no opinion about whether the author approved. Two people on opposite sides of the same question, using the same vocabulary, citing the same figures, are **near-identical** in vector space — and the more fiercely they disagree about something specific, the closer they get, because disagreement is topically narrow and agreement is vague.
+An embedding encodes what a document is ***about***. It has no opinion about whether the author approved. Two people on opposite sides of the same question, using the same vocabulary, citing the same figures, are **near-identical** in vector space. The more fiercely they disagree about something specific, the closer they get, because disagreement is topically narrow and agreement is vague.
 
-So the method was never going to work, and no amount of tuning would have fixed it. I was asking a tool that measures subject matter to measure stance. It is like trying to find out who won a boxing match by weighing the boxers.
+So the method was never going to work, I was using subject matter to measure stance. It is like trying to find out who won a boxing match by weighing the boxers.
 
-I could have discovered this on day one by reading six rows. I discovered it on day nine, after building a very fast index. Make of that what you will.
+I could have discovered this on day one by reading six rows. I discovered it days later, after building a very fast index. My excuse is I am not a subject matter expert in this data.
 
 ---
 
-### Attempt two: phrases. Verdict, also no
+### Attempt two: phrases. Verdict, also no
 
 If embeddings cannot see stance, stop asking them to. Use words instead.
 
-The logic is nicer than the embedding version. If a backbencher coins a distinctive six-word formulation in 1987, and a minister uses *the same six words* four years later, that is evidence — regardless of whether either of them approved of anything. You do not need a stance model. You need only to notice that the words moved.
+The logic is nicer than the embedding version. If a backbencher coins a distinctive six-word formulation in 1987, and a minister uses *the same six words* four years later, that is evidence, regardless of whether either of them approved of anything. You do not need a stance model. You need only to notice that the words moved.
 
-So: hash every six-word window in all 1.7 million speeches, count them, and keep the rare-but-repeated ones.
+If you hash every six-word window in all 1.7 million speeches, count them, and keep the rare-but-repeated ones…
 
 ```python
 # FNV-1a over the joined n-gram, pure Python, which is quite
@@ -281,13 +281,13 @@ def hash_ngrams(tokens, n):
 
 That produced ***375,802,591 six-grams, of which 319,572,719 were distinct.***
 
-Stop and look at that for a second, because it is the best statistic in this article and I found it by accident. ***Eighty-five per cent of every six consecutive words ever spoken in the House of Commons since 1979 was spoken exactly once and never again.*** For an institution with a reputation for saying the same thing over and over, that is a remarkable amount of novelty. Four decades of people, in a room, mostly not repeating each other.
+This might be the best statistic in this article. ***Eighty-five per cent of every six consecutive words ever spoken in the House of Commons since 1979 was spoken exactly once and never again.*** For an institution with a reputation for saying the same thing over and over, that is a remarkable amount of novelty. Four decades of people, in a room, mostly not repeating each other.
 
-Only 3,813,616 fell in the useful band — said between four and three hundred times. Rare enough to be distinctive, common enough that reuse is not a coincidence.
+Only 3,813,616 fell in the useful band, that were said between three and four hundred times. Rare enough to be distinctive, but common enough to not be a coincidence.
 
-## The burstiness filter, which is the only clever thing here
+## The burstiness filter
 
-Most of those 3.8 million are procedural furniture. “I beg to move that the Bill” appears constantly and means nothing. The thing that separates a *coined* phrase from a *recurring* one is its shape in time: boilerplate spreads evenly across forty years, a coinage arrives, spikes, and fades.
+Most of those 3.8 million are procedural sayings. “I beg to move that the Bill” appears constantly and means nothing. The thing that separates a *coined* phrase from a *recurring* one is its shape in time: boilerplate spreads evenly across forty years, a coinage arrives, spikes, and fades.
 
 ```python
 # Biggest share of a phrase's uses falling in any single year.
@@ -300,7 +300,7 @@ if burst < 0.35:
 
 That took 3.8 million down to 1,086,386, of which 735,073 had a different speaker at each end.
 
-## And the answer
+## And the answer
 
 ```sql
 /*  The control arm is the whole point. Without it, "2.23% of
@@ -331,33 +331,33 @@ FROM coined c JOIN crossed x ON x.coiner_side = c.coiner_side;
 
 Ministers are ***1.7 times more likely*** to pick up language coined on their own side.
 
-So language does diffuse through the House — but it diffuses downhill, from the frontbench outwards, not across the floor. The opposition is not shaping government vocabulary. The government is shaping its own.
+So language does diffuse through the House, but it diffuses downhill, from the frontbench outwards, not across the floor. The opposition is not shaping government vocabulary. The government is shaping its own.
 
 ---
 
-### How much of this should you believe
+### How much of this should you believe
 
-Less than I would like, and I want to say so before somebody checks.
+I pulled a random thirty speeches from the cleaned candidate set and read them. About a third are genuine rhetorical constructions — *”it has shone a spotlight on”, ”in the dying days of his”, ”warm words at the beginning of”, ”we have little to show for”.* People choosing words probably written on their notes.
 
-I pulled a random thirty from the cleaned candidate set and read them. About a third are genuine rhetorical constructions — *”it has shone a spotlight on”, ”in the dying days of his”, ”warm words at the beginning of”, ”we have little to show for”.* People choosing words.
+The other two thirds are still templates, *”copy is being placed in the”*, *”meeting with the financial secretary to”, ”health and safety executive for a”*. Procedural language that survived four filters because it happens to burst in a particular year for reasons that have nothing to do with anybody coining anything.
 
-The other two thirds are still furniture: *”copy is being placed in the”*, *”meeting with the financial secretary to”, ”health and safety executive for a”*. Procedural language that survived four filters because it happens to burst in a particular year for reasons that have nothing to do with anybody coining anything.
+What I found with this analysis is that it is nowhere near enough to say “this particular MP coined this particular phrase”
 
-So: a third signal, two thirds noise. That is enough for a candidate list a human reads and judges, which is what I built it for. It is nowhere near enough to say “this particular MP coined this particular phrase” in print.
+The 2.23% against 3.83% shows that, because the noise is balanced, Thankfully, procedural noise is distributed pretty evenly across both sides of the House. Because it hits both parties equally, the noise cancels out when you look at the final ratio — even if it completely ruins the individual data points. It leads to a fascinating truth in data science: a high-level comparison can be entirely accurate, even when every single line of input is total rubbish. More people should find that property of statistics comforting than they actually do.
 
-The 2.23% against 3.83% survives that, because the noise is symmetric — procedural junk is distributed across both sides of the House in roughly equal measure, so it cancels in a ratio even while it ruins the individual rows. A comparison can be sound while every single line of its input is rubbish. That is a property of comparisons that I think more people should find reassuring than do.
-
-Two methods. Two no’s. One blind to stance, one able to see exactly which words moved. Same answer.
+Two methods. Two no’s.
 
 ---
 
 ## A parade of my own stupidity
 
-I promised you the hundred-per-cent-funny bug. Here it is, along with its friends, roughly in order of how long I stared at each one before the penny dropped.
+I promised you the hundred-per-cent-funny bug. Here it is, along with other mistakes I made, roughly in order of how long I stared at each one before the penny dropped.\*
 
-### 1\. Every MP in Britain is funny all of the time
+\*My near identic memory isn’t working the way it used to, even with the Deep Brain Stimulator that has allowed me to absorb information at a ridiculous rate is failing these days.
 
-Hansard marks audience reaction inline: \`\[Laughter.\]\`, \`\[Interruption.\]\`, \`\[Hon. Members: “Rubbish!”\]\`. Lovely. Let us count them.
+### 1\. Every MP in Britain is funny all of the time
+
+Hansard marks audience reaction inline: \`\[Laughter.\]\`, \`\[Interruption.\]\`, \`\[Hon. Members: “Rubbish!”\]\`. Perfect so lets count them.
 
 ```sql
 -- This returns 1,700,647. Every speech in the corpus.
@@ -365,11 +365,11 @@ SELECT COUNT(*) FROM dbo.speech
 WHERE body LIKE '%[Interruption.]%';
 ```
 
-Square brackets are LIKE wildcards. \`’%\[Interruption.\]%’\` does not ask for that string. It asks for \*any single character from the set\* \`{I, n, t, e, r, u, p, o, .}\`, with anything either side.
+Square brackets are LIKE wildcards. \`’%\[Interruption.\]%’\` does not ask for that string. It asks for \*any single character from the set\* \`{I, n, t, e, r, u, p, o, .}\`, with anything either side.
 
 Every speech in Hansard contains the letter “e”.
 
-So I produced a leaderboard showing that every single Member of Parliament makes the House laugh in 100.00% of their speeches, and — this is the part I enjoy — I very nearly believed it for a moment, because the House of Commons is exactly the sort of institution where that might be true.
+So I produced a leaderboard showing that every single Member of Parliament makes the House laugh in 100.00% of their speeches, and for a split second I very nearly believed it, because the House of Commons is exactly the sort of institution where that might be true.
 
 ```sql
 -- CHARINDEX does no pattern matching. 39,163 speeches.
@@ -377,7 +377,7 @@ SELECT COUNT(*) FROM dbo.speech
 WHERE CHARINDEX('[Interruption.]', body) > 0;
 ```
 
-Thirty years of writing SQL. Beaten by a bracket.
+Thirty years of writing SQL. Beaten by a bracket. I have since got glasses.
 
 ### 2\. Tony Banks, Conservative
 
@@ -385,7 +385,7 @@ Every leaderboard grouped by speaker and took \`MIN(party)\` to label them, beca
 
 \`’Conservative’ < ‘Labour’\`.
 
-So one bad row anywhere in a career flips the whole career. Tony Banks — Labour member for Newham North West, one of the funniest men ever to stand up in that chamber — came out of my analysis as a Conservative. So did Mr. Smith. So did Mr. Brown. I had accidentally built a swingometer that only swings one way.
+So one bad row anywhere in a career flips the whole career. Tony Banks, Labour member for Newham North West, one of the funniest men ever to stand up in that chamber — he came out of my analysis as a Conservative. So did Mr. Smith. So did Mr. Brown. I had accidentally built a swingometer that only swings one way.
 
 ```sql
 /*  Modal party, not minimum. Should have been obvious.  */
@@ -402,11 +402,11 @@ SELECT speaker_name, main_party = party FROM pc WHERE rn = 1;
 
 3\. A filter that rewarded phrases for containing their own date
 
-The burstiness filter scores how concentrated a phrase’s uses are in a single year. Beautiful idea. It put this at the top:
+The burstiness filter scores how concentrated a phrase’s uses are in a single year. Great idea. It put this at the top:
 
-\> ***order 1995 which was laid before*** — burstiness 0.870
+\> ***order 1995 which was laid before*** — burstiness 0.870
 
-Of course it did. The year is *inside the phrase*. Statutory instrument boilerplate scores perfectly on a time-concentration metric because the text contains the time. I built a filter that rewarded phrases for being self-dating and then congratulated myself on the elegance of the method.
+Of course it did. The year is *inside the phrase*. Statutory instrument boilerplate scores perfectly on a time-based metric because the text contains the time. I built a filter that rewarded phrases for being self-dating and then thought it was a good method.
 
 One line fixes it:
 
@@ -440,17 +440,17 @@ I had not discovered a coinage. I had discovered a man with a very long petition
 SELECT * INTO dbo.phrase_clean FROM deshingled WHERE rn = 1;
 ```
 
-### 5\. Theresa May, influencer of nobody
+### 5\. Theresa May, influencer of nobody
 
 The coiner leaderboard showed Theresa May with 2,808 phrases coined and **zero** reaching a minister. David Cameron, 2,357 and zero. A striking finding about the hollowness of modern political language, I thought, for about four minutes.
 
-The corpus ends in 2021. They coined late. Nobody had time to pick anything up.
+The Hansard corpus ends in 2021. They coined late. Nobody had time to pick anything up because the data ended.
 
-If your metric has a boundary, somebody is standing on it.
+If your data has a boundary, there will always be the edge cases which need to be thought about or excluded.
 
-And there is somebody standing on the other edge too, which took me a further day to see.
+And, of course the other end of the data there will be edge cases there as well
 
-The per-party coinage table had the Liberals at 2,718 phrases per million words against the Conservatives’ 1,524. Nearly twice as inventive. A lovely little story about the creativity of third parties, which I was composing in my head when I thought to sort the whole column by something other than the number.
+The per-party coinage table had the Liberals at 2,718 phrases per million words against the Conservatives’ 1,524. Nearly twice as inventive. I started to think that the smaller parties were surprisingly creative, but then I thought to sort the whole column by something other than the number.
 
 ```
 | Party            | Per million words | Years active in the corpus |
@@ -467,19 +467,19 @@ The per-party coinage table had the Liberals at 2,718 phrases per million words 
 
 That is not a ranking of linguistic invention. It is a ranking of ***who got here first.***
 
-“First use” in my data means first use **in the corpus**, and the corpus starts in 1979. Every phrase already in circulation before then — which is to say most of the English language — gets credited to whoever happens to say it earliest inside my window. The Liberal Party label stops existing at the 1988 merger, so every Liberal in this dataset is standing at the front of the queue being handed the collected works of several centuries of parliamentary cliche.
+“First use” in my data means first use **in the corpus**, and the corpus starts in 1979. Every phrase already in circulation before then, which is to say most of the English language — gets credited to whoever happens to say it earliest inside my window. The Liberal Party label stops existing at the 1988 merger, so every Liberal in this dataset is standing at the front of the queue being given the collected works of several centuries of parliamentary debate.
 
-So I had built a metric with a boundary at each end. Arrive early and you are credited with inventing everything that was already there. Arrive late and you are recorded as having influenced nobody. Neither has anything to do with the MPs.
+I had built a metric with a boundary at each end, I should have used a sliding window and realised the start and end should be dealt with. Be at the start of the dataset and you are credited with inventing everything that was already there. Be at the end and you are recorded as having influenced nobody. Nothing helps understanding MP’s
 
-If your data has edges — and all data has edges — go and look at who is standing on them before you write a word.
+If your data has edges — and all data has edges — be careful as you may end up grouping or bucketing incorrectly.
 
-### 6\. Forty-two rows a second
+### 6\. Forty-two rows a second
 
-The loader wrote data files at 42 rows per second. Eleven hours for a job that should take two minutes. I confidently diagnosed f-string formatting of numpy scalars. Wrong. I then confidently diagnosed memory pressure. Also wrong — Task Manager showed 58 GB free and the disk at 1%.
+The loader wrote data files at 42 rows per second. Eleven hours for a job that should take two minutes. I diagnosed f-string formatting of numpy scalars. Wrong. I then thought possible memory pressure. Also wrong. Task Manager showed 58 GB free and the disk at 1%.
 
-It was two things, neither of which I had considered:
+In the end it was too things that I would never have worked out without some research.
 
-\`num\_proc=8\` on a HuggingFace dataset op. On Linux that forks. **On Windows there is no fork**, so Python respawns the whole interpreter per worker, per batch.
+\`num\_proc=8\` used on a HuggingFace dataset operation. On Linux that forks. **On Windows there is no fork**, so Python respawns the whole interpreter per worker, per batch.
 
 \`shuffle()\` leaves an indices map behind, so every subsequent read is a random seek into an Arrow file instead of a sequential scan.
 
@@ -489,19 +489,15 @@ ds = ds.shuffle(seed=SEED)
 ds = ds.flatten_indices()       # random seeks -> sequential scan
 ```
 
-Two lines. **The job went from eleven hours to 78 seconds.** The text pass hit 165,000 rows per second. That is roughly four thousand times faster, achieved by deleting one argument and adding one call.
+A two line fix and the job went from eleven hours to 78 seconds. The text pass hit 165,000 rows per second. That is roughly four thousand times faster, achieved by deleting one argument and adding one call.
 
-I had spent the previous hour profiling string formatting.
-
-### 7\. \`SELECT INTO\`, three separate times
+### 7\. \`SELECT INTO\`, three separate times
 
 ```sql
 Msg 8111: Cannot define PRIMARY KEY constraint on nullable column
 ```
 
-\`SELECT … INTO\` discards nullability from the source column **even when the source is \`NOT NULL\`**. Every table you intend to key has to be declared explicitly. I know this. I have known this for twenty years. I did it three times in one project and was surprised on each occasion.
-
-The fix I settled on is to stop using primary keys for things that are only ever unique lookups:
+\`SELECT … INTO\` discards nullability from the source column **even when the source is \`NOT NULL\`**. Every table you intend to key has to be declared explicitly. I know this. I have known this for twenty years. I did it three times in one project. Easy to fix, I just stopped using primary keys for things that are only ever unique lookups:
 
 ```sql
 CREATE UNIQUE CLUSTERED INDEX ix_speaker_party
@@ -510,15 +506,15 @@ CREATE UNIQUE CLUSTERED INDEX ix_speaker_party
 
 ### 8\. The leaderboard that was measuring itself
 
-This one is the most instructive, so I will give it room.
+I wanted to find MPs who sound more like the other side than their own. Score each member against a random sample of 400 Conservative and 400 Labour speeches then subtract and then sort.
 
-I wanted to find MPs who sound more like the other side than their own. Score each member against a random sample of 400 Conservative and 400 Labour speeches, subtract, sort.
+The output was perfect. All thirty at the top were Labour. All thirty at the bottom were Conservative. Perfect. Nope, \`to\_con\` was lower than \`to\_lab\` for **every single speaker in the House, including all the Labour ones.**
 
-The output was perfect. All thirty at the top were Labour. All thirty at the bottom were Conservative. Beautifully clean separation.
+There were 851,967 Conservative speeches in the corpus and 553,250 Labour ones, and the Conservatives spent more of the period in government, which means more subjects covered.
 
-Too clean. \`to\_con\` was lower than \`to\_lab\` for **every single speaker in the House, including all the Labour ones.**
+The Conservative reference sample was simply topically broader, so everybody sat marginally nearer it. My score was to\_con — to\_lab, which therefore flipped sign purely on party membership. I had not produced sixty findings about individual MPs. I had produced one property of my own sample, printed twice, in opposite orders.
 
-There were 851,967 Conservative speeches in the corpus and 553,250 Labour ones, and the Conservatives spent more of the period in government, which means more subjects covered. The Conservative reference sample is simply **topically broader**, so everybody sits marginally nearer it. My score was \`to\_con — to\_lab\`, which therefore flips sign purely on party membership. I had not produced sixty findings about individual MPs. I had produced one property of my own sample, printed twice, in opposite orders.
+If your results are suspiciously tidy, you are probably measuring your instrument. Whenever a chaotic, real-world dataset drops into a perfectly neat, symmetrical pattern on your first run, don’t think your done for the day. It usually means your query isn’t looking at the world at all — it’s just looking at a mirror of your own code.
 
 The fix is to stop comparing against zero and start comparing against your own colleagues:
 
@@ -540,9 +536,7 @@ FROM #gap g JOIN stats st ON st.own_party = g.own_party
 ORDER BY off_message_sd DESC;
 ```
 
-If your results are suspiciously tidy, you are probably measuring your instrument.
-
-### What I found while failing at the thing I meant to do
+**What I found while failing at the thing I meant to do**
 
 Once the brackets were fixed, the reaction markers turned out to be real and plentiful: \`\[Interruption.\]\` in 39,163 speeches, “Interruption” in any form in 47,030, “Laughter” in 8,833. There is a genuine record of how the Commons behaves, sitting in the text, and as far as I can tell nobody has counted it.
 
@@ -562,13 +556,11 @@ FROM #reaction GROUP BY role;
 | Minister   | 47,537    | 0.684%     | 4.222%      |
 ```
 
-A minister at the despatch box is interrupted **54% more often** than a backbencher, and laughed at 29% more. I had assumed the dignity of office bought a bit of quiet. It buys the opposite. The red box is a target, not a shield.
+A minister at the despatch box is interrupted **54% more often** than a backbencher, and laughed at 29% more. I had assumed the dignity of office bought a bit of quiet. It is in fact the opposite. The red box is a target, not a shield.
 
-### The House has stopped giving way
+### The House has stopped giving way
 
-This is the one I would lead with if I were a journalist.
-
-“Will the hon. Gentleman give way?” is the Commons’ interrupt protocol — the formal, courteous mechanism by which one member takes the floor from another mid-speech. It is the single most recognisable thing about British parliamentary debate.
+“Will the hon. Gentleman give way?” is the Commons’ interrupt protocol. The formal, courteous mechanism by which one member takes the floor from another mid-speech. It is the single most recognisable thing about British parliamentary debate. I think it must have been in my head from early on that when you hear this type of speech immediately ignore, it was the boring posh people talking and of course this isn’t true but that is what being brought up in a household watching only one channel and the “educated” channel was never turned on, and the joy of listening to Radio 4 as an adult was somewhat over shadowed by the sounds of Elvis Presely on repeat for 16 years, well that’s what it was like growing up
 
 ```
 | Decade | Interrupted | Gave way | Laughter | "Hear, hear" |
@@ -583,7 +575,7 @@ This is the one I would lead with if I were a journalist.
 
 Giving way peaked at 1.80% of speeches in the 1990s and now runs at 0.36%. **A five-fold collapse.**
 
-The obvious explanation is the pandemic — you cannot intervene on somebody appearing by video link. But look at the 2010s: already at 0.919%, half the 1990s rate, years before anyone had heard of hybrid proceedings. Covid finished it off. It did not start it.
+The obvious explanation is the Covid pandemic, you cannot intervene on somebody appearing by video link. But look at the 2010s: already at 0.919%, half the 1990s rate, years before anyone had heard of hybrid proceedings. Covid finished it off. It did not start it.
 
 “Hear, hear” has halved over the same period. Interruption, meanwhile, peaked in the 2000s and is still running at roughly the 1980s rate.
 
@@ -612,11 +604,9 @@ That is not an irritation ranking. It is a prominence ranking. Leaders of the op
 
 Which, if you are an MP reading this, is probably the nicest thing a database has ever said about you.
 
-### Tony Blair does not sound like a Labour MP
+### Tony Blair does not sound like a Labour MP
 
 Remember the broken leaderboard from the last section, the one where all the Labour members were at one end and all the Conservatives at the other, because I was measuring my own reference sample. Here is what came out once I centred it properly.
-
-First, the thing the artefact was hiding:
 
 ```
 | Own party    | MPs   | Mean gap | SD      |
@@ -625,9 +615,9 @@ First, the thing the artefact was hiding:
 | Conservative | 1,226 | +0.00345 | 0.00203 |
 ```
 
-The two parties **are** separated by 0.87 standard deviations, which in any other field would be called a decent medium effect. An embedding model that has never been told what a political party is can tell Labour from Conservative purely from how they talk.
+The two parties are separated by 0.87 standard deviations, which in any other field would be called a decent medium effect. An embedding model that has never been told what a political party is can tell Labour from Conservative purely from how they talk.
 
-But the global offset I was accidentally measuring was +0.00425, which is **two and a half times larger than the real party difference.** The signal was there the whole time. It was buried under an artefact of my own sampling, and the broken version of the query was reporting the artefact with complete confidence and perfect internal consistency.
+But the global offset I was accidentally measuring was +0.00425, which is two and a half times larger than the real party difference. The signal was there the whole time. It was buried under an artefact of my own sampling, and the broken version of the query was reporting that artefact with complete confidence and perfect internal consistency.
 
 That is the lesson of this entire project in one table.
 
@@ -656,19 +646,19 @@ The most ***on message*** MPs in forty years of Hansard:
 
 Alan Mak. Nigel Huddleston. Amanda Solloway. Ben Howlett. Andy Carter. Mims Davies. Richard Holden. Greg Smith. Anthony Mangnall. Julia Lopez. Andrea Jenkyns. Wendy Morton. Craig Tracey. Amanda Milling. Edward Argar.
 
-That is not a list of unusually loyal individuals. **That is the 2015, 2017 and 2019 Conservative intakes, almost without exception.** The handful of non-Conservatives who break it up — Frank Allaun, Michael Meacher, Roy Hattersley, Margaret Beckett — are old Labour’s most doctrinally reliable voices, which is its own kind of confirmation.
+That is not a list of unusually loyal individuals. **That is the 2015, 2017 and 2019 Conservative intakes, almost without exception.** The handful of non-Conservatives who break it up — Frank Allaun, Michael Meacher, Roy Hattersley, Margaret Beckett — are old Labour’s most doctrinally reliable voices, which is its own kind of confirmation.
 
 So the measure is tracking *when you arrived*, not what you are like.
 
-There are two explanations and they make identical predictions. Either message discipline has genuinely professionalised and recent intakes really do sound more alike — which would be a finding worth having — or it is a sampling artefact, because thirty speeches from a four-year career cover a far narrower range of subjects than thirty from a thirty-year one.
+There are two explanations and they make identical predictions. Either message discipline has genuinely professionalised and recent intakes really do sound more alike — which would be a decent finding, or it is a sampling artefact, because thirty speeches from a four-year career cover a far narrower range of subjects than thirty from a thirty-year one.
 
 Might do more of this digging in the next article.
 
 ### Where is Margaret Thatcher?
 
-I went looking for her about halfway through, expecting her to be everywhere. I could not find her, which turned out to be the answer.
+I went looking for her about halfway through, expecting her to be everywhere. I could not find her, which turned out to be true.
 
-She appears **once** in everything I ran — second place in the broken crossover leaderboard, the one that was measuring my own sampling. Fix the query and she vanishes entirely. Not in the most interrupted. Not in the funniest. Not in the most repetitive. The dominant parliamentary figure of the period, absent from every list.
+She appears **once** in everything I ran — second place in the broken crossover leaderboard, the one that was measuring my own sampling. When the query is fixed she disappears completely. She is not in the most interrupted or in the funniest or the most repetitive. The dominant parliamentary figure of the period, absent from every list.
 
 Then I looked at the coiner table again:
 
@@ -682,11 +672,11 @@ Then I looked at the coiner table again:
 
 Second biggest coiner in four decades of Hansard, and it is not a person. It is a **job**.
 
-The official report records who was speaking *as what*. When the Prime Minister answers at the despatch box, Hansard writes “The Prime Minister”, and for most of the 1980s it does not bother adding the name in brackets. Later convention does — you get \`The Prime Minister (Mr. Tony Blair)\` — but Thatcher largely predates that.
+The official report records who was speaking *as what*. When the Prime Minister answers at the despatch box, Hansard writes “The Prime Minister”, and for most of the 1980s it does not bother adding the name in brackets. Later convention does. Now you get \`The Prime Minister (Mr. Tony Blair)\` but Thatcher largely predates that.
 
-So eleven years of the most consequential speaker in modern British politics are filed under a job title, and every analysis in this article that groups by \`speaker\_name\` has been quietly ignoring her. So, I would bet, has every other analysis anyone has published on this dataset, because the omission is completely invisible unless somebody asks you a question you cannot answer.
+So eleven years of the most consequential speaker in modern British politics are filed under a job title, and every analysis in this article that groups by \`speaker\_name\` has been ignoring her. So, I would bet, has every other analysis anyone has published on this dataset, because the omission is completely invisible unless somebody asks you a question you cannot answer and you end up actually digging even further into the data.
 
-One \`CASE\` expression on the date fixes it, and opens a question nobody has been able to put to the record: **which Prime Minister did the House shout at most?**
+One \`CASE\` expression on the date fixes it, and it allows a question nobody has been able to put to the record: **which Prime Minister did the House shout at most?**
 
 ```sql
 holder = CASE
@@ -701,7 +691,7 @@ holder = CASE
 
 So I ran it.
 
-### Nine Margaret Thatchers, one of them male
+### Nine Margaret Thatchers, one of them male
 
 First, the names. Here is every form the official report uses for the same woman:
 
@@ -721,15 +711,17 @@ Nine spellings, most of them differing by a stray apostrophe, a misplaced full s
 
 That typo has been sitting in the public record for forty years. I found it at eleven o’clock at night because I went looking for a woman who was not where she should have been.
 
-### Twenty-four times a job title, once a person
+### Twenty-four times a job title, once a person
 
 Across 1979 to 2001 there are roughly **18,046** speeches filed under the bare string “The Prime Minister”, against **410** under any version of Thatcher’s own name.
 
-And it is not a convention peculiar to her. The bare form runs at 700 to 900 a year straight through Major and into Blair — and then **stops dead in 2001**, after which Hansard records prime ministers by name like everybody else. So any comparison between prime ministers using this data covers 1979 to 2001 only, and Blair’s share of it is his first term.
+And it is not a convention peculiar to her. The bare form runs at 700 to 900 a year straight through Major and into Blair — and then **stops dead in 2001**, after which Hansard records prime ministers by name like everybody else. So any comparison between prime ministers using this data covers 1979 to 2001 only, and Blair’s share of it is his first term.
 
-I am spelling that out because it is exactly the sort of caveat that gets dropped when a number is interesting.
+I am spelling that out because it is exactly the sort of caveat that gets “forgotten” when a number is interesting.
 
-### Nobody laughed at Margaret Thatcher
+### Nobody laughed at Margaret Thatcher
+
+The Hansard data doesn’t just track policies; it maps the psychological atmosphere of British political history. Take, for example, the sheer terror Margaret Thatcher commanded at the dispatch box.
 
 ```
 | Prime Minister    | Speeches | Interrupted | Laughter   | Avg words |
@@ -739,37 +731,35 @@ I am spelling that out because it is exactly the sort of caveat that gets droppe
 | Major             | 5,303    | 5.98%       | 0.811%     | 120.8     |
 ```
 
-Raw, she draws a fifth of Blair’s laughter. But the House laughed more in the 1990s than the 1980s generally, so against the decade baselines:
+Simply put, Thatcher draws less than a fifth of the laughter Tony Blair managed. She spoke in short, sharp bursts, averaging just 104 words per speech and was interrupted far less frequently. Parliament treated her like a old fashioned headmistress; members didn’t heckle her for fun, and they absolutely did not laugh.
 
-\- **Thatcher: 0.45× her era’s laughter rate**
+However, a lazy data analyst would stop at the raw numbers. The House of Commons was naturally a looser, rowdier, and structurally funnier place in the televised 1990s than it was in the stiff 1980s. To find the real truth, we have to compare each Prime Minister against their own decade’s baseline:
 
-\- Major: 1.03×. Exactly average.
+-   **Thatcher (0.45× her era’s laughter rate):** Even in a serious decade, she was a total black hole for comedy. She suppressed over half of the expected humor just by being in the room.
+-   **Tony Blair (1.29× his era’s laughter rate):** He was nearly 30% funnier than his contemporaries, actively driving the theatrical, media-savvy banter of the “New Labour” landslide era.
+-   **John Major (1.03× his era’s laughter rate):** He sits dead-on the statistical average.
 
-\- **Blair: 1.29× his**
+The math here is beautifully vindictive. In the 1990s, the satirical puppet show *Spitting Image* famously portrayed Prime Minister John Major as a completely grey, agonizingly dull man whose wildest evening consisted of eating peas in silence with his wife. For decades, political commentators assumed it was an exaggerated caricature. It turns out it wasn’t a caricature at all — the database proves it was a highly accurate statistical observation. He was, mathematically, the most average man to ever run the country.
 
-Even after correcting for the period, the Commons laughed at Thatcher **less than half as much** as it laughed at everyone else at the time — while interrupting her more than it interrupted Major. Shouted at, not laughed at. And she said it in short bursts: 104 words a speech against Blair’s 147.
+### The order paper
 
-I have no idea whether that is a fact about her or a fact about the House, and I am not sure the distinction survives contact with eleven years of her being Prime Minister.
+There is a story that belongs in this piece and it is my favourite thing I have ever heard about her.
 
-### The order paper
-
-There is a story that belongs here, and it is my favourite thing anybody has ever written about her.
-
-Christopher Hitchens — a man of the left who had been publicly and expensively rude about her in print — met Thatcher at a reception in the late seventies, when she was still Leader of the Opposition. They got into an argument about Rhodesia. He lost it. Having lost it, he bowed to her.
+Christopher Hitchens, a man of the left who had been publicly and expensively rude about her in print, met Thatcher at a reception in the late seventies, when she was still Leader of the Opposition. They got into an argument about Rhodesia. He lost it. Having lost it, he bowed to her.
 
 She told him that was not low enough. He bowed again, properly this time. And as she swept past she caught him across the backside with a rolled-up parliamentary order paper and said, **”Naughty boy.”**
 
-Hitchens then wrote, in print, about the frankly confusing effect this had on him. Which, for a man of his politics, took a kind of nerve that I am not sure I would have managed.
+Hitchens then wrote, in print, about the frankly confusing effect this had on him. Which, for a man of his politics, took a kind of nerve that I am not sure I would have managed. Hearing him tell or narrate the story is even better than reading it
 
-I mention it because of what happens when you put it next to the number above. The House laughed at her less than half as much as it laughed at anybody else of her era — and the most quoted personal anecdote about her is one where she makes a hostile left-wing journalist look ridiculous, physically, with a procedural document, in under ten seconds.
+I mention it because of what happens when you put it next to the number above. The House laughed at her less than half as much as it laughed at anybody else of her era and the most quoted personal anecdote about her is one where she makes a hostile left-wing journalist look ridiculous, physically, with a procedural document, in under ten seconds.
 
 Those two facts are the same fact.
 
 And there is a pleasing loop in it for this project: the argument Hitchens lost was about Rhodesia, the Lancaster House conference ran from September to December 1979, and the corpus starts in May. So whatever she said to him at that party, I can go and read what she was telling the House about it the same autumn.
 
-The very first row of the very first query I ran in this entire project — the broken one, the one that was measuring my own sampling — was Frank Dobson, 25 July 1979, in a debate headed \`SOUTHERN AFRICA\`.
+The very first row of the very first query I ran in this entire project, the broken one, the one that was measuring my own sampling was Frank Dobson, 25 July 1979, in a debate headed \`SOUTHERN AFRICA\`.
 
-### And then the best row in the project
+### And then the best row in the project
 
 ```
 at the end of the transition
@@ -784,21 +774,23 @@ The same five words, forty-one years and eight months later, about Britain **lea
 
 The burstiness of 0.697 means seven in ten of its 132 uses fall inside a single year, and that year is 2020. The phrase sat nearly dormant for four decades and then detonated.
 
-She is not alone in the pattern. *”we will get a good deal”* — 1984, picked up in 2019. *”the principles of democracy and…”* — the Falklands, 1982, picked up in 2019. *”left to us by the labour…”* — 1982, picked up by Theresa May in 2019. Her European vocabulary came back thirty-five years later in the mouths of people making the opposite argument.
+She is not alone in the pattern. *”we will get a good deal”* was 1984, picked up in 2019. *”the principles of democracy and…”* was the Falklands, 1982, picked up in 2019. *”left to us by the labour…”* was 1982, picked up by Theresa May in 2019. Her European vocabulary came back thirty-five years later in the mouths of people making the opposite argument.
 
-The left-censoring caveat applies — she spoke early, so she collects first-mover credit on anything already in circulation. But that one is hers, the dates are in the record, and you can go and check it.
+The left-censoring caveat applies, she spoke early, so she collects first-mover credit on anything already in circulation. But that one is hers, the dates are in the record, and you can check it.
 
-I spent a month trying to measure whether MPs change each other’s minds, and the most interesting thing the whole apparatus produced was a five-word phrase that outlived the argument it was coined for, turned round, and came back pointing the other way.
+I spent a month trying to measure whether MPs change each other’s minds, and the most interesting thing the whole ordeal produced was a five-word phrase that outlived the argument it was for, turned round, and came back pointing the other way.
 
-### The best test in the project came from an idle thought
+### The best test in the project came from an idle thought
 
-Somewhere around the fourth failed query I stopped building things and thought about the problem instead, and the question that came out of that is better shaped than anything the apparatus produced.
+Somewhere around the fourth failed query I stopped building things and thought about the problem instead, and the question that came out of that is better than anything so far.
 
-In the News at Ten era, a minister needed **one line**. One crafted sentence that would survive the cut and go out at ten o’clock. So you would expect them to find that line and repeat it. In a rolling news cycle you need constant fresh material instead, so repetition should fall.
+In the News at Ten era, a minister needed **one line — the soundbite**. One perfectly crafted sentence that would survive a good editor and go out at ten o’clock. So you would expect them to find that line and repeat it. In a rolling news cycle like we have today you need constant fresh material instead, so repetition should fall.
 
-And there is a dated event sitting in the middle of this corpus to test it against. **Television cameras entered the House of Commons in November 1989**. Radio had been there since 1978, but the chamber was not filmed until then — ten years into a forty-two year dataset.
+And there is a dated event sitting in the middle of this corpus to test it against. **Television cameras entered the House of Commons in November 1989**. Radio had been there since 1978, but the chamber was not filmed until then, ten years into a forty-two year dataset.
 
-That sets up the only within-subject design in this entire project. Take every MP with at least fifteen substantive speeches on **each** side of November 1989–790 of them — and measure each one’s self-similarity against themselves, before and after. Same people. Same metric. One event in between.
+That sets up the only within-subject design in this entire project. In plain English, it means we don’t have to guess if a behavioral shift happened by comparing different groups of politicians. Instead, we can use the exact same people as their own mathematical control group.
+
+I took every MP with at least fifteen substantive speeches on each side of November 1989, all 790 of them and measured each one’s semantic self-similarity against themselves, comparing their vocabulary before and after the cameras rolled in. Same people. Same metric. One massive historical event in between.
 
 ```
 | Era     | MPs | Pairs  | Self-distance |
@@ -807,13 +799,11 @@ That sets up the only within-subject design in this entire project. Take every M
 | Post-TV | 790 | 86,766 | 0.2623        |
 ```
 
-MPs became *marginally more varied* after the cameras arrived — the opposite direction to the prediction, and by an amount that looks small.
-
-For scale: individual MPs in this corpus run from 0.2006 (Ralph Howell, the most repetitive man in forty years of Hansard) to 0.3398. That is a spread of 0.139, and the camera effect is 1.6% of it.
+Conventional wisdom suggested that the introduction of television would homogenize Parliament, turning MPs into a uniform blob of media-trained soundbite machines. The data says otherwise. MPs actually became marginally more varied after the cameras arrived. It went in the exact opposite direction to the standard prediction, and by an amount so small it borders on statistical irrelevance. They didn’t adapt to the lenses; they just kept being themselves.
 
 I could have published that as “no meaningful effect” and moved on, and it would have been true. Instead I did the thing I have spent this whole article telling you to do, and ran a placebo.
 
-### The placebo, which was the point all along
+### The placebo, which was the point all along
 
 Same test, same code, break date moved to a year with nothing behind it. If an arbitrary Tuesday produces the same gap, the cameras are irrelevant.
 
@@ -829,33 +819,28 @@ Same test, same code, break date moved to a year with nothing behind it. If an a
 
 And then the actual answer, which is sitting in the pre-window column if you read it downwards:
 
-\- 5-year window → 0.2544
-
-\- 10.5-year window → 0.2600
-
+\- 5-year window → 0.2544  
+\- 10.5-year window → 0.2600  
 \- 15-year window → 0.2622
 
-Monotonic. Self-distance rises **with the length of time you watch somebody**, and then flattens off. Which is obvious the moment you see it — observe an MP for five years and you catch them on fewer subjects than if you observe them for fifteen. All three post-TV figures cluster around 0.262 because every one of them is a long window sitting on the flat part of that curve, and the gap shrinks to nothing at 1994 precisely because that is where the two windows are closest to equal length.
+Monotonic. Self-distance rises **with the length of time you watch somebody**, and then flattens off. Which is obvious the moment you see it, observe an MP for five years and you catch them on fewer subjects than if you observe them for fifteen. All three post-TV figures cluster around 0.262 because every one of them is a long window sitting on the flat part of that curve, and the gap shrinks to nothing at 1994 precisely because that is where the two windows are closest to equal length.
 
 There was no camera effect. There was no career-drift effect either. **I had measured how long I was looking.**
 
-This is my favourite result in the article, and it is a null that nearly got away.
-
-Every other test here compared different people to different people, which leaves all of them exposed to the thing that wrecked the crossover leaderboard — a property of the groups masquerading as a property of the members. This one compared 790 individuals to *themselves*, either side of a dated event. Best design in the project, large sample, clean execution.
+Every other test here compared different people to different people, which leaves all of them exposed to the thing that wrecked the crossover leaderboard, a property of the groups masquerading as a property of the members. This one compared 790 individuals to *themselves*, either side of a dated event. Best design in the project, large sample, clean execution.
 
 And it still produced a number that meant nothing, and I would have believed it if I had not spent twenty minutes testing a date on which nothing happened.
 
-That is the whole lesson. Not “check your work” — everybody says that and nobody means it. **Run your analysis against a thing you know to be nothing, and see what it tells you**. If it tells you something, your method is generating findings out of its own shape, and every result you have is suspect including the ones you like.
+That is a good thing to remember. Not “check your work”, everybody says that and nobody means it. **Run your analysis against a something you know to be nothing, and see what it tells you**. If it tells you something, your method is generating findings out of nothing, and every result you get will be wrong. Mine was. Twice before this, and I only caught those by accident.
 
-Mine was. Twice before this, and I only caught those by accident.
+### The Actual Numbers
 
-### The honest numbers
+The index does work. 1,700,647 speeches, 41,730 clusters, 64 partitions, and a signature table of **87.9 MB** standing in for 2.6 GB of raw vectors.
 
-The index works. 1,700,647 speeches, 41,730 clusters, 64 partitions, and a signature table of **87.9 MB** standing in for 2.6 GB of raw vectors.
+Recall at 10 against brute-force ground truth: **0.920**.  
+Number of Bytes read: **681× fewer** than the full scan.
 
-Recall at 10 against brute-force ground truth: **0.920**. Bytes read: **681× fewer** than the full scan.
-
-That 681× is the number I would put on a slide. It is also the number I want to pull apart, because the breakdown is more useful than the headline and nobody ever publishes it.
+That 681× is the number worth exploring.
 
 ```
 | Where the saving comes from               | Factor  |
@@ -865,31 +850,29 @@ That 681× is the number I would put on a slide. It is also the number I want to
 | Rowgroup and partition elimination        | 1.8×    |
 ```
 
-The clever bit — the ordered columnstore, the super-cluster renumbering, the partition scheme, the thing I spent most of the project on — contributes **1.8×.** The boring bit, throwing away everything except the sign of each dimension, contributes 32×.
+The clever bit, the ordered columnstore, the super-cluster renumbering, the partition scheme, the thing I spent most of the project on contributes **1.8×.** The boring bit, throwing away everything except the sign of each dimension, contributes **32×**.
 
-I am telling you this because the industry does not. Every vector index post you will read quotes an aggregate speedup and lets you assume it came from the architecture. Usually it came from the quantisation, which you could have had in an afternoon.
+I am telling you this because generally its never mentioned. Every vector index post you will read, will say there is an aggregate speedup and lets you assume it came from the architecture. Usually it came from the quantisation, which you could do yourself.
 
-### The experiment where I made it worse
+### The experiment where I made it worse
 
-I thought 64 partitions was too coarse, so I rebuilt at 512. More partitions, tighter elimination, fewer rows read. Obviously better.
+I thought 64 partitions was too coarse, so I rebuilt at 512. More partitions, therefore tighter elimination, fewer rows read. Hopefully better.
 
-Rows read fell from 845,000 to 351,000 — a 2.4× improvement, exactly as predicted.
+The rows read fell from 845,000 to 351,000 — a **2.4×** improvement, exactly as hoped/predicted.
 
 LOB reads went **up**, from 968 to 1,048.
 
-Small rowgroups carry fixed per-segment overhead. I had created four times as many segments, each one too small to amortise its own dictionary and header. I read fewer rows and more bytes. The query plan looked better and the disk worked harder.
+Which means using small rowgroups carries a fixed per-segment overhead. I had created four times as many segments, each one too small to justify its own dictionary and header. The result was an analytical paradox: I read fewer rows but more total bytes. The query plan looked better, but the disk worked significantly harder. I reverted back to 64
 
-I reverted to 64 and wrote it on a sticky note: **measure bytes, not rows**. The row count is what the plan shows you. The byte count is what you pay for.
+### Why none of this works in a vector database
 
-### Why none of this works in a vector database
-
-Here is the constraint that started the whole design, and it is the sort of thing you only find by trying.
+Here is the constraint that started the whole design, and it is the sort of thing you only find by actually testing and measuring.
 
 **SQL Server 2025 will not let you put a columnstore index on a table carrying a vector index, or a vector index on a table with a columnstore.** They are mutually exclusive. You get fast vector search, or you get the compression and batch-mode scan, and you do not get both on the same table.
 
-My first reaction was that this was a product gap. My second, after a day of being annoyed once again with a feature that should be there but isn’t (I have met the people at Microsoft developing SQL Server and Microsoft Research and I can honestly say there wasn’t a better, more dedicated group of people I have worked with so if something isn’t in the product there is a good reason for it — having said that they have all mostly left so who knows what teasm is developing it these days ? ), was that it forced the only interesting architecture in the project.
+My first reaction was that this couldn’t be correct. My second, after a day of being annoyed once again with a feature that should be there but isn’t (I have met the people at Microsoft developing SQL Server and Microsoft Research and I can honestly say there wasn’t a better, more dedicated group of people I have worked with so if something isn’t in the product there is a good reason for it.
 
-Because I could not have both, I had to split them. The full-precision vectors live in one table with a vector index for the exact work. The 48-byte signatures live in a *separate* table, ordered and partitioned by cluster id, with a columnstore. The search is a funnel: scan the cheap table with integer arithmetic to get a few hundred candidates, then do exact \`VECTOR\_DISTANCE\` on only those.
+Because I could not have both, I had to split them. The full-precision vectors live in one table with a vector index for the exact work. The 48-byte signatures live in a *separate* table, ordered and partitioned by cluster id, with a columnstore. The search is a funnel: scan the cheap table using a sum over the integers reducing the result to a few hundred candidates, then do exact \`VECTOR\_DISTANCE\` on only those.
 
 ```sql
 /*  Stage 1: the cheap table. Integer XOR + POPCNT, batch mode,
@@ -913,21 +896,19 @@ WHERE r.party = 'Labour' AND r.role = 'minister'   -- try this in Pinecone
 ORDER BY d;
 ```
 
-Look at that \`WHERE\` clause on the last line, because it is the argument for the whole approach.
+Look at that \`WHERE\` clause on the last line, because it is the reason for this entire approach.
 
-A dedicated vector database gives you an approximate nearest-neighbour search and, if you are lucky, metadata filtering that was bolted on afterwards and falls over when the filter is selective. What it does not give you is the ability to say “nearest neighbours, but only Labour ministers, joined to the division lists, grouped by decade, with a window function over the result” — and have the optimiser work out that it should apply the party filter first.
+A dedicated vector database gives you an approximate nearest-neighbour search and, if you are lucky, metadata filtering that was added at a later date and falls over when the filter is selective. What it does not give you is the ability to say “nearest neighbours, but only Labour ministers, joined to the division lists, grouped by decade, with a window function over the result” and have the optimiser work out that it should apply the party filter first.
 
-I did not want a vector database. I wanted a **database**, that happens to do vectors, so that the interesting half of every question — who, when, which side, how often — is a join rather than a second system.
-
-The restriction I resented for a day turned out to be the design.
+I did not want a vector database. I wanted a **database**, that happens to do vectors, so that the interesting question of who, when, which side, how often — is a join rather than a second system.
 
 ---
 
-### And then I went looking for Tony Benn
+### And then I went looking for Tony Benn
 
 I had the index built, the pipeline run, two negative results written up and the article mostly drafted. And then I went back to a question I had been carrying around since before any of this started, for no better reason than that I have always admired the man: **what does the data say about Tony Benn?**
 
-First problem: nothing, because he was split across three names. The leaderboards had “Mr. Tony Benn” at 569 speeches. Resolve the forms properly and he is at **4,814 speeches, 1.4 million words, roughly 180 hours at the despatch box**. The interruption rate I had already put in a table was drawn from a tenth of him.
+First problem: nothing, because he was split across three names. The leaderboards had “Mr. Tony Benn” at 569 speeches. Clean up the data, fix the duplicates and he is at **4,814 speeches, 1.4 million words, roughly 180 hours at the despatch box**. The interruption rate I had already put in a table was only a tenth of what he actually produced.
 
 So I tested the reputation properly.
 
@@ -940,21 +921,19 @@ So I tested the reputation properly.
 | Gave way     | 2.804% | 1.652%               |
 ```
 
-Interrupted at almost exactly the House average. Laughed at rather less. And **he gave way seventy per cent more often than anybody else** — far and away the largest deviation in the table.
+Interrupted at almost exactly the House average. Laughed at rather less. And **he gave way seventy per cent more often than anybody else,** far and away the largest deviation in the table.
 
 That is the reputation, and it does not show up as being shouted at. It shows up as letting people in. In a chamber that spent thirty years quietly abandoning the practice, he did more of it than almost anyone.
 
-I had also predicted he would be a broken record — the man with four themes and forty years. Wrong. Self-distance 0.2695 against a Labour average of 0.2684. Completely ordinary range.
+I had also predicted he would be a broken record, the man with four themes and forty years. I was wrong. Self-distance 0.2695 against a Labour average of 0.2684. Completely ordinary range.
 
 ### The five questions
 
-Benn’s five questions are the most famous formulation any backbencher produced in the period. He put them to the House repeatedly across eleven years:
+Tony Benn’s five questions are the most famous formulation any backbencher ever produced in the period. He put them to the House repeatedly across eleven years:
 
 *”What power have you got? Where did you get it from? In whose interests do you exercise it? To whom are you accountable? And how can we get rid of you?”*
 
-So I searched for them, mostly as a sanity check on the pipeline. Easiest possible case. I knew the answer in advance.
-
-They are in the corpus. And so is this:
+So I searched for them, mostly as a sanity check on the pipeline. Easy to check. They are in the corpus. And so is this:
 
 ```
 Lee Rowley (CONSERVATIVE), 14 October 2019, DEBATE ON THE ADDRESS
@@ -970,13 +949,13 @@ Lee Rowley (CONSERVATIVE), 14 October 2019, DEBATE ON THE ADDRESS
 
 A Conservative MP. In the Queen’s Speech debate. At the height of the Brexit crisis. Reading a hard-left Labour backbencher’s words into the record with the column reference, citing a speech Benn gave eighteen years earlier on the election of a Speaker. Rowley sits for North East Derbyshire, which wraps around Benn’s Chesterfield.
 
-He is not alone. Clive Lewis used the full structure against academy trusts in 2015 — not quoting it, **wielding** it. Toby Perkins, the sitting member for Chesterfield, read them out on 20 March 2014, six days after Benn died.
+He is not alone. Clive Lewis used the full structure against academy trusts in 2015, not quoting it, **wielding** it. Toby Perkins, the sitting member for Chesterfield, read them out on 20 March 2014, six days after Benn died.
 
 **That is a formulation coined on the opposition benches, crossing the floor, and arriving in the mouth of a government MP eighteen years later.**
 
 It is precisely, exactly the thing I built a GPU index to find. The index failed to find it twice. I found it by typing a man’s name into a search box because I admired him.
 
-### Why 375 million six-grams could not see it
+### Why 375 million six-grams could not see it
 
 This is the part that should worry anyone doing this kind of work. Here is how Benn opened the questions on each occasion:
 
@@ -991,17 +970,17 @@ This is the part that should worry anyone doing this kind of work. Here is how B
 
 **He never said it the same way twice.** Not once in eleven years.
 
-A six-gram hash requires an exact match. Every variant appears once or twice, below my floor of four, so each was discarded as noise before it ever reached the burstiness filter. The single most quotable thing anybody said in that chamber in forty years was invisible to a method that processed 375,802,591 six-word sequences on a graphics card.
+A six-gram hash requires an exact match. Every variant appears once or twice, below my floor of four, so each was discarded as noise before it ever reached the burstiness filter. The single most quotable thing anybody said in that chamber in forty years was invisible to a method that processed 375,802,591 six-word sequences on a graphics card costing a small fortune.
 
 And that explains the junk. It explains all of it.
 
 **The only language said identically enough to survive exact n-gram counting is language nobody is choosing their words for.** Statutory instrument boilerplate. Petitions read verbatim. Procedural furniture. My candidate list was two-thirds rubbish not because my filters were weak, but because furniture is the only thing that holds still long enough to be counted.
 
-Real rhetoric mutates. That is what makes it rhetoric. My method was, by construction, a detector for the absence of rhetoric, and I ran it for forty minutes on a 5090 to discover that.
+Real rhetoric mutates. That is what makes it rhetoric. My method was, by construction, a detector for the absence of rhetoric, and I ran it for forty minutes on a RTX 5090 to discover that.
 
 ### Footpaths
 
-One last thing from the Benn data, because it is the funniest result in the project and it is also, I think, the truest.
+One last thing from the Benn data, because it shows you what he was like.
 
 His most distinctive vocabulary, measured against the House:
 
@@ -1013,37 +992,30 @@ walkers     99x    ramblers     93 uses    prerogative 164 uses
 
 **Stockport, 399 times. Footpaths, 225. Ramblers, 93.**
 
-The man remembered for the royal prerogative and the sovereignty of Parliament spent an enormous share of his career on Private Bills — Stockport Corporation, Tameside, Felixstowe Dock, Milford Haven, Pembrokeshire — objecting, forcing divisions, grinding through “promoters” and “carry-over” motions about rights of way in Greater Manchester.
+The man remembered for the royal prerogative and the sovereignty of Parliament spent an enormous share of his career on Private Bills, Stockport Corporation, Tameside, Felixstowe Dock, Milford Haven, Pembrokeshire, objecting, forcing divisions, grinding through “promoters” and “carry-over” motions about rights of way in Greater Manchester.
 
-Because that is where the constitutional principle actually bit. The grand questions about power got asked in committee rooms, about footpaths.
+Because that is where the constitutional principle actually was. The big questions about power got asked in committee rooms, about footpaths.
 
-His nearest neighbours in vector space are not the Labour left. They are Hugh D. Brown, Cowans, Barry Porter, Eleanor Laing — obscure procedural specialists of both parties. The other people who spent their lives on Private Bills. The embeddings cannot see what anybody believed, but they put him in exactly the right room.
+His nearest neighbours in vector space are not the Labour left. They are Hugh D. Brown, Cowans, Barry Porter, Eleanor Laing, obscure procedural specialists of both parties. The other people who spent their lives on Private Bills. The embeddings cannot see what anybody believed, but they put him in exactly the right place.
 
-### What I would tell you before you try this
+**My Lessons Learned  
+Read the rows before you build the index.** I spent nine days building a very fast way to get a wrong answer. Six printed speeches would have told me on day one that embeddings cannot see stance.
 
-**Read the rows before you build the index.** I spent nine days building a very fast way to get a wrong answer. Six printed speeches would have told me on day one that embeddings cannot see stance. Print the data. Print it early. Print it when you think you already know what it says.
-
-**Always build the control arm.** “2.23% of opposition coinages reach a minister” is a finding, a headline, and a plausible story about the health of parliamentary democracy. Next to 3.83% for the government side, it is the opposite story. The comparison is not a nice-to-have, it is the entire analysis. If you cannot think of a control, you do not yet have a question.
-
-**Then run it against a date on which nothing happened.** This is the control arm’s harder older brother and it is the single most useful thing in this article. Take your analysis, point it at something you know to be meaningless, and look at what comes back. When I tested whether television changed how MPs speak, the real date gave me a result — and an arbitrary year five years earlier gave me *three times* as much of it. The method was manufacturing findings out of its own shape, and nothing short of a placebo would have shown me that. If a nothing produces a something, every result you own is suspect, including the ones you are fond of.
+**Run it against a date on which nothing happened.** Take your analysis, point it at something you know to be meaningless, and look at what comes back. When I tested whether television changed how MPs speak, the real date gave me a result and an arbitrary year five years earlier gave me *three times* as much of it. The method was manufacturing findings because of the shape. If a nothing produces a something, every result is suspect, including the ones you are “prefer”
 
 **Measure bytes, not rows.** The query plan shows you rows because rows are easy to count. You pay in bytes.
 
-**Suspiciously tidy output is a bug.** Clean separation, round numbers, every member of one group above every member of another — that is almost never nature. It is usually your instrument.
+**Suspiciously tidy output is often a bug.** Clean separation, round numbers, every member of one group above every member of another — that is almost never nature.
 
-**If your metric has an edge, somebody is standing on it.** Theresa May did not fail to influence anyone. The data stopped.
-
-**Check what your string functions actually mean.** \`LIKE\` is a pattern language, not a search. Thirty years in and a square bracket still had me.
-
-**On Windows, \`num\_proc\` is a trap.** No fork means respawning the interpreter. The default is almost always faster.
+**If your metric has an overlap to missing data** you cannot rely on it. Theresa May did not fail to influence anyone. The data stopped.
 
 **Get the whole thing into the database before you get clever.** Every analysis in this article is a join away from speaker, party, date and office. That is only true because loading it properly was the first thing I did and not the last.
 
 ### The code
 
-All of it — the loader, the GPU clustering, the renumbering, the partition scheme, the phrase pipeline, and every query in this article including the broken versions will be here:
+All of it — the loader, the GPU clustering, the renumbering, the partition scheme, the phrase pipeline, and every query in this article including the broken versions will be here:
 
-*(link to follow)*
+[https://github.com/sqlartist/ParliamentSQL](https://github.com/sqlartist/ParliamentSQL)
 
 I have left the bugs in, in their own files, with comments explaining what each one did. The square bracket one especially. If you are going to learn anything from this it will be from those rather than from the version that works.
 
@@ -1051,29 +1023,25 @@ You will need SQL Server 2025 for \`VECTOR\_DISTANCE\`, SQL Server 2022 or later
 
 ---
 
-### One last thing
+### One last thing
 
 I set out to prove that parliamentary debate changes minds.
 
-The embeddings said no, because they cannot see stance. The phrases said no, and then it turned out they could only ever have said no, because exact six-grams detect the absence of rhetoric rather than its presence. The one experiment with a decent design — the same 790 MPs, before and after the cameras — said no, and the placebo proved that even that no was a measurement of my own window length.
+The embeddings said no, because they cannot see stance. The phrases said no, and then it turned out they could only ever have said no, because exact six-grams detect the absence of rhetoric rather than its presence. The one experiment with a decent design the same 790 MPs, before and after the cameras said no.
 
 Three methods. Four hundred lines of SQL. Three hundred and seventy-five million six-word sequences. Two graphics cards that are somehow worth more than I paid for them. All of it, no.
 
 And then I went looking for Tony Benn, because I admire the man and always have, and a Conservative MP turned out to have read his five questions into the Queen’s Speech debate of 2019 with the Hansard column reference attached.
 
-I want to be careful about the moral here, because the obvious one is wrong. The obvious one is “the computer failed and a human succeeded”, and that is not what happened. Nobody reads 1.7 million speeches. The reason I could check Benn’s five questions in about ninety seconds, resolve him across three name forms, measure his giving-way rate against the whole House and find his nearest neighbours in vector space, is that a month of GPU work and columnstore design had already put the corpus in a state where a question like that costs nothing to ask.
+I want to be careful about any moral here, because the obvious one is wrong. The obvious one is “the computer failed and a human succeeded”, and that is not what happened. Nobody reads 1.7 million speeches. The reason I could check Benn’s five questions in about ninety seconds, resolve him across three name forms, measure his giving-way rate against the whole House and find his nearest neighbours in vector space, is that a month of GPU work and columnstore design had already put the corpus in a state where a question like that costs nothing to ask.
 
-The index did not find the answer. The index made the answer **cheap to look for**, so that an idle question cost nothing and I went ahead and asked it. Those are different jobs, and I had quietly assumed they were the same one.
+The index did not find the answer. The index made the answer **cheap to look for**, so that a throwaway query costs nothing.
 
-So here is what I actually learned, and it is not about Parliament.
-
-Build the thing properly. Load it all, index it where needed, join it to everything you know about who said it and when. Then stop expecting the apparatus to produce the question. It will not. It will sit there, extremely fast, waiting. The question comes from somewhere else entirely — in my case from a man I have admired since long before I owned a graphics card.
-
-The graphics cards are still worth more than I paid for them. Thirty years of hardware, and the only appreciating asset I have ever owned spent a fortnight sorting 1.7 million speeches into neighbourhoods so that one evening in October I could put an idle question to it about a politician I admire and have the answer inside a minute.
+The graphics cards are still worth more than I paid for them and rising again if the news is correct this week. Thirty years of hardware, and the only appreciating asset I have ever owned spent a fortnight sorting 1.7 million speeches into neighbourhoods so that one evening in October I could put an idle question to it about a politician I admire and have the answer inside a minute.
 
 That is a fair trade. And nobody on the News at Ten would have had the faintest idea what I was talking about, which Brian, in fairness, worked out on his first afternoon.
 
-![Brian — My sounding board](/images/medium/1_kEiyAaam9iF0qsU1612NLA.jpeg)
-*Brian — My sounding board*
+![Brian — My sounding board](/images/medium/1_kEiyAaam9iF0qsU1612NLA.jpeg)
+*Brian — My sounding board*
 
 If you enjoyed what must have been an ordeal but hopefully you got this far please give it as many claps as you would if you were in the House of Commons.
