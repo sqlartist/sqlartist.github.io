@@ -1,0 +1,130 @@
+<section class="aimt-head">
+  <div class="aimt-tinsel" aria-hidden="true"></div>
+  <div class="aimt-wrap">
+    <p class="eyebrow">Christmas experiment</p>
+    <div class="aimt-title">
+      <div>
+        <h1><svg class="aimt-scarf" viewBox="0 0 50 86" aria-hidden="true">
+  <defs><pattern id="knit" width="50" height="12" patternUnits="userSpaceOnUse">
+    <rect width="50" height="6" fill="#c8262c"/><rect y="6" width="50" height="3" fill="#f4f1ea"/><rect y="9" width="50" height="3" fill="#1f7a4f"/></pattern></defs>
+  <path d="M6 16 C 14 6, 40 6, 48 16 L 47 27 C 39 19, 15 19, 7 27 Z" fill="url(#knit)" stroke="#8f1b20" stroke-width=".8"/>
+  <path d="M12 24 L 22 24 L 18 72 L 6 70 Z" fill="url(#knit)" stroke="#8f1b20" stroke-width=".8"/>
+  <path d="M20 24 L 30 25 L 32 64 L 21 66 Z" fill="url(#knit)" stroke="#8f1b20" stroke-width=".8" transform="rotate(6 26 45)"/>
+  <g stroke="#c8262c" stroke-width="1.6" stroke-linecap="round"><path d="M7 71v7M10 71.4v7.6M13 71.7v7M16 72v7.4"/><path d="M23 67v6M26 66.6v6.4M29 66.2v6.2M32 65.8v6"/></g>
+  <path d="M10 22 Q 16 27 22 22" fill="none" stroke="#8f1b20" stroke-width="1"/>
+</svg>The <span class="ai">AI Man</span> Tracker</h1>
+        <p class="lede"><b>Here to ruin Christmas.</b> No offence. Follow his December of schemes, and the Christmas Eve chase.</p>
+      </div>
+      <div class="clock">
+        <span class="status" id="status"><i></i><span id="statusText">Tracking</span></span>
+        <span id="utcNow">UTC --:--</span>
+      </div>
+    </div>
+  <div class="readouts" aria-label="Tracker readouts">
+    <div class="ro"><div class="k" id="countKey">Days to Christmas</div><div class="v" id="countdown">--</div></div>
+    <div class="ro"><div class="k">Schemes attempted</div><div class="v bad" id="attempted">0</div></div>
+    <div class="ro"><div class="k">Schemes that worked</div><div class="v good">0</div></div>
+    <div class="ro"><div class="k">Christmas ruined</div><div class="v good">0%</div></div>
+  </div>
+  </div>
+</section>
+
+
+<div class="aimt-wrap">
+  <section class="console">
+    <div class="globeBox">
+      <canvas id="globe" aria-label="Globe showing The AI Man's position"></canvas>
+      <span class="globeTag" id="globeTag">December schemes</span>
+      <span class="globeHint">drag to spin</span>
+      <div class="legend" id="legend">
+        <span><b style="background: var(--chrome)"></b>The AI Man</span>
+        <span><b style="background: var(--glow)"></b>His schemes so far</span>
+      </div>
+    </div>
+
+    <article class="file" id="file" aria-live="polite">
+      <div class="fileHead"><span class="day" id="fDay">Case file</span><span class="place" id="fPlace"></span></div>
+      <h2 id="fTitle">Loading the case file</h2>
+      <span class="brianTag" id="fBrian" hidden>Brian sighting</span>
+      <div><h3>The plan</h3><p id="fScheme"></p></div>
+      <div class="outcome"><h3>What actually happened</h3><p id="fOutcome"></p></div>
+      <div class="meter"><span>Grumpiness</span><span class="bar"><i id="fMood" style="width: 90%"></i></span><span id="fMoodN">90%</span></div>
+      <div><h3>His system log (UTC)</h3><ul class="log" id="fLog"></ul></div>
+    </article>
+  </section>
+
+  <section class="section" aria-labelledby="doorsTitle">
+    <div class="sectionHead">
+      <div>
+        <h2 id="doorsTitle">The December files</h2>
+        <p id="doorsNote">One file opens each day. Pick an open door to see that day's scheme.</p>
+      </div>
+      <label class="toggle"><input type="checkbox" id="preview"> Sneak preview: open every door</label>
+    </div>
+    <div class="doors" id="doors"></div>
+    <div class="sqlDoor" id="sqlDoor" hidden aria-live="polite">
+      <div class="sqlHead"><h3 id="sqlTitle">Behind the door</h3><span class="sqlFeature" id="sqlFeature"></span></div>
+      <h4>The SQL</h4>
+      <pre><code id="sqlCode"></code></pre>
+      <h4>What SQL Server 2025 returned</h4>
+      <pre class="out" id="sqlOut"></pre>
+      <p class="runIt">Every door is self-contained: paste it into SQL Server 2025 and run it. All 24 are in <a href="https://github.com/sqlartist/spatial-studio/blob/main/demos/16_advent_doors.sql">16_advent_doors.sql</a>.</p>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="chaseTitle">
+    <div class="sectionHead">
+      <div>
+        <h2 id="chaseTitle">Christmas Eve: the chase</h2>
+        <p id="chaseNote">Santa leaves the North Pole at 09:30 UTC on 24 December. The AI Man leaves 40 minutes later.</p>
+      </div>
+    </div>
+    <div class="chase">
+      <div class="controls">
+        <button class="btn" id="play" aria-pressed="false">Play the chase</button>
+        <button class="btn ghost" id="live" hidden>Go live</button>
+        <label for="speed" class="toggle">Speed</label>
+        <select id="speed">
+          <option value="600">10 min / sec</option>
+          <option value="1800" selected>30 min / sec</option>
+          <option value="3600">1 hour / sec</option>
+        </select>
+        <input type="range" id="scrub" min="0" max="1000" value="0" aria-label="Chase time">
+        <span class="utc" id="chaseTime">24 Dec 09:30</span>
+      </div>
+      <div class="chaseGrid">
+        <div class="cg"><div class="k">Santa</div><div class="v santa" id="santaAt">North Pole</div></div>
+        <div class="cg"><div class="k">The AI Man</div><div class="v ai" id="aiAt">North Pole</div></div>
+        <div class="cg"><div class="k">Gap (great circle)</div><div class="v gap" id="gap">0 km</div></div>
+      </div>
+      <div class="ticker" id="ticker"><b>09:30</b> Santa is checking his list. The AI Man is zip-tying leaf blowers to a shopping trolley.</div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="villainTitle">
+    <div class="sectionHead"><div><h2 id="villainTitle">Villain file</h2><p>Everything we know about the suspect.</p></div></div>
+    <div class="villain">
+      <figure style="margin: 0">
+        <img alt="The AI Man: a silver humanoid robot in profile" src="/ai-man-tracker/portrait.jpg">
+        <figcaption>Surveillance still, a Slough server room</figcaption>
+      </figure>
+      <dl class="spec">
+        <dt>Name</dt><dd>The AI Man</dd>
+        <dt>Home</dt><dd>A server rack in a data centre in Slough</dd>
+        <dt>Mission</dt><dd>Optimise Christmas until there is none left</dd>
+        <dt>Success rate</dt><dd>0 out of every scheme he has ever tried</dd>
+        <dt>Weaknesses</dt><dd>CAPTCHAs, autocorrect, dachshunds, anything with a bobble</dd>
+        <dt>Transport</dt><dd>A shopping trolley with eight leaf blowers zip-tied to it</dd>
+        <dt>Known associates</dt><dd>None. Gerald from the North Pole mail room replies to all his emails anyway.</dd>
+        <dt>Threat level</dt><dd>Mostly to himself</dd>
+      </dl>
+    </div>
+  </section>
+</div>
+
+<div class="aimt-wrap aimt-foot">
+  <p class="norad">Looking for the real thing? <a href="https://www.noradsanta.org" target="_blank" rel="noopener">NORAD Tracks Santa</a> has been following Santa every Christmas Eve since 1955.</p>
+  <p>The AI Man Tracker is a parody. It has nothing to do with NORAD, and The AI Man is entirely made up. No Christmases were harmed.</p>
+  <p>Made with SQL Server 2025: the schemes, Santa's route, the chase and every distance are SQL Server geography, worked out with great circles and STDistance. Times are UTC.</p>
+</div>
+

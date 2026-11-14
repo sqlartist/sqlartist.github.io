@@ -1,0 +1,13 @@
+---
+import Base from '../layouts/Base.astro';
+import css from '../data/aimt/tracker.css?raw';
+import markup from '../data/aimt/markup.html?raw';
+import data from '../data/aimt/data.js?raw';
+import tracker from '../data/aimt/tracker.js?raw';
+---
+<Base title="The AI Man Tracker" description="A parody Christmas tracker: The AI Man's December of failed schemes, the Christmas Eve chase after Santa, and a little-known bit of SQL behind every advent door.">
+  <Fragment set:html={`<style>${css}</style>`} />
+  <div class="aimt" set:html={markup} />
+  <script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+  <Fragment set:html={`<script>${data}</script><script>${tracker}</script>`} />
+</Base>
