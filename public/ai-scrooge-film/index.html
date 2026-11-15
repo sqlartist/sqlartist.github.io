@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bah, Hum-bug! The AI Scrooge cartoon</title>
+<meta name="description" content="A three-minute cut-out cartoon in seven scenes, every frame rendered by SQL Server 2025 from geometry. Tick a box to see the SQL behind each scene.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sixtyfour&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+:root {
+  --night: #0a0f1f; --panel: #10182c; --line: #26345a; --ink: #e9edf5; --muted: #93a0bb; --glow: #ffd36b; --santa: #ff4d4d;
+  --display: "Sixtyfour", ui-monospace, "Cascadia Mono", Menlo, monospace;
+  --body: "Atkinson Hyperlegible", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--night); color: var(--ink); font-family: var(--body); font-size: 17px; line-height: 1.55; }
+a { color: var(--glow); }
+:focus-visible { outline: 2px solid var(--glow); outline-offset: 2px; }
+.wrap { max-width: 1180px; margin: 0 auto; padding: 32px 16px 64px; }
+header h1 { font-family: var(--display); font-weight: 400; font-size: clamp(26px, 5vw, 48px); line-height: 1.1; margin: 0 0 10px; }
+header p { color: var(--muted); max-width: 70ch; margin: 0 0 8px; }
+header p b { color: var(--ink); }
+.toolbar { display: flex; flex-wrap: wrap; gap: 12px 20px; align-items: center; margin: 22px 0 6px; padding: 12px 14px; background: var(--panel); border: 1px solid var(--line); border-radius: 12px; }
+.toolbar a { font-weight: 700; }
+.scene { margin-top: 38px; border-top: 1px solid var(--line); padding-top: 22px; }
+.head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 8px 20px; }
+.head h2 { margin: 0; font-size: clamp(20px, 3vw, 26px); }
+.head h2 span { font-family: var(--mono); font-size: .7em; color: var(--glow); margin-right: 10px; letter-spacing: .08em; }
+.scene p { margin: 6px 0 14px; color: var(--muted); max-width: 75ch; }
+.toggle { display: inline-flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: 14px; cursor: pointer; user-select: none;
+  padding: 6px 12px; border: 1px solid var(--line); border-radius: 999px; background: var(--panel); }
+.toggle input { width: 18px; height: 18px; accent-color: var(--santa); margin: 0; }
+figure { margin: 0; }
+figure img { display: block; width: 100%; height: auto; border-radius: 10px; border: 1px solid var(--line); background: #fff; }
+figure.plain img { max-width: 720px; }
+figure figcaption { font-size: 14px; color: var(--muted); margin-top: 8px; }
+footer { margin-top: 48px; color: var(--muted); font-size: 15px; border-top: 1px solid var(--line); padding-top: 18px; }
+code { font-family: var(--mono); font-size: .9em; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Bah, Hum-bug!</h1>
+    <p><b>The AI Scrooge cartoon.</b> Three minutes, seven scenes, about 2,100 frames. Every character is a puppet made of SQL Server <code>geometry</code> parts, every move is a row in a keyframe table, and every frame is drawn by a stored procedure.</p>
+    <p>Tick <b>Show the SQL</b> on any scene to see what the renderer is doing for the frame on screen: the call, the keyframes in play, and a row of the geometry it produced.</p>
+  </header>
+  <div class="toolbar">
+    <label class="toggle"><input type="checkbox" id="all"> Show the SQL for every scene</label>
+    <a href="/ai-scrooge-tracker/">Track AI Scrooge live, every day of December &rarr;</a>
+  </div>
+
+  <main id="scenes"></main>
+
+  <footer>
+    Made by Trevor Dwyer, with Claude. Rendered with the <code>toon</code> schema in Spatial Studio for SQL Server 2025: <code>sx.Affine</code> moves the shapes, a recursive CTE composes the puppets, and <code>sx.Jitter</code> adds the felt-tip wobble. The Earth in scene 5 is Natural Earth (public domain). Bah, hum-bug.
+  </footer>
+</div>
+<script>
+const SCENES = [
+  ["01-slough-midnight", "Slough, midnight", "AI Scrooge boots up in a Slough data centre. Marley's decommissioned server rattles its cables with a warning. It goes to spam."],
+  ["02-decembers-schemes", "December's schemes", "Drones instead of deer in Tromsø, one-star reviews for the Edinburgh Christmas market, and an attempt to cancel the sunrise at Stonehenge."],
+  ["03-the-smart-doorbell", "The smart doorbell", "Watford, 2am. A firmware update for the doorbell: no more carols. Then the door opens, and there is Brian."],
+  ["04-three-visitors", "Three visitors", "A beige 1995 PC with a dial-up screech, a smart speaker the size of a wardrobe, and a loading spinner that says nothing."],
+  ["05-the-chase", "Christmas Eve: the chase", "The Earth from above the North Pole. Santa and AI Scrooge go round it all night, forty minutes apart."],
+  ["06-what-day-is-it", "What day is it?", "Christmas morning, a prize turkey, and an express drone to a very small desk at the North Pole."],
+  ["07-boxing-day", "Boxing Day", "A present for Brian. Brian prefers the box."]
+];
+const main = document.getElementById("scenes");
+const boxes = [];
+SCENES.forEach(([file, title, blurb], i) => {
+  const sec = document.createElement("section");
+  sec.className = "scene";
+  sec.setAttribute("aria-labelledby", "h" + i);
+  sec.innerHTML = `
+    <div class="head">
+      <h2 id="h${i}"><span>${String(i + 1).padStart(2, "0")}</span>${title}</h2>
+      <label class="toggle"><input type="checkbox"> Show the SQL</label>
+    </div>
+    <p>${blurb}</p>
+    <figure class="plain">
+      <img src="${file}.gif" alt="Scene ${i + 1}, ${title}: ${blurb}" loading="${i < 2 ? "eager" : "lazy"}" width="720" height="324">
+    </figure>`;
+  const box = sec.querySelector("input"), fig = sec.querySelector("figure"), img = sec.querySelector("img");
+  const set = on => {
+    box.checked = on;
+    fig.className = on ? "sql" : "plain";
+    img.src = `${file}${on ? "-sql" : ""}.gif`;
+    img.width = on ? 1140 : 720;
+  };
+  box.addEventListener("change", () => set(box.checked));
+  boxes.push(set);
+  main.appendChild(sec);
+});
+document.getElementById("all").addEventListener("change", e => boxes.forEach(set => set(e.target.checked)));
+</script>
+</body>
+</html>
