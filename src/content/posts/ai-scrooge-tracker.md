@@ -1,5 +1,5 @@
 ---
-title: "Bah, Hum-bug: I Built a Christmas Scrooge Tracker in SQL Server"
+title: "“Bah, Hum-bug: I Built a Christmas Scrooge Tracker in SQL Server”"
 subtitle: "Every December, NORAD tracks Santa. This year, somebody needed to track the AI that's trying to stop him."
 date: 2026-11-15T12:00:00.000Z
 cover: "/images/ai-scrooge.jpg"
@@ -122,4 +122,4 @@ If you can’t wait for December, the whole story is also a three-minute cartoon
 
 AI Scrooge boots up on 1 December. Santa leaves on Christmas Eve. Brian, as always, will be asleep in a box.
 
-Give it some Claps [on Medium](https://medium.com/@trevor.dwyer/bah-hum-bug-i-built-a-christmas-scrooge-tracker-in-sql-server-1723c47d5022) if you feel like it. It may have been developed with an AI; it doesn’t make it any easier. Bah, hum-bug.
+Give it some Claps [on Medium](/posts/ai-scrooge-tracker/) if you feel like it. It may have been developed with an AI; it doesn’t make it any easier. Bah, hum-bug.
