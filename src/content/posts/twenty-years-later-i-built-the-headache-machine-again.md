@@ -9,84 +9,82 @@ era: "2000s"
 draft: false
 ---
 
-![Using an archive of Brain Implant data to predict correct placement of electrodes](/images/medium/1_UYWS9j6VtYFrnnbiVTxi6g.jpeg)
-*Using an archive of Brain Implant data to predict correct placement of electrodes*
+![The Deep Brain Stimulator with the computer and battery.](/images/medium/1_UYWS9j6VtYFrnnbiVTxi6g.jpeg)
+*The Deep Brain Stimulator with the computer and battery.*
 
-When your only tool is a database
+Some people get headaches, some people get migraines; I get Cluster Headaches.
 
-Some people get headaches, some people get migraines, I get Cluster Headaches.
+With a headache, you can take a tablet, and it goes; with a migraine, you can lie down in the dark and hope it goes, and it can last a week.
 
-With a headache you can take a tablet and it goes, a migraine you can lie down in the dark and hope it goes and can last a week.
+A Cluster headache is not like that; it may last between 15 minutes and an hour. At the worst point, mine lasted an hour, with level 10 pain 12 times every day. The condition used to be called Suicide Headaches, and for reasons you can begin to understand. You will want to put your head through a wall. Imagine someone’s stuck a hot poker behind your eye and is slowly turning it, on a schedule, for weeks or giving birth 12 times a day. It is regarded as one of the worst pains known to mankind.
 
-A Cluster headache is not like that, it may last between 15 mins and an hour. At the worst point mine were lasting an hour, of level 10 pain 12 times every day. The condition used to be called Suicide Headaches and for reasons you can begin to understand. You will want to put your head through a wall. Imagine someone’s stuck a hot poker behind your eye and is slowly turning it, on a schedule, for weeks or giving birth 12 times a day. It is regarded as one of the worst pains known to mankind.
+Mine started as episodic, which means a few weeks of the year you have the headaches, but they quickly turned chronic (less than a year), which means the exact opposite: they are relentless, and for two weeks in a year they would disappear. As the seasons change, they were roughly the worst periods.
 
-Mine started as episodic which mean a few weeks of the year you have the headaches but they quickly turned chronic (less than a year), which means the exact opposite, they are relentless and for two weeks in a year they would disappear. As the seasons change was roughly the worst periods.
+Whenever there was a change in the weather, high-pressure to low-pressure weather patterns would trigger an attack, strong perfume-type smells would trigger an attack, and any light would trigger an attack. Going to the hospital when it got so bad you literally cannot take it anymore, knowing it was going to be worse, was a final resort. Only very recently did enough medical staff know about Cluster Headaches and offer to turn the lights off in the hospital.
 
-Whenever there was a change in the weather, high pressure to low pressure weather patterns would trigger an attack, strong perfume type smells would trigger an attack, and any light would trigger an attack. Going to hospital when it got so bad you literally cannot take it anymore knowing it was going to be worse was a final resort. Only very recently enough medical staff know about Cluster Headaches and offer to turn the lights off in the hospital.
+They turn up at the same time of day and night. The first one of the day was always 3 minutes after waking up.
 
-They turn up at the same time of day and night. The first one of the day was always 3 mins after waking up.
+About twenty years ago, when they first arrived, I did what any desperate person does. I read everything. Journals, forums, the small print on trial protocols. And then I did what any desperate *database* person does. I built a system.
 
-About twenty years ago, when they first arrived, I did what any desperate person does. I read everything. Journals, forums, the small print on trial protocols. And then I did what any desperate \*database\* person does. I built a system.
+## Version one: the back of the head
 
-When you’ve spent your life in SQL and the world goes wrong, you reach for a schema.
+Before Deep Brain Stimulation, there was the idea of stimulating the occipital nerve. You put small electrodes under the skin at the back of the head, over the occipital nerves, and feed them a gentle current. The theory was that you could calm the pain pathway without anyone opening your skull. That was appealing, but really I would have said yes by this point.
 
-## Version one: the back of the head
+It was ex-cranial, so the brain itself stayed out of it. But the question was still the same one I still wonder and ask myself today: where exactly do you put the thing? Surely everyone’s head is different? A few millimetres either way seemed to decide whether it helped or just gave you a buzzing scalp. So my first system tried to line up where the electrodes were placed based on patient X-rays and the post-operation interview.
 
-The idea back then was occipital nerve stimulation. You put small electrodes under the skin at the back of the head, over the occipital nerves, and feed them a gentle current. The theory was that you could calm the pain pathway without anyone opening your skull.
+Was it any good? It was a desperate man’s database. It asked the right questions; it functioned, but there wasn’t nearly enough data. It taught me that the answer is in what happened to the people who went before you, not in the textbook description.
 
-I liked that last bit a lot.
+## Twenty years on, round two
 
-It was ex-cranial, so the brain itself stayed out of it. But the question was still the same one I’m asking today: where exactly do you put the thing? A few millimetres either way seemed to decide whether it helped or just gave you a buzzing scalp. So my system tried to line up where the electrodes went with how people actually got on afterwards. Placement in, outcome out, look for the pattern.
+I am a forward-thinking person who embraces new technology, so it is rather unusual for me to revisit Doom, Elite, and the Amiga bouncing ball; even though what I did to recreate them is rarely done inside a database, I thought to myself, let's do something important.
 
-Was it any good? It was a desperate man’s database. It asked the right question with not nearly enough data. But it taught me that the answer is in what happened to the people who went before you, not in the textbook diagram.
+The tools have finally caught up with the idea. SQL Server 2025 has a native `VECTOR` type. Twenty years ago “find me the patients most like this one” meant a LIKE or a SOUNDEX function.
 
-## Twenty years on, round two
+This time I went inside the skull, at least on paper. Deep brain stimulation, or DBS, is a real treatment for Parkinson’s. For cluster headache, it’s still very much experimental. The electrodes are aimed at a spot called the posterior hypothalamus, which is a walnut-sized area in the centre of the brain. It controls pain and the body clock.
 
-So why pick it up again? Partly because I’ve spent the last few months making SQL Server do silly things. Doom. Elite. A bouncing Amiga ball. A synth. At some point you ask yourself whether the same tricks could do something that matters.
-
-And partly because the tools have finally caught up with the idea. SQL Server 2025 has a native \`VECTOR\` type. Twenty years ago “find me the patients most like this one” meant a pile of hand-rolled maths, and now it’s a function call.
-
-This time I went inside the skull, at least on paper. Deep brain stimulation, or DBS, is a real treatment for Parkinson’s. For cluster headache it’s still very much experimental, aimed at a spot called the posterior hypothalamus. I built it to handle both, because the problem is the same shape.
-
-The first decision was the easiest one: X-ray or 3D scan? I briefly fancied X-ray because it’s cheap and everywhere. Then I remembered an X-ray of a head is mostly a very good picture of a skull. You can’t see deep brain structures on it. Real surgical planning uses a 3D MRI, and a CT afterwards to check where the lead actually landed. So that’s what I modelled.
+I could not use X-ray analysis, as the brain does not show up in these images, which meant I had to use MRI Scans. Real Surgical planning uses a 3D MRI, and a CT Scan post op due to the huge magnets in the MRI machine can affect/rip out the device.
 
 ---
 
 ## Decisions
 
-***Brains that look alike.  
-***Every brain is a slightly different shape. Surgeons stretch each one onto a standard map, but a stretched map still isn’t a person. So each scan becomes a fingerprint of 14 numbers: ventricle widths, brain size, the distance between two landmarks in the middle of the brain, age. The system then finds the 40 previous patients whose fingerprints sit closest. Think of it as a dating app for brains, with worse chat-up lines.
+***Brains that look alike.***  
+Every brain is a slightly different shape. Surgeons stretch each one onto a standard map, but a stretched map still isn’t a person. So each scan becomes a fingerprint of 14 numbers: ventricle widths, brain size, the distance between two landmarks in the middle of the brain, age.
 
-***Let the outcomes do the teaching.***   
-This is the lesson from twenty years ago. The system doesn’t copy where the neighbours’ electrodes went. It asks where the electrodes went and how well it worked, then works out the spot that best explains the good results. A placement that left someone with side effects counts against that area. There’s a slider for how cautious to be.
+The system is designed to improve the placement of the deep brain stimulator electrodes by looking at previous patients' successful placements, a set of patients whose “fingerprints” (The combination of the 14 numbers) are closest to one another and who have also noticed a reduction in pain.
 
-***Keep it in the database.***   
-The search, the scoring and the fitting all run in T-SQL. There’s a Python mirror of the same maths so the Streamlit front end still works on a laptop, but SQL Server does the thinking. Old habits.
+The system then finds the 40 previous patients whose fingerprints sit closest.
 
-***Close the loop.***   
+This is the difference from my attempt 20 years ago: I don’t look to copy the placement site — all people are different; I look to find what's likely to be the sweet spot based on many patients. The more patient data is entered into the system, the closer each patient's electrode placement will be.
+
+A placement that left someone with side effects counts against that area, so the UI allows for this situation.
+
+The search, the scoring, and the fitting all run in T-SQL. I use Python to display the output from the database.
+
+***Close the loop.***  
 Every new patient’s 12-month result goes back into the library. The next person gets a slightly better answer because of the last one.
 
-***Simulated data.***   
-I’m not going anywhere near real patient records for a hobby project. So I wrote a simulator that makes up brains, operations and outcomes. With made-up patients you know the right answer, which you never do with real ones.
+***Simulated data.***  
+I’m not going anywhere near real patient records for a hobby project. So I wrote a simulator that makes up brains, operations and outcomes.
 
 ---
 
-## Did it work?
+## Did it work?
 
 In the simulation, yes. Modestly. To test it, I hid each past patient in turn and re-planned them from everybody else. Then I compared the suggestion with the standard textbook target.
 
 ![Results of the simulation](/images/medium/1_t3to9lwF_5pbQL-9upHiKQ.png)
 *Results of the simulation*
 
-Half a millimetre doesn’t sound like much. In this part of the brain it’s the difference between “that helped” and “why can I taste rainbows?”
+Half a millimetre doesn’t sound like much. In this part of the brain, it’s the difference between “that helped” and “why can I taste rainbows?”
 
-These are made-up patients, and I wrote the rules they follow, so of course the method can learn them. That shows the machinery works. It doesn’t show it would help a real person. The suggestions also drift a touch closer to the areas that cause side effects, which is why the caution slider exists. A real version would need proper brain registration, real post-op imaging, ethics approval and a lot of people much cleverer than me. There’s already serious open-source work in this area, the Lead-DBS toolbox for one. I’m a database man having a go, not a neurosurgeon.
+These are made-up patients, and I wrote the rules they follow, so of course the method can learn them. I show that the technology works. It doesn’t show that it would help a real person. I think the idea is a good one, and even with my original system, my neurologist did use it. The suggestions also drift a touch closer to the areas that cause side effects, which is why the caution slider exists. A real version would need proper brain registration, real post-op imaging, ethics approval and a lot of people much cleverer than me. There is already serious open-source work in this area, the Lead-DBS toolbox for one. I’m a database man having a go, not a neurosurgeon.
 
 ---
 
 ## NeuroTarget — Prototype Application
 
-A SQL Server 2025 system that suggests deep brain stimulation (DBS) electrode placement from anatomically similar previous patients and how their operations turned out. It covers cluster headache (posterior hypothalamus) and Parkinson’s disease (subthalamic nucleus and globus pallidus internus), and has a Streamlit + Plotly front end.
+A SQL Server 2025 system that suggests deep brain stimulation (DBS) electrode placement from anatomically similar previous patients and how successful their operations were. It covers cluster headache (posterior hypothalamus) and Parkinson’s disease (subthalamic nucleus and globus pallidus internus), and has a Streamlit + Plotly front end.
 
 *All data is simulated. This is a research/teaching prototype for exploring the idea. It is not a medical device and must not be used for clinical decisions.*
 
@@ -106,7 +104,7 @@ An X-ray is a flat projection and barely shows brain soft tissue, so deep target
 
 1.  Fingerprint. At ingest, 14 features are measured from the MRI: brain extents and volume, AC-PC length, third-ventricle width and height, lateral-ventricle volume and span, Evans index, some ratios, and age. They are z-scored against the library and stored as VECTOR(14) (nt.usp\_IngestScan).
 2.  Find similar brains. VECTOR\_DISTANCE(euclidean, …) picks the K nearest previous implants for the same target. Left and right leads are pooled by mirroring X.
-3.  Fit the sweet spot. Each neighbour gives one observation: where its active contact sat, and how well it worked. A grid search finds the point that best explains those outcomes under the target’s dose–response curve. Similar neighbours count for more, via a Gaussian kernel on anatomy distance. Candidate points are penalised where similar patients reported side effects. The search runs at 1 mm, then refines at 0.25 mm; it’s a CROSS JOIN against nt.GridPoint.
+3.  Fit the sweet spot. Each neighbour gives one observation: where its active contact sat, and how well it worked. A grid search finds the point that best explains those outcomes under the target’s dose–response curve. Similar neighbours count for more, via a Gaussian kernel on anatomical distance. Candidate points are penalised where similar patients reported side effects. The search runs at 1 mm, then refines at 0.25 mm; it’s a CROSS JOIN against nt.GridPoint.
 4.  Map it into this patient’s scan (native mm) and log it in nt.Suggestion.
 5.  Close the loop. nt.usp\_RecordImplantOutcome stores the actual contacts and the 12-month outcome. From then on, that patient is evidence for everyone after them.
 
@@ -120,9 +118,9 @@ Suggested points sit a little closer to side-effect structures than the atlas ta
 
 ---
 
-I created a SQL Server 2025 schema and supporting code. It had to be 2025 as this supports the Vector type and gives me Vector Distance.
+I created a SQL Server 2025 schema and supporting code. It had to be 2025, as this supports the Vector type and gives me Vector Distance.
 
-Reference data was created
+Reference data was created.
 
 ```sql
 CREATE TABLE nt.Condition
@@ -735,13 +733,13 @@ I then generated some test data
 
 ![](/images/medium/1_ounSzQKaKUiJogvNOqeBtA.png)
 
-and load some images.
+and loaded some images.
 
 ![](/images/medium/1_Vffgrmb7yAR3gRcT5B-CGA.png)
 
-The to run the app:
+To run the app:
 
-1.  simulate the cohort (≈ 1–2 min): 760 implanted patients + 20 new referrals with MRI volumes
+1.  Simulate the cohort (≈ 1–2 min): 760 implanted patients + 20 new referrals with MRI volumes
 
 ```python
 cd python
@@ -774,25 +772,19 @@ EXEC nt.usp_EvaluateLOO @TargetId = 2, @K = 40;   -- set-based; ~40M row evaluat
 
 ## App tabs
 
--   Plan (MRI): axial, coronal and sagittal slices through the suggestion, showing the atlas target and the planned lead trajectory.  
-    \- 3D: similar patients’ active contacts mapped into this brain, coloured by benefit and sized by similarity, with ventricles, lead, and a 1-SD spread ellipsoid.  
-    \- Similar patients: the neighbours, their weights and outcomes, and how benefit falls away with distance.  
-    \- Scan fingerprint: the 14 features and how this brain differs from the library.  
-    \- Validation: leave-one-out against the known truth.  
-    \- Close the loop: simulates surgery with realistic error, a 12-month outcome, and a matched atlas-aimed counterfactual, then records it.
+-   Plan (MRI): axial, coronal and sagittal slices through the suggestion, showing the atlas target and the planned lead trajectory.
+-   3D: similar patients’ active contacts mapped into this brain, coloured by benefit and sized by similarity, with ventricles, lead, and a 1-SD spread ellipsoid.
+-   Similar patients: the neighbours, their weights and outcomes, and how benefit falls away with distance.
+-   Scan fingerprint: the 14 features and how this brain differs from the library.
+-   Validation: leave-one-out against the known truth.
+-   Close the loop: simulates surgery with realistic error, a 12-month outcome, and a matched atlas-aimed counterfactual, then records it.
 
 ---
 
-## A note to the bloke from twenty years ago
+## A note to the bloke from twenty years ago
 
-If I could lean over the shoulder of the version of me hunched over that first database at 2am, eye streaming, I’d tell him three things.
+Building something, even something that will never go near an operating theatre, is a perfectly reasonable way to feel less helpless, and if it does help other people, then we all win.
 
-Your question was a good one. Where the electrode goes matters, and the people who went before you hold the answer.
+The code for the database and the UI is on my GitHub
 
-You’ll need a lot more data than you’ve got. Be patient. The tools will come.
-
-And building something, even something that will never go near an operating theatre, is a perfectly reasonable way to feel less helpless.
-
-The code, simulator and front end will be on my GitHub. Usual disclaimer, in bold because it matters: **simulated data, not medical advice, please don’t let anyone drill holes in you because of a SQL query.**
-
-If you enjoyed this please give it some Claps.
+If you enjoyed it, please give it some Claps.

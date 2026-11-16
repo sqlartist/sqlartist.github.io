@@ -125,7 +125,7 @@ Boing is the extreme wide case, which is why it came out as one query.
 
 Two balls taught me more than Doom did but I do think they are both pretty cool.
 
-Code is avaialbe on Github  
+Code is available on GitHub  
 [https://github.com/sqlartist/BoingBallSQL](https://github.com/sqlartist/BoingBallSQL)
 
 If you enjoyed reading this story, give it a few Claps, it helps boost someones pockets — not mine these are all given away for free. In fact I don’t think anyone benefits from a Free story, in fact its costing us money. You owe us…

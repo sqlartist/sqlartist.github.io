@@ -33,7 +33,7 @@ And at one point I had a query that proved every single Member of Parliament is 
 
 ### The only appreciating asset I have ever owned
 
-I have been buying computer hardware since the mid-1990s. Tandem systems, a succession of PCs, every category of storage that has ever been invented including the completely non standard 3" floppy disk Alan Sugar used in his Amstrad PCW 8256 Word Processing machine. Having said that, that machine got me through 11 GCSEs.
+I have been buying computer hardware since the mid-1990s. Tandem systems, a succession of PCs, every category of storage that has ever been invented including the completely non standard 3" floppy disk Alan Sugar used in his Amstrad PCW 8256 Word Processing machine. Having said that, that machine got me through 11 GCSE.
 
 In thirty years, every single piece of computer equipment started depreciating the moment I got the box open. Some of it was worth less than the box.
 
@@ -183,7 +183,7 @@ He is, in other words, the perfect sounding board, because the entire value of e
 
 So. Imagine a library.
 
-1.  7 million books. No shelves. Just books, in a heap.
+1.7 million books. No shelves. Just books, in a heap.
 
 ```
 
@@ -209,7 +209,7 @@ The fix was a second, much smaller k-means — over the 41,730 centroids themsel
 
 Brian, during all of this, was attempting to kill a sock.
 
-I want to be clear that he contributed nothing. He does not know what a vector is. He is a long, low, deeply self-centred animal bred to go down holes after badgers. But the ability to say a thing out loud, in order, to something that is definitely not going to help, is the cheapest code review available.
+I want to be clear that he contributed nothing. He does not know what a vector is. He is a long, low, deeply self-absorbed animal bred to go down holes after badgers. But the ability to say a thing out loud, in order, to something that is definitely not going to help, is the cheapest code review available.
 
 If you take one engineering practice from this article, buy a dog.
 
@@ -560,7 +560,7 @@ A minister at the despatch box is interrupted **54% more often** than a backbenc
 
 ### The House has stopped giving way
 
-“Will the hon. Gentleman give way?” is the Commons’ interrupt protocol. The formal, courteous mechanism by which one member takes the floor from another mid-speech. It is the single most recognisable thing about British parliamentary debate. I think it must have been in my head from early on that when you hear this type of speech immediately ignore, it was the boring posh people talking and of course this isn’t true but that is what being brought up in a household watching only one channel and the “educated” channel was never turned on, and the joy of listening to Radio 4 as an adult was somewhat over shadowed by the sounds of Elvis Presely on repeat for 16 years, well that’s what it was like growing up
+“Will the hon. Gentleman give way?” is the Commons’ interrupt protocol. The formal, courteous mechanism by which one member takes the floor from another mid-speech. It is the single most recognisable thing about British parliamentary debate. I think it must have been in my head from early on that when you hear this type of speech immediately ignore, it was the boring posh people talking and of course this isn’t true but that is what being brought up in a household watching only one channel and the “educated” channel was never turned on, and the joy of listening to Radio 4 as an adult was somewhat overshadowed by the sounds of Elvis Presley on repeat for 16 years, well that is what it was like growing up
 
 ```
 | Decade | Interrupted | Gave way | Laughter | "Hear, hear" |
