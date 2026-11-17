@@ -80,10 +80,15 @@ export function convertBody(bodyHtml, { title = '', summary = '' } = {}) {
   let subtitle = '';
 
   // Notes Trevor adds on Medium pointing back to the blog don't belong in the blog copy.
-  $('p, blockquote, h3, h4').each((_, el) => {
+  // Catches any wording ("Originally published on my personal blog…", "Note: This article was
+  // first posted on my blog…", "Read the no-paywall version here") wherever it appears.
+  const blogLink = /sqlartist\.github\.io|trevordwyer|sqlartist\.dev/i;
+  const notePhrase = /(originally|first) (published|posted)|(personal|my) blog|no[- ]paywall|paywall[- ]free|read the original|original version|bookmark it/i;
+  $('p, blockquote, h3, h4, li').each((_, el) => {
     const t = $(el).text();
-    if (/sqlartist\.github\.io|originally published on my personal blog/i.test(t + ($(el).find('a').attr('href') || ''))
-      && /originally published|personal blog|no-paywall/i.test(t)) $(el).remove();
+    const hrefs = $(el).find('a').map((__, a) => $(a).attr('href') || '').get().join(' ');
+    const short = t.trim().length < 400;
+    if (short && notePhrase.test(t) && (blogLink.test(t + ' ' + hrefs) || /(personal|my) blog/i.test(t))) $(el).remove();
   });
 
   // Title is shown by the page layout, so drop it from the body.
