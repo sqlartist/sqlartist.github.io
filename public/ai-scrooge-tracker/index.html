@@ -9,27 +9,27 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sixtyfour&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
 <style>
-/* Layout: a night-shift tracking console. Globe left, case file right, advent doors below, the Christmas Eve chase, then the villain's file. One deliberate dark look. */
+/* Layout: a night-shift tracking console. Globe left, case file right, advent doors below, the Christmas Eve chase, then the villain's file. A snowy daylight look. */
 :root {
-  --night: #0a0f1f;      /* page */
-  --panel: #10182c;      /* console panels */
-  --panel-2: #172240;    /* raised */
-  --line: #26345a;
-  --ink: #e9edf5;
-  --muted: #93a0bb;
-  --chrome: #c9d2de;     /* AI Scrooge */
-  --ghost: #bcd9ff;      /* the spirits */
-  --santa: #ff4d4d;      /* Santa */
-  --glow: #ffd36b;       /* lights, Santa's trail */
-  --holly: #4cc893;      /* Christmas still fine */
-  --ocean-1: #13244a;
-  --ocean-2: #081127;
-  --land: #2a3a5f;
-  --land-edge: #3c5080;
+  --night: #f4f7fb;      /* page */
+  --panel: #ffffff;      /* console panels */
+  --panel-2: #e9eff7;    /* raised */
+  --line: #c8d3e2;
+  --ink: #14213d;
+  --muted: #56627a;
+  --chrome: #4a5a70;     /* AI Scrooge */
+  --ghost: #2f63b8;      /* the spirits */
+  --santa: #d62828;      /* Santa */
+  --glow: #a35f00;       /* lights, Santa's trail */
+  --holly: #1f8a5b;      /* Christmas still fine */
+  --ocean-1: #e3eff9;
+  --ocean-2: #b9d4ee;
+  --land: #fbfcfd;
+  --land-edge: #8aa0b8;
   --display: "Sixtyfour", ui-monospace, "Cascadia Mono", Menlo, monospace;
   --body: "Atkinson Hyperlegible", system-ui, -apple-system, "Segoe UI", sans-serif;
   --mono: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
-  color-scheme: dark;
+  color-scheme: light;
 }
 * { box-sizing: border-box; }
 body { background: var(--night); color: var(--ink); font-family: var(--body); font-size: 16px; line-height: 1.5; }
@@ -40,7 +40,7 @@ a { color: var(--glow); }
 /* ---------- masthead ---------- */
 .mast { padding-block: 22px 14px; display: flex; flex-wrap: wrap; gap: 14px 24px; align-items: end; justify-content: space-between; border-bottom: 1px solid var(--line); }
 .brand h1 { font-family: var(--display); font-weight: 400; font-size: clamp(22px, 4.2vw, 40px); line-height: 1.1; margin: 0; letter-spacing: .01em; text-wrap: balance; }
-.brand h1 .ai { color: var(--chrome); text-shadow: 0 0 18px rgba(201, 210, 222, .35); }
+.brand h1 .ai { color: var(--chrome); text-shadow: none; }
 .brand p { margin: 6px 0 0; color: var(--muted); font-size: 15px; }
 .brand p b { color: var(--ink); font-weight: 700; }
 .clock { font-family: var(--mono); font-size: 13px; color: var(--muted); text-align: right; display: grid; gap: 6px; justify-items: end; }
@@ -76,7 +76,7 @@ a { color: var(--glow); }
 .file h3 { font-family: var(--mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin: 0 0 4px; font-weight: 600; }
 .file p { margin: 0; max-width: 62ch; }
 .outcome { border-left: 3px solid var(--holly); padding-left: 12px; }
-.ghost { border: 1px dashed var(--ghost); border-radius: 10px; padding: 10px 12px; background: rgba(188, 217, 255, .06); box-shadow: 0 0 22px rgba(188, 217, 255, .12) inset; }
+.ghost { border: 1px dashed var(--ghost); border-radius: 10px; padding: 10px 12px; background: rgba(47, 99, 184, .05); box-shadow: none; }
 .ghost h3 { color: var(--ghost); }
 .ghost p { font-style: italic; color: var(--ink); }
 .ghostTag { align-self: start; font-family: var(--mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--night); background: var(--ghost); padding: 3px 8px; border-radius: 4px; }
@@ -95,10 +95,10 @@ a { color: var(--glow); }
 .btn.small { padding: 5px 10px; font-size: 12px; }
 .shows { font-size: 14px; color: var(--ink); }
 .code pre { margin: 0; max-height: 340px; overflow: auto; background: var(--night); border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; font: 12.5px/1.55 var(--mono); color: var(--ink); tab-size: 4; }
-.code .kw { color: #8ab4ff; font-weight: 600; }
+.code .kw { color: #1d5fd0; font-weight: 600; }
 .code .st { color: var(--glow); }
 .code .cm { color: var(--muted); font-style: italic; }
-.code .vr { color: #f2a7c4; }
+.code .vr { color: #a62b63; }
 .code .fine { margin: 0; font-size: 13px; color: var(--muted); }
 
 /* ---------- advent doors ---------- */
@@ -158,7 +158,7 @@ select { font: 13px var(--mono); background: var(--panel-2); color: var(--ink); 
 .letterForm input, .letterForm textarea { font: 15px var(--body); color: var(--ink); background: var(--night); border: 1px solid var(--line); border-radius: 8px; padding: 9px 10px; width: 100%; }
 .letterForm textarea { resize: vertical; min-height: 4.5em; }
 .letterForm .fine { margin: 0; font-size: 13px; color: var(--muted); }
-.reply { background: #f3eedf; color: #2a2116; border-radius: 4px; padding: 20px 22px; font-family: var(--mono); font-size: 13.5px; line-height: 1.65; white-space: pre-wrap; box-shadow: 0 10px 30px rgba(0, 0, 0, .35); transform: rotate(-.6deg); min-width: 0; overflow-wrap: anywhere; }
+.reply { background: #f3eedf; color: #2a2116; border-radius: 4px; padding: 20px 22px; font-family: var(--mono); font-size: 13.5px; line-height: 1.65; white-space: pre-wrap; box-shadow: 0 8px 24px rgba(20, 33, 61, .18); transform: rotate(-.6deg); min-width: 0; overflow-wrap: anywhere; }
 .reply .stamp { display: inline-block; border: 2px solid #b3261e; color: #b3261e; padding: 2px 8px; transform: rotate(-4deg); font-weight: 600; letter-spacing: .1em; margin-bottom: 10px; }
 
 /* ---------- footer ---------- */
@@ -189,8 +189,10 @@ footer p { margin: 0; max-width: 80ch; }
 </style>
 
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)} body{margin:0} img{max-width:100%} [hidden]{display:none!important}</style>
+<style>.blognav{display:flex;flex-wrap:wrap;gap:6px 18px;align-items:center;max-width:1180px;margin:0 auto;padding:12px 16px 0;font-family:"JetBrains Mono",ui-monospace,Consolas,monospace;font-size:14px}.blognav a{color:#a35f00;text-decoration:none}.blognav a:hover{text-decoration:underline}.blognav .back{font-weight:600}</style>
 </head>
 <body>
+<nav class="blognav" aria-label="Site"><a class="back" href="/">&larr; Back to the blog</a><a href="/ai-scrooge-film/">The cartoon</a><a href="/posts/ai-scrooge-tracker/">Read the story</a></nav>
 <header class="wrap">
   <div class="mast">
     <div class="brand">
@@ -483,7 +485,7 @@ function visible(p) { return d3.geoDistance(p, [-rot[0], -rot[1]]) < Math.PI / 2
 
 function drawRobot(x, y, s) {
   ctx.save(); ctx.translate(x, y);
-  ctx.shadowColor = 'rgba(201,210,222,.8)'; ctx.shadowBlur = 12;
+  ctx.shadowColor = 'rgba(74,90,112,.45)'; ctx.shadowBlur = 12;
   ctx.fillStyle = css('--chrome'); ctx.beginPath(); ctx.roundRect(-s, -s * 0.9, s * 2, s * 1.8, s * 0.6); ctx.fill();
   ctx.shadowBlur = 0;
   ctx.fillStyle = '#0a0f1f'; ctx.fillRect(-s * 0.7, -s * 0.25, s * 1.4, s * 0.45);
@@ -496,7 +498,7 @@ function drawRobot(x, y, s) {
 function drawSanta(x, y, s) {
   ctx.save(); ctx.translate(x, y);
   const g = ctx.createRadialGradient(0, 0, 0, 0, 0, s * 3.2);
-  g.addColorStop(0, 'rgba(255,211,107,.55)'); g.addColorStop(1, 'rgba(255,211,107,0)');
+  g.addColorStop(0, 'rgba(255,170,40,.55)'); g.addColorStop(1, 'rgba(255,170,40,0)');
   ctx.fillStyle = g; ctx.beginPath(); ctx.arc(0, 0, s * 3.2, 0, 7); ctx.fill();
   ctx.fillStyle = css('--santa'); ctx.beginPath(); ctx.arc(0, 0, s, 0, 7); ctx.fill();
   ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.arc(-s * 0.35, -s * 0.35, s * 0.32, 0, 7); ctx.fill();
@@ -506,7 +508,7 @@ function label(p, text, color, dy = -16) {
   if (!visible(p)) return;
   const [x, y] = proj(p);
   ctx.font = `600 ${12}px ${css('--mono')}`; ctx.textAlign = 'center';
-  ctx.lineWidth = 4; ctx.strokeStyle = 'rgba(10,15,31,.9)'; ctx.strokeText(text, x, y + dy);
+  ctx.lineWidth = 4; ctx.strokeStyle = 'rgba(255,255,255,.92)'; ctx.strokeText(text, x, y + dy);
   ctx.fillStyle = color; ctx.fillText(text, x, y + dy);
 }
 
@@ -518,26 +520,26 @@ function draw() {
   const g = ctx.createRadialGradient(W * 0.42, W * 0.38, W * 0.05, W / 2, W / 2, W / 2);
   g.addColorStop(0, css('--ocean-1')); g.addColorStop(1, css('--ocean-2'));
   ctx.beginPath(); path({ type: 'Sphere' }); ctx.fillStyle = g; ctx.fill();
-  ctx.beginPath(); path(grat); ctx.strokeStyle = 'rgba(147,160,187,.12)'; ctx.lineWidth = 1; ctx.stroke();
+  ctx.beginPath(); path(grat); ctx.strokeStyle = 'rgba(60,90,130,.16)'; ctx.lineWidth = 1; ctx.stroke();
   ctx.beginPath(); path(LAND); ctx.fillStyle = css('--land'); ctx.fill(); ctx.strokeStyle = css('--land-edge'); ctx.lineWidth = 0.6; ctx.stroke();
   // snow (skipped for reduced motion)
   if (!reduce) {
-    ctx.fillStyle = 'rgba(255,255,255,.75)';
+    ctx.fillStyle = 'rgba(110,140,185,.55)';
     for (const f of FLAKES) { ctx.globalAlpha = f.a; ctx.beginPath(); ctx.arc(f.x * W, f.y * W, f.r, 0, 7); ctx.fill(); }
     ctx.globalAlpha = 1;
   }
   // rim glow
-  ctx.beginPath(); path({ type: 'Sphere' }); ctx.strokeStyle = 'rgba(201,210,222,.35)'; ctx.lineWidth = 1.2; ctx.stroke();
+  ctx.beginPath(); path({ type: 'Sphere' }); ctx.strokeStyle = 'rgba(70,95,130,.55)'; ctx.lineWidth = 1.2; ctx.stroke();
 
   if (mode === 'month') {
     const pts = E.filter(e => e.day <= Math.min(selected, 26) && e.day !== 24).map(e => [e.lon, e.lat]);
     if (pts.length > 1) {
       ctx.beginPath(); path({ type: 'LineString', coordinates: pts }); ctx.setLineDash([5, 5]);
-      ctx.strokeStyle = 'rgba(255,211,107,.55)'; ctx.lineWidth = 1.6; ctx.stroke(); ctx.setLineDash([]);
+      ctx.strokeStyle = 'rgba(190,110,0,.6)'; ctx.lineWidth = 1.6; ctx.stroke(); ctx.setLineDash([]);
     }
     E.filter(e => e.day <= unlocked() && e.day !== 24).forEach(e => {
       const p = [e.lon, e.lat]; if (!visible(p)) return;
-      const [x, y] = proj(p); ctx.fillStyle = e.day === selected ? css('--glow') : 'rgba(255,211,107,.6)';
+      const [x, y] = proj(p); ctx.fillStyle = e.day === selected ? css('--glow') : 'rgba(190,110,0,.65)';
       ctx.beginPath(); ctx.arc(x, y, e.day === selected ? 4 : 2.6, 0, 7); ctx.fill();
     });
     const cur = E.find(e => e.day === selected);
@@ -545,15 +547,15 @@ function draw() {
   } else {
     // Santa's whole route, then the bits flown so far
     ctx.beginPath(); path({ type: 'LineString', coordinates: S.map(s => [s.lon, s.lat]) });
-    ctx.setLineDash([2, 5]); ctx.strokeStyle = 'rgba(255,211,107,.25)'; ctx.lineWidth = 1.2; ctx.stroke(); ctx.setLineDash([]);
+    ctx.setLineDash([2, 5]); ctx.strokeStyle = 'rgba(190,110,0,.3)'; ctx.lineWidth = 1.2; ctx.stroke(); ctx.setLineDash([]);
     const sp = posAt(chaseT), ap = posAt(chaseT - LAG);
     const trail = (pos, color, w) => {
       const c = S.slice(0, pos.i + 1).map(s => [s.lon, s.lat]).concat([pos.p]);
       if (c.length > 1) { ctx.beginPath(); path({ type: 'LineString', coordinates: c }); ctx.strokeStyle = color; ctx.lineWidth = w; ctx.stroke(); }
     };
-    trail(sp, 'rgba(255,211,107,.9)', 2);
-    trail(ap, 'rgba(201,210,222,.75)', 1.6);
-    S.forEach(s => { if (s.ms <= chaseT && visible([s.lon, s.lat])) { const [x, y] = proj([s.lon, s.lat]); ctx.fillStyle = 'rgba(255,211,107,.8)'; ctx.beginPath(); ctx.arc(x, y, 2.2, 0, 7); ctx.fill(); } });
+    trail(sp, 'rgba(214,40,40,.85)', 2);
+    trail(ap, 'rgba(74,90,112,.8)', 1.6);
+    S.forEach(s => { if (s.ms <= chaseT && visible([s.lon, s.lat])) { const [x, y] = proj([s.lon, s.lat]); ctx.fillStyle = 'rgba(190,110,0,.85)'; ctx.beginPath(); ctx.arc(x, y, 2.2, 0, 7); ctx.fill(); } });
     if (visible(ap.p)) { const [x, y] = proj(ap.p); drawRobot(x, y, 8); }
     if (visible(sp.p)) { const [x, y] = proj(sp.p); drawSanta(x, y, 6); }
     label(sp.p, 'Santa', css('--santa'), -16);
