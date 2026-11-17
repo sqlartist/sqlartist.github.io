@@ -1,5 +1,5 @@
 ---
-title: "For a Few Notes More"
+title: "The Watchmaker: For a Few Notes More"
 subtitle: "I built the musical pocket watch from For a Few Dollars More in a database, and made it play the tune."
 date: 2026-11-17T12:00:00.000Z
 cover: "/images/uploads/for-a-few-notes-more/pocket_open.png"
