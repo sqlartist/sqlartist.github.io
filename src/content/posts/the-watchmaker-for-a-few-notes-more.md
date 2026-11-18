@@ -13,6 +13,7 @@ tags:
 era: Today
 pinned: true
 draft: false
+mediumUrl: "https://medium.com/@trevor.dwyer/the-watchmaker-for-a-few-notes-more-d88838dc502c"
 ---
 ## A watch, a film and my mum
 
