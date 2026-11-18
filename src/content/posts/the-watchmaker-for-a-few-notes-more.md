@@ -96,7 +96,7 @@ Then the music went into a pocket watch built round it: a hunter case, the dial 
 
 **A case off the lathe.** Most of a watch case is turned on a lathe, so I taught PostGIS to do the same: spin a shape round and make a solid from it. A rule from about 1,700 years ago checks the size of every part it makes, and they all agree.
 
-![The whole pocket watch exploded: case back, music plate and disc, movement, case band, dial, bezel, and the open lid with the photo](/images/uploads/for-a-few-notes-more/pocket_exploded.png)
+![The open pocket watch coming apart into every part (case back, music plate and disc, movement, case band, dial, bezel, and the lid with the photo) and going back together](/images/uploads/for-a-few-notes-more/pocket_exploded.gif)
 *Every part apart: the case back and the music disc on the left, then the movement, the dial and bezel, and the lid with my photo.*
 
 **The dial, from my watch.** Roman numerals are only straight strokes, so the database draws them itself, thick strokes and thin ones, just like the real thing. Four is the watchmaker's IIII. Around them sit the white scalloped rings, the waves, and a small seconds dial at 6 o'clock. That is exactly where it sits on my watch, and the gear train had placed it there before the dial was copied from my watch.
