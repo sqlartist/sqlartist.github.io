@@ -12,7 +12,7 @@ tags:
   - Database
 era: Today
 pinned: true
-draft: true
+draft: false
 ---
 ## A watch, a film and my mum
 
