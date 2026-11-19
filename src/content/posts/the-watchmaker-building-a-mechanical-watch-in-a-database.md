@@ -12,6 +12,8 @@ draft: false
 ![The Complete watch assembly created using SQL Spatial Geometry](/images/medium/1_FPlM81GuoAE2dYowsgbChA.gif)
 *The Complete watch assembly created using SQL Spatial Geometry*
 
+> **Part 3 is out:** [The Watchmaker: For a Few Notes More](/posts/the-watchmaker-for-a-few-notes-more/). I built the musical pocket watch from *For a Few Dollars More* in a database, and made it play the tune.
+
 ![The exploded watch, each part modeled and animated inside a database.](/images/medium/1_2C413VntT80AfM82xnOJpA.png)
 *The exploded watch, each part modeled and animated inside a database.*
 
@@ -240,6 +242,8 @@ A big thank you to the PostgreSQL and PostGIS teams. Many of the people behind t
 I set out to build a watch without picking up a screwdriver, and I’ve ended up with one I can spin, pull apart and watch tick. Every shape, every position, every clash check, the order it comes apart in, and every one of the 30,901 frames came out of a database.
 
 Next up, maybe the rest of the keyless works: the winding wheels and the crown wheel, whose teeth stick out sideways. That’s genuinely 3D, so more PostgreSQL.
+
+**Read next:** [The Watchmaker: For a Few Notes More](/posts/the-watchmaker-for-a-few-notes-more/), where the database builds the musical pocket watch from *For a Few Dollars More* and plays its tune.
 
 All the code is on GitHub: the SQL for both databases, the Python mirror, the checks and the viewer.
 

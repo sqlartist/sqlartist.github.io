@@ -15,6 +15,9 @@ pinned: true
 draft: false
 mediumUrl: "https://medium.com/@trevor.dwyer/the-watchmaker-for-a-few-notes-more-d88838dc502c"
 ---
+
+> **New to the series?** Start with [The Watchmaker: Building a Mechanical Watch in a Database](/posts/the-watchmaker-building-a-mechanical-watch-in-a-database/), which covers Parts 1 and 2.
+
 ## A watch, a film and my mum
 
 This part of the watch project is personal, so let me start with the background.
